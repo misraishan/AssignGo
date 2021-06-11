@@ -22,6 +22,10 @@ Final assignments app/build
             - show each subject & sort assignments by them
             - Completed assignments
     - Subject handling
+        - Subject deletion & Creation
+                - ERROR subjects delete all assignments w/ subject
+                                        OR
+                - ERROR subject deletion not possible w/ assignments depending on it
         - Subject model: Name, Colour (required),
             Teacher/professor name & contact , room number (optional)
     - Editing 
