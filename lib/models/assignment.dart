@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-part 'AssignModel.g.dart';
+part 'assignment.g.dart';
 
 @HiveType(typeId: 0)
 class AssignModel {
