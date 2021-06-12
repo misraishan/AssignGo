@@ -278,6 +278,9 @@ class _HomeState extends State<Home> {
             onPressed: () {
               setState(
                 () {
+                  if (_desc.text.isEmpty) {
+                    _desc.text = "";
+                  }
                   if (_title.text.isEmpty) {
                     Fluttertoast.showToast(
                         msg: "Title can't be empty",
