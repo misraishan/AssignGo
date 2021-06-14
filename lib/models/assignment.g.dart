@@ -18,16 +18,18 @@ class AssignModelAdapter extends TypeAdapter<AssignModel> {
     };
     return AssignModel(
       title: fields[0] as String,
-      date: fields[2] as String,
-      desc: fields[1] as String?,
-      subject: fields[3] as String?,
+      date: fields[2] as DateTime,
+      desc: fields[1] as String,
+      subject: fields[3] as String,
+      isComplete: fields[4] as bool,
+      isStar: fields[5] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, AssignModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -35,7 +37,11 @@ class AssignModelAdapter extends TypeAdapter<AssignModel> {
       ..writeByte(2)
       ..write(obj.date)
       ..writeByte(3)
-      ..write(obj.subject);
+      ..write(obj.subject)
+      ..writeByte(4)
+      ..write(obj.isComplete)
+      ..writeByte(5)
+      ..write(obj.isStar);
   }
 
   @override

@@ -5,18 +5,24 @@ part 'assignment.g.dart';
 @HiveType(typeId: 0)
 class AssignModel {
   @HiveField(0)
-  String title;
+  String title = "";
   @HiveField(1)
-  String? desc;
+  String desc = "";
   @HiveField(2)
-  String date;
+  DateTime date;
   @HiveField(3)
-  String? subject;
+  String subject;
+  @HiveField(4)
+  bool isComplete = false;
+  @HiveField(5)
+  bool isStar = false;
 
   AssignModel({
-    required this.title,
+    this.title = "",
     required this.date,
-    this.desc,
-    this.subject,
+    this.desc = "",
+    this.subject = "",
+    this.isComplete = false,
+    this.isStar = false,
   });
 }
