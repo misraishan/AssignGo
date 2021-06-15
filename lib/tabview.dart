@@ -20,39 +20,37 @@ class _TabViewState extends State<TabView> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: PersistentTabView(
-        context,
-        controller: _controller,
-        navBarHeight: 60,
-        screens: _buildScreens(),
-        items: _navBarsItems(),
-        confineInSafeArea: true,
-        backgroundColor: Colors.black,
-        handleAndroidBackButtonPress: true,
-        resizeToAvoidBottomInset: true,
-        stateManagement: true,
-        hideNavigationBarWhenKeyboardShows: true,
-        decoration: NavBarDecoration(
-          borderRadius: BorderRadius.circular(30.0),
-          colorBehindNavBar: Colors.transparent,
-        ),
-        popAllScreensOnTapOfSelectedTab: true,
-        popActionScreens: PopActionScreensType.all,
-        itemAnimationProperties: ItemAnimationProperties(
-          // Navigation Bar's items animation properties.
-          duration: Duration(milliseconds: 200),
-          curve: Curves.ease,
-        ),
-        screenTransitionAnimation: ScreenTransitionAnimation(
-          // Screen transition animation on change of selected tab.
-          animateTabTransition: true,
-          curve: Curves.ease,
-          duration: Duration(milliseconds: 200),
-        ),
-        navBarStyle:
-            NavBarStyle.style10, // Choose the nav bar style with this property.
+    return PersistentTabView(
+      context,
+      controller: _controller,
+      navBarHeight: 60,
+      screens: _buildScreens(),
+      items: _navBarsItems(),
+      confineInSafeArea: true,
+      backgroundColor: Colors.black,
+      handleAndroidBackButtonPress: true,
+      resizeToAvoidBottomInset: true,
+      stateManagement: true,
+      hideNavigationBarWhenKeyboardShows: true,
+      decoration: NavBarDecoration(
+        borderRadius: BorderRadius.circular(30.0),
+        colorBehindNavBar: Colors.transparent,
       ),
+      popAllScreensOnTapOfSelectedTab: true,
+      popActionScreens: PopActionScreensType.all,
+      itemAnimationProperties: ItemAnimationProperties(
+        // Navigation Bar's items animation properties.
+        duration: Duration(milliseconds: 200),
+        curve: Curves.ease,
+      ),
+      screenTransitionAnimation: ScreenTransitionAnimation(
+        // Screen transition animation on change of selected tab.
+        animateTabTransition: true,
+        curve: Curves.ease,
+        duration: Duration(milliseconds: 200),
+      ),
+      navBarStyle:
+          NavBarStyle.style10, // Choose the nav bar style with this property.
     );
   }
 
@@ -130,85 +128,95 @@ class _TabViewState extends State<TabView> {
 
     final result = showModalBottomSheet(
       isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       enableDrag: true,
       context: context,
       builder: (context) {
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Container(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Column(
-                children: [
-                  // Title
-                  Container(height: 20),
-                  TextField(
-                    controller: _title,
-                    decoration: InputDecoration(
-                      border: new OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
+        return Container(
+          decoration: new BoxDecoration(
+            color: Colors.black,
+            borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(30.0),
+              topRight: const Radius.circular(30.0),
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Container(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: Column(
+                  children: [
+                    // Title
+                    Container(height: 20),
+                    TextField(
+                      controller: _title,
+                      decoration: InputDecoration(
+                        border: new OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        prefixIcon: Icon(Icons.assignment),
+                        labelText: "Assignment name",
                       ),
-                      prefixIcon: Icon(Icons.assignment),
-                      labelText: "Assignment name",
                     ),
-                  ),
 
-                  // Description
-                  Container(height: 20),
-                  TextField(
-                    controller: _desc,
-                    autocorrect: true,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 3,
-                    textInputAction: TextInputAction.newline,
-                    decoration: InputDecoration(
-                      border: new OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
+                    // Description
+                    Container(height: 20),
+                    TextField(
+                      controller: _desc,
+                      autocorrect: true,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 3,
+                      textInputAction: TextInputAction.newline,
+                      decoration: InputDecoration(
+                        border: new OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        prefixIcon: Icon(Icons.assignment),
+                        labelText: "Description",
                       ),
-                      prefixIcon: Icon(Icons.assignment),
-                      labelText: "Description",
                     ),
-                  ),
 
-                  // Due date selection
-                  Container(height: 20),
-                  TextButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.calendar_today),
-                    label: Text("Due Date"),
-                  ),
+                    // Due date selection
+                    Container(height: 20),
+                    TextButton.icon(
+                      onPressed: () {},
+                      icon: Icon(Icons.calendar_today),
+                      label: Text("Due Date"),
+                    ),
 
-                  // Submit button selection
-                  Container(height: 20),
-                  TextButton.icon(
-                    onPressed: () {
-                      setState(
-                        () {
-                          if (_title.text.isEmpty) {
-                            Fluttertoast.showToast(
-                                msg: "Title can't be empty",
-                                backgroundColor: Colors.red);
-                          } else {
-                            assignBox.add(
-                              AssignModel(
-                                title: _title.text,
-                                date: DateTime.now(),
-                                desc: _desc.text,
-                                isComplete: false,
-                                isStar: false,
-                              ),
-                            );
-                            Navigator.popAndPushNamed(context, "/");
-                          }
-                        },
-                      );
-                    },
-                    icon: Icon(Icons.done),
-                    label: Text("Add assignment"),
-                  ),
-                  Container(height: 20),
-                ],
+                    // Submit button selection
+                    Container(height: 20),
+                    TextButton.icon(
+                      onPressed: () {
+                        setState(
+                          () {
+                            if (_title.text.isEmpty) {
+                              Fluttertoast.showToast(
+                                  msg: "Title can't be empty",
+                                  backgroundColor: Colors.red);
+                            } else {
+                              assignBox.add(
+                                AssignModel(
+                                  title: _title.text,
+                                  date: DateTime.now(),
+                                  desc: _desc.text,
+                                  isComplete: false,
+                                  isStar: false,
+                                ),
+                              );
+                              Navigator.popAndPushNamed(context, "/");
+                            }
+                          },
+                        );
+                      },
+                      icon: Icon(Icons.done),
+                      label: Text("Add assignment"),
+                    ),
+                    Container(height: 20),
+                  ],
+                ),
               ),
             ),
           ),

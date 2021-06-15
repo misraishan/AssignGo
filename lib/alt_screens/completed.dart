@@ -97,6 +97,7 @@ class _CompletedState extends State<Completed> {
                     ),
                   ],
                   child: ListTile(
+                    isThreeLine: true,
                     tileColor: Colors.black,
                     title: Text(assignBox.getAt(index).title),
                     subtitle: Text(assignBox.getAt(index).desc),

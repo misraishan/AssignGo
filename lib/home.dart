@@ -1,3 +1,4 @@
+import 'package:better_assignments/models/assignment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -24,6 +25,10 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(onPressed: () {}, icon: Icon(Icons.sort)),
+          IconButton(onPressed: () {}, icon: Icon(Icons.calendar_today)),
+        ],
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
@@ -56,7 +61,6 @@ class _HomeState extends State<Home> {
     return ListView.builder(
       itemCount: assignBox.length,
       itemBuilder: (BuildContext context, int index) {
-        print(assignBox.getAt(index).isComplete);
         if (assignBox.getAt(index).isComplete == false) {
           return Padding(
             padding: EdgeInsets.all(10),
@@ -85,9 +89,6 @@ class _HomeState extends State<Home> {
                     });
                   },
                 ),
-              ],
-              // Delete & complete slide action
-              secondaryActions: [
                 SlideAction(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -103,6 +104,24 @@ class _HomeState extends State<Home> {
                     setState(() {
                       assignBox.getAt(index).isComplete = true;
                     });
+                  },
+                ),
+              ],
+              // Delete & complete slide action
+              secondaryActions: [
+                SlideAction(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.edit),
+                      Text("Edit"),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.purple,
+                  ),
+                  onTap: () {
+                    setState(() {});
                   },
                 ),
                 SlideAction(
@@ -128,6 +147,9 @@ class _HomeState extends State<Home> {
                 ),
               ],
               child: ListTile(
+                onTap: () async {
+                  await _editTile(index);
+                },
                 isThreeLine: true,
                 tileColor: Colors.black,
                 title: Text(assignBox.getAt(index).title),
@@ -140,5 +162,118 @@ class _HomeState extends State<Home> {
         }
       },
     );
+  }
+
+  /*
+
+ -----------------------------------------------------------------------------------------------------------------
+ List Item builder
+ -----------------------------------------------------------------------------------------------------------------
+ */
+  final TextEditingController _title = TextEditingController();
+  final TextEditingController _desc = TextEditingController();
+  Widget _editTile(int index) {
+    _title.text = assignBox.getAt(index).title;
+    _desc.text = assignBox.getAt(index).desc;
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      enableDrag: true,
+      context: context,
+      builder: (context) {
+        return Container(
+          decoration: new BoxDecoration(
+            color: Colors.black,
+            borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(30.0),
+              topRight: const Radius.circular(30.0),
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Container(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: Column(
+                  children: [
+                    // Title
+                    Container(height: 20),
+                    TextField(
+                      controller: _title,
+                      decoration: InputDecoration(
+                        border: new OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        prefixIcon: Icon(Icons.assignment),
+                        labelText: "Assignment name",
+                      ),
+                    ),
+
+                    // Description
+                    Container(height: 20),
+                    TextField(
+                      controller: _desc,
+                      autocorrect: true,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 3,
+                      textInputAction: TextInputAction.newline,
+                      decoration: InputDecoration(
+                        border: new OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        prefixIcon: Icon(Icons.assignment),
+                        labelText: "Description",
+                      ),
+                    ),
+
+                    // Due date selection
+                    Container(height: 20),
+                    TextButton.icon(
+                      onPressed: () {},
+                      icon: Icon(Icons.calendar_today),
+                      label: Text("Due Date"),
+                    ),
+
+                    // Submit button selection
+                    Container(height: 20),
+                    TextButton.icon(
+                      onPressed: () {
+                        setState(
+                          () {
+                            if (_title.text.isEmpty) {
+                              Fluttertoast.showToast(
+                                  msg: "Title can't be empty",
+                                  backgroundColor: Colors.red);
+                            } else {
+                              assignBox.putAt(
+                                index,
+                                AssignModel(
+                                  title: _title.text,
+                                  date: DateTime.now(),
+                                  desc: _desc.text,
+                                  isComplete: false,
+                                  isStar: false,
+                                ),
+                              );
+
+                              Navigator.popAndPushNamed(context, "/");
+                            }
+                          },
+                        );
+                      },
+                      icon: Icon(Icons.done),
+                      label: Text("Add assignment"),
+                    ),
+                    Container(height: 20),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+    return Container();
   }
 }
