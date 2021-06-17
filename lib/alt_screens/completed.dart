@@ -1,4 +1,3 @@
-import 'package:better_assignments/models/assignment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -46,55 +45,7 @@ class _CompletedState extends State<Completed> {
                   actionPane: SlidableDrawerActionPane(),
                   // Favourite slide action
                   actions: [
-                    SlideAction(
-                      decoration: BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(15.0),
-                          topLeft: Radius.circular(15.0),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.star),
-                          Text("Prioritize"),
-                        ],
-                      ),
-                      onTap: () {
-                        //TODO: Make this switch between true & false, must do for all of them/all pages
-                        assignBox.getAt(index).isStar = true;
-                        setState(
-                          () {},
-                        );
-                      },
-                    ),
-                  ],
-                  // Delete slide action
-                  secondaryActions: [
-                    SlideAction(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.delete),
-                          Text("Delete"),
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(15.0),
-                          topRight: Radius.circular(15.0),
-                        ),
-                      ),
-                      onTap: () async {
-                        setState(
-                          () {
-                            assignBox.deleteAt(index);
-                          },
-                        );
-                      },
-                    ),
+                    // TODO: Fix Actions for slidables
                   ],
                   child: ListTile(
                     isThreeLine: true,

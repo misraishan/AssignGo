@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:better_assignments/alt_screens/completed.dart';
 import 'package:better_assignments/alt_screens/settings.dart';
 import 'package:better_assignments/alt_screens/star.dart';
@@ -8,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:date_time_picker/date_time_picker.dart';
+import 'package:nanoid/nanoid.dart';
 
 class TabView extends StatefulWidget {
   @override
@@ -108,23 +111,19 @@ class _TabViewState extends State<TabView> {
   }
 
   /*
-
-
-
-
-
-
-
  -----------------------------------------------------------------------------------------------------------------
  Panel
+ -----------------------------------------------------------------------------------------------------------------
  */
   final TextEditingController _title = TextEditingController();
   final TextEditingController _desc = TextEditingController();
+  final TextEditingController _date = TextEditingController();
   final assignBox = Hive.box('assignBox');
 
   dynamic _panel() {
     _title.clear();
     _desc.clear();
+    _date.clear();
 
     final result = showModalBottomSheet(
       isScrollControlled: true,
@@ -180,10 +179,32 @@ class _TabViewState extends State<TabView> {
 
                     // Due date selection
                     Container(height: 20),
-                    TextButton.icon(
+                    DateTimePicker(
+                      type: DateTimePickerType.dateTime,
+                      dateMask: 'dd / MM / yy - hh : mm',
+                      use24HourFormat: false,
+                      controller: _date,
+                      firstDate: DateTime(2020),
+                      lastDate: DateTime(2025),
+                      icon: Icon(Icons.cloud_circle),
+                      decoration: InputDecoration(
+                        labelText: "Due Date & time",
+                        prefixIcon: Icon(Icons.calendar_today),
+                        border: new OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      onChanged: (val) {
+                        _date.text = val;
+                      },
+                    ),
+
+                    // Subject selection
+                    Container(height: 20),
+                    ElevatedButton.icon(
                       onPressed: () {},
-                      icon: Icon(Icons.calendar_today),
-                      label: Text("Due Date"),
+                      icon: Icon(Icons.subject),
+                      label: Text("Subject"),
                     ),
 
                     // Submit button selection
@@ -192,6 +213,35 @@ class _TabViewState extends State<TabView> {
                       onPressed: () {
                         setState(
                           () {
+                            // Generates a new number 9 digits long.
+                            // Converts _date.text to DateTime to use for schedule notifications
+                            DateTime _dateDue = DateTime.parse(_date.text);
+                            final DateTime _longDur =
+                                _dateDue.subtract(Duration(hours: 12));
+
+                            final DateTime _shortDur =
+                                _dateDue.subtract(Duration(minutes: 30));
+                            int _id =
+                                int.parse(customAlphabet('1234567890', 9));
+                            // Create first notification (12 hrs from deadline)
+                            AwesomeNotifications().createNotification(
+                              content: NotificationContent(
+                                id: _id,
+                                channelKey: '12hr',
+                                title: _title.text,
+                                body: _desc.text,
+                                displayOnBackground: true,
+                              ),
+                              schedule: NotificationCalendar(
+                                allowWhileIdle: true,
+                                year: _longDur.year,
+                                month: _longDur.month,
+                                hour: _longDur.hour,
+                                minute: _longDur.minute,
+                                day: _longDur.day,
+                              ),
+                            );
+                            // TODO: Create notification 30 minute before.
                             if (_title.text.isEmpty) {
                               Fluttertoast.showToast(
                                   msg: "Title can't be empty",
@@ -200,10 +250,11 @@ class _TabViewState extends State<TabView> {
                               assignBox.add(
                                 AssignModel(
                                   title: _title.text,
-                                  date: DateTime.now(),
+                                  date: _date.text,
                                   desc: _desc.text,
                                   isComplete: false,
                                   isStar: false,
+                                  notifID: _id,
                                 ),
                               );
                               Navigator.popAndPushNamed(context, "/");

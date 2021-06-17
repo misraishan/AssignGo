@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:better_assignments/home.dart';
 import 'package:better_assignments/models/assignment.dart';
 import 'package:better_assignments/models/subject.dart';
@@ -32,7 +33,61 @@ void main() async {
   await Hive.openBox("subjBox");
   await Hive.openBox("assignBox");
 
-  // Execute runApp
+  // FOR NOTIFICATIONS
+  AwesomeNotifications().initialize(
+    // set the icon to null if you want to use the default app icon
+    'resource://drawable/app_icon',
+    [
+      NotificationChannel(
+        channelKey: '30_min',
+        channelName: 'short warning',
+        channelDescription: 'Notification channel for default assignments',
+        defaultColor: Colors.purple,
+        vibrationPattern: lowVibrationPattern,
+      ),
+      NotificationChannel(
+        channelKey: '12hr',
+        channelName: 'long warning',
+        channelDescription: 'All assignments 12hr before',
+        defaultColor: Colors.purple,
+        vibrationPattern: lowVibrationPattern,
+      ),
+      NotificationChannel(
+        channelKey: 'priority_channel',
+        channelName: 'Priority notifications',
+        channelDescription: 'Notification channel for prioritized assignments',
+        defaultColor: Colors.red,
+        enableVibration: true,
+        vibrationPattern: highVibrationPattern,
+      )
+    ],
+  );
+
+  AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+    if (!isAllowed) {
+      // Insert here your friendly dialog box before call the request method
+      // This is very important to not harm the user experience
+      /*AlertDialog(
+        title: Text('Notifications'),
+        content: Text(
+            'Do we have your permission to send notifications? We promise it helps!'),
+        actions: [
+          TextButton(
+            onPressed: () {},
+            child: Text('No thanks!'),
+          ),
+          TextButton(
+            autofocus: true,
+            onPressed: () {},
+            child: Text('Sure thing!'),
+          ),
+        ],
+      );*/
+      AwesomeNotifications().requestPermissionToSendNotifications();
+    }
+  });
+
+  // Run the app
   runApp(MyApp());
 }
 

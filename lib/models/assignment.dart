@@ -9,20 +9,23 @@ class AssignModel {
   @HiveField(1)
   String desc = "";
   @HiveField(2)
-  DateTime date;
+  String date = "";
   @HiveField(3)
   String subject;
   @HiveField(4)
   bool isComplete = false;
   @HiveField(5)
   bool isStar = false;
+  @HiveField(6)
+  int notifID = 0;
 
   AssignModel({
     this.title = "",
-    required this.date,
+    this.date = "",
     this.desc = "",
     this.subject = "",
     this.isComplete = false,
     this.isStar = false,
+    this.notifID = 0,
   });
 }

@@ -57,6 +57,15 @@ class _HomeState extends State<Home> {
  -----------------------------------------------------------------------------------------------------------------
  */
 
+  static Icon _starIcon = Icon(
+    Icons.star,
+    color: Colors.amber,
+  );
+  static Icon _assignIcon = Icon(
+    Icons.assignment,
+    color: Colors.white,
+  );
+
   Widget _listItem() {
     return ListView.builder(
       itemCount: assignBox.length,
@@ -85,6 +94,7 @@ class _HomeState extends State<Home> {
                   ),
                   onTap: () {
                     setState(() {
+                      // AwesomeNotifications().removeChannel(channelKey);
                       assignBox.getAt(index).isStar = true;
                     });
                   },
@@ -121,7 +131,9 @@ class _HomeState extends State<Home> {
                     color: Colors.purple,
                   ),
                   onTap: () {
-                    setState(() {});
+                    setState(() {
+                      _editTile(index);
+                    });
                   },
                 ),
                 SlideAction(
@@ -147,13 +159,13 @@ class _HomeState extends State<Home> {
                 ),
               ],
               child: ListTile(
-                onTap: () async {
-                  await _editTile(index);
-                },
+                leading:
+                    assignBox.getAt(index).isStar ? _starIcon : _assignIcon,
                 isThreeLine: true,
                 tileColor: Colors.black,
-                title: Text(assignBox.getAt(index).title),
-                subtitle: Text(assignBox.getAt(index).desc),
+                title: Text("${assignBox.getAt(index).title}"),
+                subtitle: Text(
+                    "${assignBox.getAt(index).date} \n ${assignBox.getAt(index).desc}"),
               ),
             ),
           );
@@ -167,7 +179,7 @@ class _HomeState extends State<Home> {
   /*
 
  -----------------------------------------------------------------------------------------------------------------
- List Item builder
+ Item Editor
  -----------------------------------------------------------------------------------------------------------------
  */
   final TextEditingController _title = TextEditingController();
@@ -250,7 +262,7 @@ class _HomeState extends State<Home> {
                                 index,
                                 AssignModel(
                                   title: _title.text,
-                                  date: DateTime.now(),
+                                  date: "",
                                   desc: _desc.text,
                                   isComplete: false,
                                   isStar: false,
@@ -263,7 +275,7 @@ class _HomeState extends State<Home> {
                         );
                       },
                       icon: Icon(Icons.done),
-                      label: Text("Add assignment"),
+                      label: Text("Edit Assignment"),
                     ),
                     Container(height: 20),
                   ],
