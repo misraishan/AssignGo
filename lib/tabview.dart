@@ -211,56 +211,63 @@ class _TabViewState extends State<TabView> {
                     Container(height: 20),
                     TextButton.icon(
                       onPressed: () {
-                        setState(
-                          () {
-                            // Generates a new number 9 digits long.
-                            // Converts _date.text to DateTime to use for schedule notifications
-                            DateTime _dateDue = DateTime.parse(_date.text);
-                            final DateTime _longDur =
-                                _dateDue.subtract(Duration(hours: 12));
+                        if (_date.text == "") {
+                          Fluttertoast.showToast(
+                              msg: "Date can't be empty.",
+                              backgroundColor: Colors.red);
+                        } else {
+                          setState(
+                            () {
+                              // Generates a new number 9 digits long.
+                              // Converts _date.text to DateTime to use for schedule notifications
+                              DateTime _dateDue = DateTime.parse(_date.text);
+                              final DateTime _longDur =
+                                  _dateDue.subtract(Duration(hours: 12));
 
-                            final DateTime _shortDur =
-                                _dateDue.subtract(Duration(minutes: 30));
-                            int _id =
-                                int.parse(customAlphabet('1234567890', 9));
-                            // Create first notification (12 hrs from deadline)
-                            AwesomeNotifications().createNotification(
-                              content: NotificationContent(
-                                id: _id,
-                                channelKey: '12hr',
-                                title: _title.text,
-                                body: _desc.text,
-                                displayOnBackground: true,
-                              ),
-                              schedule: NotificationCalendar(
-                                allowWhileIdle: true,
-                                year: _longDur.year,
-                                month: _longDur.month,
-                                hour: _longDur.hour,
-                                minute: _longDur.minute,
-                                day: _longDur.day,
-                              ),
-                            );
-                            // TODO: Create notification 30 minute before.
-                            if (_title.text.isEmpty) {
-                              Fluttertoast.showToast(
-                                  msg: "Title can't be empty",
-                                  backgroundColor: Colors.red);
-                            } else {
-                              assignBox.add(
-                                AssignModel(
+                              final DateTime _shortDur =
+                                  _dateDue.subtract(Duration(minutes: 30));
+                              int _id =
+                                  int.parse(customAlphabet('1234567890', 9));
+                              // Create first notification (12 hrs from deadline)
+                              AwesomeNotifications().createNotification(
+                                content: NotificationContent(
+                                  id: _id,
+                                  channelKey: '12hr',
                                   title: _title.text,
-                                  date: _date.text,
-                                  desc: _desc.text,
-                                  isComplete: false,
-                                  isStar: false,
-                                  notifID: _id,
+                                  body: _desc.text,
+                                  displayOnBackground: true,
+                                ),
+                                schedule: NotificationCalendar(
+                                  allowWhileIdle: true,
+                                  year: _longDur.year,
+                                  month: _longDur.month,
+                                  hour: _longDur.hour,
+                                  minute: _longDur.minute,
+                                  day: _longDur.day,
                                 ),
                               );
-                              Navigator.popAndPushNamed(context, "/");
-                            }
-                          },
-                        );
+
+                              // TODO: Create notification 30 minute before.
+                              if (_title.text.isEmpty) {
+                                Fluttertoast.showToast(
+                                    msg: "Title can't be empty.",
+                                    backgroundColor: Colors.red);
+                              } else {
+                                assignBox.add(
+                                  AssignModel(
+                                    title: _title.text,
+                                    date: _date.text,
+                                    desc: _desc.text,
+                                    isComplete: false,
+                                    isStar: false,
+                                    notifID: _id,
+                                  ),
+                                );
+                                Navigator.popAndPushNamed(context, "/");
+                              }
+                            },
+                          );
+                        }
                       },
                       icon: Icon(Icons.done),
                       label: Text("Add assignment"),

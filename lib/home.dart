@@ -93,10 +93,14 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   onTap: () {
-                    setState(() {
-                      // AwesomeNotifications().removeChannel(channelKey);
-                      assignBox.getAt(index).isStar = true;
-                    });
+                    setState(
+                      () {
+                        // AwesomeNotifications().removeChannel(channelKey);
+                        assignBox.getAt(index).isStar
+                            ? assignBox.getAt(index).isStar = false
+                            : assignBox.getAt(index).isStar = true;
+                      },
+                    );
                   },
                 ),
                 SlideAction(
@@ -111,9 +115,13 @@ class _HomeState extends State<Home> {
                     color: Colors.green,
                   ),
                   onTap: () {
-                    setState(() {
-                      assignBox.getAt(index).isComplete = true;
-                    });
+                    setState(
+                      () {
+                        assignBox.getAt(index).isComplete
+                            ? assignBox.getAt(index).isComplete = false
+                            : assignBox.getAt(index).isComplete = true;
+                      },
+                    );
                   },
                 ),
               ],
@@ -152,9 +160,62 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   onTap: () async {
-                    setState(() {
-                      assignBox.deleteAt(index);
-                    });
+                    setState(
+                      () {
+                        AlertDialog alert = AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(30.0),
+                            ),
+                          ),
+                          title: Text(
+                            "Are you sure you want to delete this assignment?",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                              },
+                              child: Text("Cancel"),
+                              style: ElevatedButton.styleFrom(
+                                shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30.0),
+                                ),
+                                primary: Colors.red,
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    assignBox.deleteAt(index);
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop();
+                                  },
+                                );
+                              },
+                              child: Text("Confirm"),
+                              style: ElevatedButton.styleFrom(
+                                shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30.0),
+                                ),
+                                primary: Colors.green,
+                              ),
+                            )
+                          ],
+                        );
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return alert;
+                          },
+                        );
+                      },
+                    );
                   },
                 ),
               ],
