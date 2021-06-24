@@ -5,6 +5,11 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(
+          Icons.settings,
+          size: 30,
+          color: Colors.blue,
+        ),
         title: Text(
           "Settings",
           style: Theme.of(context).textTheme.headline5,

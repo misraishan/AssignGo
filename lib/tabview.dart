@@ -53,7 +53,10 @@ class _TabViewState extends State<TabView> {
         duration: Duration(milliseconds: 200),
       ),
       navBarStyle:
-          NavBarStyle.style10, // Choose the nav bar style with this property.
+          NavBarStyle.style7, // Choose the nav bar style with this property.
+      onItemSelected: (index) {
+        setState(() {});
+      },
     );
   }
 
@@ -114,11 +117,19 @@ class _TabViewState extends State<TabView> {
  -----------------------------------------------------------------------------------------------------------------
  Panel
  -----------------------------------------------------------------------------------------------------------------
- */
+  */
   final TextEditingController _title = TextEditingController();
   final TextEditingController _desc = TextEditingController();
   final TextEditingController _date = TextEditingController();
   final assignBox = Hive.box('assignBox');
+  /*
+  void _notifID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _notifInt = prefs.getInt("_notifID")!;
+    await prefs.setInt("_notifID", _notifInt++);
+    print(_notifInt);
+  }
+  */
 
   dynamic _panel() {
     _title.clear();
@@ -209,7 +220,7 @@ class _TabViewState extends State<TabView> {
 
                     // Submit button selection
                     Container(height: 20),
-                    TextButton.icon(
+                    ElevatedButton.icon(
                       onPressed: () {
                         if (_date.text == "") {
                           Fluttertoast.showToast(
@@ -222,17 +233,17 @@ class _TabViewState extends State<TabView> {
                               // Converts _date.text to DateTime to use for schedule notifications
                               DateTime _dateDue = DateTime.parse(_date.text);
                               final DateTime _longDur =
-                                  _dateDue.subtract(Duration(hours: 12));
+                                  _dateDue.subtract(Duration(hours: 24));
 
                               final DateTime _shortDur =
-                                  _dateDue.subtract(Duration(minutes: 30));
+                                  _dateDue.subtract(Duration(minutes: 60));
                               int _id =
                                   int.parse(customAlphabet('1234567890', 9));
                               // Create first notification (12 hrs from deadline)
                               AwesomeNotifications().createNotification(
                                 content: NotificationContent(
                                   id: _id,
-                                  channelKey: '12hr',
+                                  channelKey: '24hr',
                                   title: _title.text,
                                   body: _desc.text,
                                   displayOnBackground: true,
@@ -247,7 +258,7 @@ class _TabViewState extends State<TabView> {
                                 ),
                               );
 
-                              // TODO: Create notification 30 minute before.
+                              // TODO: Create notification 1hr before.
                               if (_title.text.isEmpty) {
                                 Fluttertoast.showToast(
                                     msg: "Title can't be empty.",
@@ -263,14 +274,21 @@ class _TabViewState extends State<TabView> {
                                     notifID: _id,
                                   ),
                                 );
-                                Navigator.popAndPushNamed(context, "/");
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
                               }
                             },
                           );
                         }
                       },
-                      icon: Icon(Icons.done),
+                      icon: Icon(Icons.add),
                       label: Text("Add assignment"),
+                      style: ElevatedButton.styleFrom(
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0),
+                        ),
+                        primary: Colors.green,
+                      ),
                     ),
                     Container(height: 20),
                   ],

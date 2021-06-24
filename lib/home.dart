@@ -1,9 +1,13 @@
-import 'package:better_assignments/models/assignment.dart';
+import 'package:better_assignments/slidable_widgets/bools.dart';
+import 'package:better_assignments/slidable_widgets/delete.dart';
+import 'package:better_assignments/slidable_widgets/editTile.dart';
+import 'package:better_assignments/slidable_widgets/tiles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
+import 'package:get/get.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -25,9 +29,28 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(
+          Icons.home,
+          size: 30,
+          color: Colors.purple,
+        ),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.sort)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.calendar_today)),
+          IconButton(
+              onPressed: () {
+                Fluttertoast.showToast(
+                  msg: "Future update 😉",
+                  backgroundColor: Colors.indigo,
+                );
+              },
+              icon: Icon(Icons.subject)),
+          IconButton(
+              onPressed: () {
+                Fluttertoast.showToast(
+                  msg: "Future update 😉",
+                  backgroundColor: Colors.indigo,
+                );
+              },
+              icon: Icon(Icons.calendar_today)),
         ],
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -37,17 +60,25 @@ class _HomeState extends State<Home> {
         ),
         centerTitle: false,
       ),
-      body: EasyRefresh(
-        onLoad: () async {
-          setState(
-            () {
-              Fluttertoast.showToast(msg: "Refreshed.");
-            },
-          );
-        },
-        child: _listItem(),
-      ),
+      //   body: itemBuild()
+      body: _listItem(),
     );
+  }
+
+  Widget itemBuild() {
+    return GetBuilder(builder: (int index) {
+      return Text("Test");
+    });
+    /* return ListView.builder(
+      itemCount: assignBox.length,
+      itemBuilder: (BuildContext context, int index) {
+        if (!assignBox.getAt(index).isComplete) {
+          return Tiles(index);
+        } else {
+          return Container();
+        }
+      },
+    );*/
   }
 
 /*
@@ -95,10 +126,7 @@ class _HomeState extends State<Home> {
                   onTap: () {
                     setState(
                       () {
-                        // AwesomeNotifications().removeChannel(channelKey);
-                        assignBox.getAt(index).isStar
-                            ? assignBox.getAt(index).isStar = false
-                            : assignBox.getAt(index).isStar = true;
+                        Bools().isStar(index);
                       },
                     );
                   },
@@ -117,15 +145,13 @@ class _HomeState extends State<Home> {
                   onTap: () {
                     setState(
                       () {
-                        assignBox.getAt(index).isComplete
-                            ? assignBox.getAt(index).isComplete = false
-                            : assignBox.getAt(index).isComplete = true;
+                        Bools().isComp(index);
                       },
                     );
                   },
                 ),
               ],
-              // Delete & complete slide action
+              // Delete & Edit slide action
               secondaryActions: [
                 SlideAction(
                   child: Column(
@@ -139,9 +165,7 @@ class _HomeState extends State<Home> {
                     color: Colors.purple,
                   ),
                   onTap: () {
-                    setState(() {
-                      _editTile(index);
-                    });
+                    Get.bottomSheet(editTile(index));
                   },
                 ),
                 SlideAction(
@@ -160,62 +184,8 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   onTap: () async {
-                    setState(
-                      () {
-                        AlertDialog alert = AlertDialog(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(30.0),
-                            ),
-                          ),
-                          title: Text(
-                            "Are you sure you want to delete this assignment?",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          actions: [
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context, rootNavigator: true)
-                                    .pop();
-                              },
-                              child: Text("Cancel"),
-                              style: ElevatedButton.styleFrom(
-                                shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(30.0),
-                                ),
-                                primary: Colors.red,
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                setState(
-                                  () {
-                                    assignBox.deleteAt(index);
-                                    Navigator.of(context, rootNavigator: true)
-                                        .pop();
-                                  },
-                                );
-                              },
-                              child: Text("Confirm"),
-                              style: ElevatedButton.styleFrom(
-                                shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(30.0),
-                                ),
-                                primary: Colors.green,
-                              ),
-                            )
-                          ],
-                        );
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return alert;
-                          },
-                        );
-                      },
-                    );
+                    await Get.dialog(delete(index));
+                    setState(() {});
                   },
                 ),
               ],
@@ -235,118 +205,5 @@ class _HomeState extends State<Home> {
         }
       },
     );
-  }
-
-  /*
-
- -----------------------------------------------------------------------------------------------------------------
- Item Editor
- -----------------------------------------------------------------------------------------------------------------
- */
-  final TextEditingController _title = TextEditingController();
-  final TextEditingController _desc = TextEditingController();
-  Widget _editTile(int index) {
-    _title.text = assignBox.getAt(index).title;
-    _desc.text = assignBox.getAt(index).desc;
-    showModalBottomSheet(
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      enableDrag: true,
-      context: context,
-      builder: (context) {
-        return Container(
-          decoration: new BoxDecoration(
-            color: Colors.black,
-            borderRadius: new BorderRadius.only(
-              topLeft: const Radius.circular(30.0),
-              topRight: const Radius.circular(30.0),
-            ),
-          ),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: Column(
-                  children: [
-                    // Title
-                    Container(height: 20),
-                    TextField(
-                      controller: _title,
-                      decoration: InputDecoration(
-                        border: new OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        prefixIcon: Icon(Icons.assignment),
-                        labelText: "Assignment name",
-                      ),
-                    ),
-
-                    // Description
-                    Container(height: 20),
-                    TextField(
-                      controller: _desc,
-                      autocorrect: true,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: 3,
-                      textInputAction: TextInputAction.newline,
-                      decoration: InputDecoration(
-                        border: new OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        prefixIcon: Icon(Icons.assignment),
-                        labelText: "Description",
-                      ),
-                    ),
-
-                    // Due date selection
-                    Container(height: 20),
-                    TextButton.icon(
-                      onPressed: () {},
-                      icon: Icon(Icons.calendar_today),
-                      label: Text("Due Date"),
-                    ),
-
-                    // Submit button selection
-                    Container(height: 20),
-                    TextButton.icon(
-                      onPressed: () {
-                        setState(
-                          () {
-                            if (_title.text.isEmpty) {
-                              Fluttertoast.showToast(
-                                  msg: "Title can't be empty",
-                                  backgroundColor: Colors.red);
-                            } else {
-                              assignBox.putAt(
-                                index,
-                                AssignModel(
-                                  title: _title.text,
-                                  date: "",
-                                  desc: _desc.text,
-                                  isComplete: false,
-                                  isStar: false,
-                                ),
-                              );
-
-                              Navigator.popAndPushNamed(context, "/");
-                            }
-                          },
-                        );
-                      },
-                      icon: Icon(Icons.done),
-                      label: Text("Edit Assignment"),
-                    ),
-                    Container(height: 20),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-    return Container();
   }
 }

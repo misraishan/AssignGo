@@ -1,7 +1,9 @@
-import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:better_assignments/slidable_widgets/bools.dart';
+import 'package:better_assignments/slidable_widgets/delete.dart';
+import 'package:better_assignments/slidable_widgets/editTile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 class Star extends StatefulWidget {
@@ -14,9 +16,13 @@ class _StarState extends State<Star> {
 
   @override
   Widget build(BuildContext context) {
-    var result;
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(
+          Icons.star,
+          size: 30,
+          color: Colors.amber,
+        ),
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: Text(
@@ -25,87 +31,122 @@ class _StarState extends State<Star> {
         ),
         centerTitle: false,
       ),
-      body: EasyRefresh(
-        onLoad: () async {
-          setState(
-            () {
-              Fluttertoast.showToast(msg: "Refreshed.");
-            },
-          );
-        },
-        child: ListView.builder(
-          itemCount: assignBox.length,
-          itemBuilder: (BuildContext context, int index) {
-            if (assignBox.getAt(index).isStar == true) {
-              result = Padding(
-                padding: EdgeInsets.all(10),
-                child: Slidable(
-                  actionPane: SlidableDrawerActionPane(),
-                  // Favourite slide action
-                  actions: [
-                    SlideAction(
-                      decoration: BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(15.0),
-                          topLeft: Radius.circular(15.0),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.star),
-                          Text("Prioritize"),
-                        ],
-                      ),
-                      // TODO: Check if this will work w/ prioritizationa nd such
-                      onTap: () {
-                        setState(() {
-                          assignBox.getAt(index).isStar = false;
-                        });
-                      },
-                    ),
-                  ],
-                  // Delete slide action
-                  secondaryActions: [
-                    SlideAction(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.delete),
-                          Text("Delete"),
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(15.0),
-                          topRight: Radius.circular(15.0),
-                        ),
-                      ),
-                      onTap: () async {
-                        setState(
-                          () {
-                            assignBox.deleteAt(index);
-                          },
-                        );
-                      },
-                    ),
-                  ],
-                  child: ListTile(
-                    tileColor: Colors.black,
-                    title: Text(assignBox.getAt(index).title),
-                    subtitle: Text(assignBox.getAt(index).desc),
-                  ),
-                ),
-              );
-            } else {
-              result = Container();
-            }
-            return result;
-          },
-        ),
-      ),
+      body: _listItem(),
     );
   }
+
+  Widget _listItem() {
+    return ListView.builder(
+      itemCount: assignBox.length,
+      itemBuilder: (BuildContext context, int index) {
+        if (assignBox.getAt(index).isStar &&
+            !assignBox.getAt(index).isComplete) {
+          return Padding(
+            padding: EdgeInsets.all(10),
+            child: Slidable(
+              actionPane: SlidableDrawerActionPane(),
+              // Favourite slide action
+              actions: [
+                SlideAction(
+                  decoration: BoxDecoration(
+                    color: Colors.amber,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(15.0),
+                      topLeft: Radius.circular(15.0),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.star),
+                      Text("Prioritize"),
+                    ],
+                  ),
+                  onTap: () {
+                    setState(
+                      () {
+                        Bools().isStar(index);
+                      },
+                    );
+                  },
+                ),
+                SlideAction(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.check_box),
+                      Text("Mark as done"),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                  ),
+                  onTap: () {
+                    setState(
+                      () {
+                        Bools().isComp(index);
+                      },
+                    );
+                  },
+                ),
+              ],
+              // Delete & Edit slide action
+              secondaryActions: [
+                SlideAction(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.edit),
+                      Text("Edit"),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.purple,
+                  ),
+                  onTap: () {
+                    Get.bottomSheet(editTile(index));
+                  },
+                ),
+                SlideAction(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.delete),
+                      Text("Delete"),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(15.0),
+                      topRight: Radius.circular(15.0),
+                    ),
+                  ),
+                  onTap: () async {
+                    await Get.dialog(delete(index));
+                    setState(() {});
+                  },
+                ),
+              ],
+              child: ListTile(
+                leading: _starIcon,
+                isThreeLine: true,
+                tileColor: Colors.black,
+                title: Text("${assignBox.getAt(index).title}"),
+                subtitle: Text(
+                    "${assignBox.getAt(index).date} \n ${assignBox.getAt(index).desc}"),
+              ),
+            ),
+          );
+        } else {
+          return Container();
+        }
+      },
+    );
+  }
+
+  static Icon _starIcon = Icon(
+    Icons.star,
+    color: Colors.amber,
+  );
 }
