@@ -83,7 +83,44 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Better Assignments',
-      theme: ThemeData.dark(),
+      themeMode: ThemeMode.system,
+      defaultTransition: Transition.upToDown,
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        canvasColor: Colors.grey[900],
+        timePickerTheme: TimePickerThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        bottomSheetTheme: BottomSheetThemeData(),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(30.0),
+            ),
+          ),
+        ),
+        primaryTextTheme: TextTheme(
+          headline6: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
+        appBarTheme: AppBarTheme(
+          centerTitle: false,
+          color: Colors.transparent,
+          elevation: 0,
+          titleSpacing: 0.0,
+        ),
+        cardTheme: CardTheme(
+          color: Colors.black,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(20.0),
+          ),
+        ),
+      ),
       initialRoute: initScreen == 0 || initScreen == null ? "/intro" : "/",
       routes: {
         "/": (context) => TabView(),

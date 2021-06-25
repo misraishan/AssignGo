@@ -105,7 +105,7 @@ Widget editTile(index) {
                         isStar: false,
                       ),
                     );
-                    Get.to(TabView());
+                    Get.to(() => TabView());
                   }
                 },
                 icon: Icon(Icons.done),

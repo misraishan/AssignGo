@@ -1,9 +1,5 @@
-import 'package:better_assignments/slidable_widgets/bools.dart';
-import 'package:better_assignments/slidable_widgets/delete.dart';
-import 'package:better_assignments/slidable_widgets/editTile.dart';
+import 'package:better_assignments/slidable_widgets/sliding.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 class Star extends StatefulWidget {
@@ -23,18 +19,21 @@ class _StarState extends State<Star> {
           size: 30,
           color: Colors.amber,
         ),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text(
-          "Prioritized assignments",
-          style: Theme.of(context).textTheme.headline5,
-        ),
-        centerTitle: false,
+        title: Text("Prioritized assignments"),
       ),
       body: _listItem(),
     );
   }
 
+  Widget _listItem() {
+    return Sliding(
+      isComp: false,
+      isStar: true,
+    );
+  }
+}
+
+/*
   Widget _listItem() {
     return ListView.builder(
       itemCount: assignBox.length,
@@ -128,14 +127,7 @@ class _StarState extends State<Star> {
                   },
                 ),
               ],
-              child: ListTile(
-                leading: _starIcon,
-                isThreeLine: true,
-                tileColor: Colors.black,
-                title: Text("${assignBox.getAt(index).title}"),
-                subtitle: Text(
-                    "${assignBox.getAt(index).date} \n ${assignBox.getAt(index).desc}"),
-              ),
+              child: tiles(index),
             ),
           );
         } else {
@@ -144,9 +136,5 @@ class _StarState extends State<Star> {
       },
     );
   }
-
-  static Icon _starIcon = Icon(
-    Icons.star,
-    color: Colors.amber,
-  );
 }
+*/

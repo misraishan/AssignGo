@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Settings extends StatelessWidget {
   @override
@@ -23,18 +24,25 @@ class Settings extends StatelessWidget {
           Container(
             height: 100,
             padding: EdgeInsets.all(10),
-            child: Card(
-              color: Colors.black,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.color_lens),
-                  Container(width: 10),
-                  Text(
-                    "Theme",
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                ],
+            child: InkWell(
+              onTap: () {
+                Get.changeTheme(
+                  Get.isDarkMode ? ThemeData() : ThemeData(),
+                );
+                print("Theme");
+              },
+              child: Card(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.color_lens),
+                    Container(width: 10),
+                    Text(
+                      "Theme",
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

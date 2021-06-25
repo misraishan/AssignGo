@@ -23,9 +23,6 @@ Widget delete(int index) {
         },
         child: Text("Cancel"),
         style: ElevatedButton.styleFrom(
-          shape: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(30.0),
-          ),
           primary: Colors.red,
         ),
       ),
@@ -36,9 +33,6 @@ Widget delete(int index) {
         },
         child: Text("Confirm"),
         style: ElevatedButton.styleFrom(
-          shape: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(30.0),
-          ),
           primary: Colors.green,
         ),
       )

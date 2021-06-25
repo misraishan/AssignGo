@@ -1,13 +1,8 @@
-import 'package:better_assignments/slidable_widgets/bools.dart';
-import 'package:better_assignments/slidable_widgets/delete.dart';
-import 'package:better_assignments/slidable_widgets/editTile.dart';
-import 'package:better_assignments/slidable_widgets/tiles.dart';
+import 'package:better_assignments/slidable_widgets/sliding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
-import 'package:get/get.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -52,33 +47,11 @@ class _HomeState extends State<Home> {
               },
               icon: Icon(Icons.calendar_today)),
         ],
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text(
-          "Assignments",
-          style: Theme.of(context).textTheme.headline5,
-        ),
-        centerTitle: false,
+        title: Text("Assignments"),
       ),
       //   body: itemBuild()
       body: _listItem(),
     );
-  }
-
-  Widget itemBuild() {
-    return GetBuilder(builder: (int index) {
-      return Text("Test");
-    });
-    /* return ListView.builder(
-      itemCount: assignBox.length,
-      itemBuilder: (BuildContext context, int index) {
-        if (!assignBox.getAt(index).isComplete) {
-          return Tiles(index);
-        } else {
-          return Container();
-        }
-      },
-    );*/
   }
 
 /*
@@ -88,14 +61,15 @@ class _HomeState extends State<Home> {
  -----------------------------------------------------------------------------------------------------------------
  */
 
-  static Icon _starIcon = Icon(
-    Icons.star,
-    color: Colors.amber,
-  );
-  static Icon _assignIcon = Icon(
-    Icons.assignment,
-    color: Colors.white,
-  );
+  Widget _listItem() {
+    return Sliding(
+      isComp: false,
+      isStar: false,
+    );
+  }
+}
+
+/*
 
   Widget _listItem() {
     return ListView.builder(
@@ -189,15 +163,7 @@ class _HomeState extends State<Home> {
                   },
                 ),
               ],
-              child: ListTile(
-                leading:
-                    assignBox.getAt(index).isStar ? _starIcon : _assignIcon,
-                isThreeLine: true,
-                tileColor: Colors.black,
-                title: Text("${assignBox.getAt(index).title}"),
-                subtitle: Text(
-                    "${assignBox.getAt(index).date} \n ${assignBox.getAt(index).desc}"),
-              ),
+              child: tiles(index),
             ),
           );
         } else {
@@ -207,3 +173,4 @@ class _HomeState extends State<Home> {
     );
   }
 }
+*/

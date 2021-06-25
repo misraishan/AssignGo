@@ -1,9 +1,5 @@
-import 'package:better_assignments/slidable_widgets/bools.dart';
-import 'package:better_assignments/slidable_widgets/delete.dart';
-import 'package:better_assignments/slidable_widgets/editTile.dart';
+import 'package:better_assignments/slidable_widgets/sliding.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 class Completed extends StatefulWidget {
@@ -18,7 +14,6 @@ class _CompletedState extends State<Completed> {
 
   @override
   Widget build(BuildContext context) {
-    var result;
     return Scaffold(
       appBar: AppBar(
         leading: Icon(
@@ -26,17 +21,20 @@ class _CompletedState extends State<Completed> {
           size: 30,
           color: Colors.green,
         ),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text(
-          "Completed assignments",
-          style: Theme.of(context).textTheme.headline5,
-        ),
-        centerTitle: false,
+        title: Text("Completed assignments"),
       ),
       body: _listItem(),
     );
   }
+
+  Widget _listItem() {
+    return Sliding(
+      isComp: true,
+      isStar: false,
+    );
+  }
+}
+  /*
 
   Widget _listItem() {
     return ListView.builder(
@@ -130,15 +128,7 @@ class _CompletedState extends State<Completed> {
                   },
                 ),
               ],
-              child: ListTile(
-                leading:
-                    assignBox.getAt(index).isStar ? _starIcon : _assignIcon,
-                isThreeLine: true,
-                tileColor: Colors.black,
-                title: Text("${assignBox.getAt(index).title}"),
-                subtitle: Text(
-                    "${assignBox.getAt(index).date} \n ${assignBox.getAt(index).desc}"),
-              ),
+              child: tiles(index),
             ),
           );
         } else {
@@ -147,13 +137,5 @@ class _CompletedState extends State<Completed> {
       },
     );
   }
-
-  static Icon _starIcon = Icon(
-    Icons.star,
-    color: Colors.amber,
-  );
-  static Icon _assignIcon = Icon(
-    Icons.assignment,
-    color: Colors.white,
-  );
 }
+*/
