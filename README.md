@@ -2,9 +2,7 @@
 
 A better assignment tracking app.
 
-## Getting Started
-
-TODO:
+## TODO (Old):
 
 
 Final assignments app/build
