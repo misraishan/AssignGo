@@ -1,7 +1,7 @@
 import 'package:better_assignments/slidable_widgets/sliding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 class Home extends StatefulWidget {
@@ -32,17 +32,23 @@ class _HomeState extends State<Home> {
         actions: [
           IconButton(
               onPressed: () {
-                Fluttertoast.showToast(
-                  msg: "Future update 😉",
-                  backgroundColor: Colors.indigo,
+                Get.snackbar(
+                  "Future update 😉",
+                  "Coming soon...",
+                  snackPosition: SnackPosition.BOTTOM,
+                  borderRadius: 30,
+                  barBlur: 20,
                 );
               },
               icon: Icon(Icons.subject)),
           IconButton(
               onPressed: () {
-                Fluttertoast.showToast(
-                  msg: "Future update 😉",
-                  backgroundColor: Colors.indigo,
+                Get.snackbar(
+                  "Future update 😉",
+                  "Coming soon...",
+                  barBlur: 20,
+                  snackPosition: SnackPosition.BOTTOM,
+                  borderRadius: 30,
                 );
               },
               icon: Icon(Icons.calendar_today)),
@@ -53,13 +59,6 @@ class _HomeState extends State<Home> {
       body: _listItem(),
     );
   }
-
-/*
-
- -----------------------------------------------------------------------------------------------------------------
- List Item builder
- -----------------------------------------------------------------------------------------------------------------
- */
 
   Widget _listItem() {
     return Sliding(

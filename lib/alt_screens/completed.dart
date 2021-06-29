@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 class Completed extends StatefulWidget {
-  Completed({Key? key}) : super(key: key);
-
   @override
   _CompletedState createState() => _CompletedState();
 }
@@ -34,7 +32,7 @@ class _CompletedState extends State<Completed> {
     );
   }
 }
-  /*
+/*
 
   Widget _listItem() {
     return ListView.builder(

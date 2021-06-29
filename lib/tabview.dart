@@ -6,11 +6,13 @@ import 'package:better_assignments/home.dart';
 import 'package:better_assignments/models/assignment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:nanoid/nanoid.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_portal/flutter_portal.dart';
 
 class TabView extends StatefulWidget {
   @override
@@ -20,9 +22,33 @@ class TabView extends StatefulWidget {
 class _TabViewState extends State<TabView> {
   PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
+  var prefs;
+  int count = 0;
 
   @override
   Widget build(BuildContext context) {
+    /* void _sharedPref() async {
+      prefs = await SharedPreferences.getInstance();
+      count = prefs.getInt("initScreen");
+      print(prefs.getInt("initScreen"));
+    }
+
+    _sharedPref();
+
+    // TODO: Implement Portal Screen (onboarding type thing) a little later.
+     if (count >= 1) {
+      print("Test");
+      prefs.setInt("initScreen", 2);
+      print(prefs.getInt("initScreen"));
+
+      return Portal(
+        child: _tabView(),
+      );
+    } else */
+    return _tabView();
+  }
+
+  Widget _tabView() {
     return PersistentTabView(
       context,
       controller: _controller,
@@ -223,9 +249,12 @@ class _TabViewState extends State<TabView> {
                     ElevatedButton.icon(
                       onPressed: () {
                         if (_date.text == "") {
-                          Fluttertoast.showToast(
-                              msg: "Date can't be empty.",
-                              backgroundColor: Colors.red);
+                          Get.snackbar(
+                            "Warning!",
+                            "Date can't be empty.",
+                            backgroundColor: Colors.red,
+                            snackPosition: SnackPosition.BOTTOM,
+                          );
                         } else {
                           setState(
                             () {
@@ -260,17 +289,18 @@ class _TabViewState extends State<TabView> {
 
                               // TODO: Create notification 1hr before.
                               if (_title.text.isEmpty) {
-                                Fluttertoast.showToast(
-                                    msg: "Title can't be empty.",
-                                    backgroundColor: Colors.red);
+                                Get.snackbar(
+                                  "Warning!",
+                                  "Title can't be empty.",
+                                  backgroundColor: Colors.red,
+                                  snackPosition: SnackPosition.BOTTOM,
+                                );
                               } else {
                                 assignBox.add(
                                   AssignModel(
                                     title: _title.text,
                                     date: _date.text,
                                     desc: _desc.text,
-                                    isComplete: false,
-                                    isStar: false,
                                     notifID: _id,
                                   ),
                                 );

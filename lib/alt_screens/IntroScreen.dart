@@ -1,5 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:better_assignments/models/assignment.dart';
+import 'package:better_assignments/subjects/new_subj.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -21,12 +22,13 @@ class _IntroScreenState extends State<IntroScreen> {
             onPressed: () {
               assignBox.add(
                 AssignModel(
-                  date: DateTime.now().toString(),
+                  isStar: true,
+                  date: DateTime.now().toString().padLeft(2, '0'),
                   title:
                       "Add a new assignment with the plus button at the bottom!",
                   desc: "This is an assignment description. "
                       "You can make it as long or as short as you'd like!"
-                      "\n\n Swipe right to prioritize or complete an assignment, and swipe left to edit or delete!",
+                      "\n\nSwipe right to prioritize or complete an assignment, and swipe left to edit or delete!",
                 ),
               );
               AwesomeNotifications().isNotificationAllowed().then(
@@ -63,7 +65,6 @@ class _IntroScreenState extends State<IntroScreen> {
                                 primary: Colors.red,
                               ),
                             ),
-                            Container(width: 5),
                             ElevatedButton(
                               autofocus: true,
                               onPressed: () {
@@ -121,8 +122,10 @@ class _IntroScreenState extends State<IntroScreen> {
           "\nPrioritize, sort, and complete your assignments with plenty of time remaining!",
     ),
     PageViewModel(
-      title: "You can sort by subjects, and color code all your assignments!",
+      titleWidget: newSubj("", "", "0xFFAB47BC"),
+      //title: "You can sort by subjects, and color code all your assignments!",
       body: "Create a subject here:",
+      //bodyWidget: newSubj()
     ),
     PageViewModel(
       image: Image.asset("images/Slidables.png"),

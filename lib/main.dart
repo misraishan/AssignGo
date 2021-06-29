@@ -83,16 +83,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Better Assignments',
-      themeMode: ThemeMode.system,
+      //themeMode: ThemeMode.system,
       defaultTransition: Transition.upToDown,
-      darkTheme: ThemeData(
+      theme: ThemeData(
         brightness: Brightness.dark,
         canvasColor: Colors.grey[900],
+        // TimePicker theme
         timePickerTheme: TimePickerThemeData(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
           ),
         ),
+        // Bottom Sheet theme
         bottomSheetTheme: BottomSheetThemeData(),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -101,26 +103,41 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
+
+        // Text Themes
         primaryTextTheme: TextTheme(
           headline6: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 24,
           ),
+          bodyText1: TextStyle(
+            color: Colors.blue,
+            fontSize: 12,
+          ),
         ),
+        // Appbar theme
         appBarTheme: AppBarTheme(
           centerTitle: false,
           color: Colors.transparent,
           elevation: 0,
           titleSpacing: 0.0,
         ),
+        // Card theme
         cardTheme: CardTheme(
-          color: Colors.black,
-          elevation: 0,
+          color: Colors.grey[850],
+          elevation: 15,
           shape: RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(20.0),
+            borderRadius: new BorderRadius.circular(30.0),
+          ),
+        ),
+
+        inputDecorationTheme: InputDecorationTheme(
+          border: new OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
           ),
         ),
       ),
+
       initialRoute: initScreen == 0 || initScreen == null ? "/intro" : "/",
       routes: {
         "/": (context) => TabView(),
@@ -138,4 +155,4 @@ class MyApp extends StatelessWidget {
 
 // TODO: Gpa Calculator
 // Use google assistant to add new assignments?
-// Add more w/ assignments => new page 
+// Add more w/ assignments => new page

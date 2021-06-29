@@ -1,3 +1,4 @@
+import 'package:better_assignments/subjects/subject.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,23 +14,20 @@ class Settings extends StatelessWidget {
         ),
         title: Text(
           "Settings",
-          style: Theme.of(context).textTheme.headline5,
         ),
-        centerTitle: false,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
       ),
       body: Column(
         children: [
+          /*
           Container(
             height: 100,
             padding: EdgeInsets.all(10),
             child: InkWell(
               onTap: () {
-                Get.changeTheme(
+                /*Get.changeTheme(
                   Get.isDarkMode ? ThemeData() : ThemeData(),
                 );
-                print("Theme");
+                print("Theme");*/
               },
               child: Card(
                 child: Row(
@@ -46,23 +44,26 @@ class Settings extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            height: 100,
-            padding: EdgeInsets.all(10),
-            child: Card(
-              color: Colors.black,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.subject),
-                  Container(width: 10),
-                  Text(
-                    "Subjects",
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                ],
+          */
+          InkWell(
+            child: Container(
+              height: 100,
+              padding: EdgeInsets.all(10),
+              child: Card(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.subject),
+                    Container(width: 10),
+                    Text(
+                      "Subjects",
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                  ],
+                ),
               ),
             ),
+            onTap: () => Get.to(() => Subject()),
           ),
         ],
       ),

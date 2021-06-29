@@ -2,7 +2,6 @@ import 'package:better_assignments/models/assignment.dart';
 import 'package:better_assignments/tabview.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
@@ -91,9 +90,12 @@ Widget editTile(index) {
               TextButton.icon(
                 onPressed: () {
                   if (_title.text.isEmpty) {
-                    Fluttertoast.showToast(
-                        msg: "Title can't be empty",
-                        backgroundColor: Colors.red);
+                    Get.snackbar(
+                      "Warning!",
+                      "Title can't be empty.",
+                      backgroundColor: Colors.red,
+                      snackPosition: SnackPosition.BOTTOM,
+                    );
                   } else {
                     assignBox.putAt(
                       index,
@@ -101,8 +103,6 @@ Widget editTile(index) {
                         title: _title.text,
                         date: _date.text,
                         desc: _desc.text,
-                        isComplete: false,
-                        isStar: false,
                       ),
                     );
                     Get.to(() => TabView());

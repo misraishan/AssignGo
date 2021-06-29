@@ -1,16 +1,40 @@
+import 'package:better_assignments/models/assignment.dart';
 import 'package:hive/hive.dart';
 
 class Bools {
   final assignBox = Hive.box('assignBox');
-  void isStar(index) {
-    assignBox.getAt(index).isStar
+  void isStar(index) async {
+    var _isStar = await assignBox.getAt(index).isStar
         ? assignBox.getAt(index).isStar = false
         : assignBox.getAt(index).isStar = true;
+    assignBox.putAt(
+      index,
+      AssignModel(
+        isStar: _isStar,
+        title: assignBox.getAt(index).title,
+        desc: assignBox.getAt(index).desc,
+        date: assignBox.getAt(index).date,
+        isComplete: assignBox.getAt(index).isComplete,
+        notifID: assignBox.getAt(index).notifID,
+      ),
+    );
   }
 
-  void isComp(index) {
-    assignBox.getAt(index).isComplete
+  void isComp(index) async {
+    var _isComp = await assignBox.getAt(index).isComplete
         ? assignBox.getAt(index).isComplete = false
         : assignBox.getAt(index).isComplete = true;
+
+    assignBox.putAt(
+      index,
+      AssignModel(
+        isStar: assignBox.getAt(index).isStar,
+        title: assignBox.getAt(index).title,
+        desc: assignBox.getAt(index).desc,
+        date: assignBox.getAt(index).date,
+        isComplete: _isComp,
+        notifID: assignBox.getAt(index).notifID,
+      ),
+    );
   }
 }

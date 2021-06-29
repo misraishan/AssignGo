@@ -12,9 +12,9 @@ class AssignModel {
   @HiveField(3)
   String subject;
   @HiveField(4)
-  bool isComplete = false;
+  bool isComplete;
   @HiveField(5)
-  bool isStar = false;
+  bool isStar;
   @HiveField(6)
   int notifID = 0;
 

@@ -33,10 +33,27 @@ Widget tiles(int index) {
               Container(width: 10),
             ],
           ),
-          Row(children: [
-            Container(width: 45),
-            Expanded(child: Text(assignBox.getAt(index).desc)),
-          ])
+          Container(
+            height: 5,
+          ),
+          Row(
+            children: [
+              Container(width: 45),
+              Text(
+                assignBox.getAt(index).date,
+                style: Get.context!.textTheme.bodyText1,
+              ),
+            ],
+          ),
+          Container(
+            height: 5,
+          ),
+          Row(
+            children: [
+              Container(width: 45),
+              Expanded(child: Text(assignBox.getAt(index).desc)),
+            ],
+          ),
         ],
       ),
     ),
