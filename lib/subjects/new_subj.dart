@@ -18,12 +18,22 @@ Widget newSubj(String profName, String subjName, String color) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: Text(
-                "Create a new subject!",
-                style: Theme.of(Get.context!).textTheme.headline6,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  icon: Icon(Icons.arrow_back),
+                ),
+                Text(
+                  "Create a new subject!",
+                  style: Theme.of(Get.context!).textTheme.headline6,
+                ),
+              ],
             ),
+
             Container(
                 padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10)),
             // Subject name
@@ -80,11 +90,13 @@ Widget newSubj(String profName, String subjName, String color) {
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0)),
                 ElevatedButton(
                   onPressed: () {
+                    int _colorInt = _color.value;
+                    print(_colorInt);
                     subjBox.add(
                       Subject(
-                        name: _subjName.text,
-                        color: _color.toString(),
                         title: _subjName.text,
+                        name: _profName.text,
+                        color: _colorInt,
                       ),
                     );
                     _subjName.clear();

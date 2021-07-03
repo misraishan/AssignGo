@@ -4,6 +4,7 @@ import 'package:better_assignments/subjects/new_subj.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:intl/intl.dart';
 
 class IntroScreen extends StatefulWidget {
   @override
@@ -12,8 +13,17 @@ class IntroScreen extends StatefulWidget {
 
 class _IntroScreenState extends State<IntroScreen> {
   final assignBox = Hive.box("assignBox");
+  String formattedDate = "";
+  DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+
+  void _dateNow() {
+    DateTime now = DateTime.now();
+    formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
+  }
+
   @override
   Widget build(BuildContext context) {
+    _dateNow();
     return Scaffold(
       body: Center(
         child: IntroductionScreen(
@@ -23,7 +33,7 @@ class _IntroScreenState extends State<IntroScreen> {
               assignBox.add(
                 AssignModel(
                   isStar: true,
-                  date: DateTime.now().toString().padLeft(2, '0'),
+                  date: formattedDate,
                   title:
                       "Add a new assignment with the plus button at the bottom!",
                   desc: "This is an assignment description. "

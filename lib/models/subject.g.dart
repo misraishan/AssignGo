@@ -18,7 +18,7 @@ class SubjectAdapter extends TypeAdapter<Subject> {
     };
     return Subject(
       title: fields[0] as String,
-      color: fields[1] as String,
+      color: fields[1] as int,
       name: fields[2] as String,
     );
   }

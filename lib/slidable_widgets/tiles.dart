@@ -13,7 +13,21 @@ Widget tiles(int index) {
   );
 
   final assignBox = Hive.box("assignBox");
+  final subjBox = Hive.box("subjBox");
+
+  Color _color = Color(0xff303030);
+  int _colorInt = 255;
+
+  for (int i = 0; i < subjBox.length; i++) {
+    if (assignBox.getAt(index).subject.compareTo(subjBox.getAt(i).title) == 0) {
+      print(subjBox.getAt(i).color);
+      _colorInt = subjBox.getAt(i).color;
+      _color = Color(_colorInt);
+    }
+  }
+
   return Card(
+    color: _color,
     child: Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
@@ -43,6 +57,7 @@ Widget tiles(int index) {
                 assignBox.getAt(index).date,
                 style: Get.context!.textTheme.bodyText1,
               ),
+              Text(" || ${assignBox.getAt(index).subject}")
             ],
           ),
           Container(

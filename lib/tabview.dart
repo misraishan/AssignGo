@@ -1,18 +1,13 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:better_assignments/alt_screens/completed.dart';
 import 'package:better_assignments/alt_screens/settings.dart';
 import 'package:better_assignments/alt_screens/star.dart';
 import 'package:better_assignments/home.dart';
-import 'package:better_assignments/models/assignment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:date_time_picker/date_time_picker.dart';
-import 'package:nanoid/nanoid.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_portal/flutter_portal.dart';
+
+import 'new_assign/assign_widgets.dart';
 
 class TabView extends StatefulWidget {
   @override
@@ -27,24 +22,6 @@ class _TabViewState extends State<TabView> {
 
   @override
   Widget build(BuildContext context) {
-    /* void _sharedPref() async {
-      prefs = await SharedPreferences.getInstance();
-      count = prefs.getInt("initScreen");
-      print(prefs.getInt("initScreen"));
-    }
-
-    _sharedPref();
-
-    // TODO: Implement Portal Screen (onboarding type thing) a little later.
-     if (count >= 1) {
-      print("Test");
-      prefs.setInt("initScreen", 2);
-      print(prefs.getInt("initScreen"));
-
-      return Portal(
-        child: _tabView(),
-      );
-    } else */
     return _tabView();
   }
 
@@ -118,8 +95,9 @@ class _TabViewState extends State<TabView> {
         textStyle: TextStyle(color: Colors.white),
         activeColorSecondary: Colors.white,
         activeColorPrimary: Colors.white,
-        onPressed: (context) {
-          _panel();
+        onPressed: (context) async {
+          await _createAssign();
+          setState(() {});
         },
       ),
       PersistentBottomNavBarItem(
@@ -139,11 +117,99 @@ class _TabViewState extends State<TabView> {
     ];
   }
 
+  List<String> subjects = [];
+  void _fill() {
+    subjects.clear();
+    for (int i = 0; i < subjBox.length; i++) {
+      subjects.add(subjBox.getAt(i).title);
+    }
+  }
+
+  String dropDownValue = "Select subject";
+
+  dynamic _createAssign() {
+    _fill();
+    setState(() {});
+    clearControllers();
+    final result = showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      enableDrag: true,
+      context: Get.context!,
+      builder: (context) {
+        return Container(
+          decoration: new BoxDecoration(
+            color: Colors.black,
+            borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(30.0),
+              topRight: const Radius.circular(30.0),
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Container(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: Column(
+                  children: [
+                    // Title
+                    Container(height: 20),
+                    titleButton(),
+
+                    // Description
+                    Container(height: 20),
+                    descriptionButton(),
+
+                    // Due date selection
+                    Container(height: 20),
+                    dateTimePicker(),
+
+                    // Subject selection
+                    Container(height: 20),
+                    DropdownButton<String>(
+                      hint: Text("Test"),
+                      // value: dropDownValue,
+                      onChanged: (String? newValue) async {
+                        setState(() {
+                          dropDownValue = newValue!;
+                        });
+                      },
+                      items: subjects.map(
+                        (String value) {
+                          return DropdownMenuItem(
+                            value: value,
+                            child: new Text(value),
+                          );
+                        },
+                      ).toList(),
+                    ),
+
+                    // Submit button selection
+                    Container(height: 20),
+
+                    returnButton(dropDownValue),
+
+                    Container(height: 20),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+
+    return result;
+  }
+
   /*
  -----------------------------------------------------------------------------------------------------------------
  Panel
  -----------------------------------------------------------------------------------------------------------------
   */
+
+  /*
   final TextEditingController _title = TextEditingController();
   final TextEditingController _desc = TextEditingController();
   final TextEditingController _date = TextEditingController();
@@ -332,4 +398,6 @@ class _TabViewState extends State<TabView> {
 
     return result;
   }
+
+  */
 }

@@ -15,7 +15,8 @@ class Bools {
         desc: assignBox.getAt(index).desc,
         date: assignBox.getAt(index).date,
         isComplete: assignBox.getAt(index).isComplete,
-        notifID: assignBox.getAt(index).notifID,
+        notifIDLong: assignBox.getAt(index).notifIDLong,
+        notifIDShort: assignBox.getAt(index).notifIDShort,
       ),
     );
   }
@@ -33,7 +34,8 @@ class Bools {
         desc: assignBox.getAt(index).desc,
         date: assignBox.getAt(index).date,
         isComplete: _isComp,
-        notifID: assignBox.getAt(index).notifID,
+        notifIDLong: assignBox.getAt(index).notifIDLong,
+        notifIDShort: assignBox.getAt(index).notifIDShort,
       ),
     );
   }

@@ -48,22 +48,23 @@ void main() async {
     'resource://drawable/app_icon',
     [
       NotificationChannel(
-        channelKey: '1hr',
+        channelKey: 'short',
         channelName: 'short warning',
-        channelDescription: 'All assignments 1 hour',
+        channelDescription: '6 hours before due.',
         enableVibration: true,
         vibrationPattern: highVibrationPattern,
       ),
       NotificationChannel(
-          channelKey: '24hr',
-          channelName: 'long warning',
-          channelDescription: 'All assignments 12hr before',
-          defaultColor: Colors.purple,
-          vibrationPattern: lowVibrationPattern,
-          enableVibration: true),
+        channelKey: 'long',
+        channelName: 'long warning',
+        channelDescription: '24 hours before due',
+        defaultColor: Colors.purple,
+        vibrationPattern: lowVibrationPattern,
+        enableVibration: true,
+      ),
       // TODO: Decide how long priority notif should be
       NotificationChannel(
-        channelKey: 'priority_channel',
+        channelKey: 'medium',
         channelName: 'Priority notifications',
         channelDescription: 'Notification channel for prioritized assignments',
         defaultColor: Colors.red,
@@ -82,6 +83,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Better Assignments',
       //themeMode: ThemeMode.system,
       defaultTransition: Transition.upToDown,

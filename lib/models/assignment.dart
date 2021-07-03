@@ -16,7 +16,9 @@ class AssignModel {
   @HiveField(5)
   bool isStar;
   @HiveField(6)
-  int notifID = 0;
+  int notifIDLong;
+  @HiveField(7)
+  int notifIDShort;
 
   AssignModel({
     this.title = "",
@@ -25,6 +27,7 @@ class AssignModel {
     this.subject = "",
     this.isComplete = false,
     this.isStar = false,
-    this.notifID = 0,
+    this.notifIDLong = 0,
+    this.notifIDShort = 0,
   });
 }

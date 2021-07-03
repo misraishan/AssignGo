@@ -23,14 +23,15 @@ class AssignModelAdapter extends TypeAdapter<AssignModel> {
       subject: fields[3] as String,
       isComplete: fields[4] as bool,
       isStar: fields[5] as bool,
-      notifID: fields[6] as int,
+      notifIDLong: fields[6] as int,
+      notifIDShort: fields[7] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, AssignModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -44,7 +45,9 @@ class AssignModelAdapter extends TypeAdapter<AssignModel> {
       ..writeByte(5)
       ..write(obj.isStar)
       ..writeByte(6)
-      ..write(obj.notifID);
+      ..write(obj.notifIDLong)
+      ..writeByte(7)
+      ..write(obj.notifIDShort);
   }
 
   @override

@@ -8,8 +8,8 @@ class Subject {
   @HiveField(0)
   String title;
   @HiveField(1)
-  String color;
+  int color;
   @HiveField(2)
   String name;
-  Subject({required this.title, this.color = "", this.name = ""});
+  Subject({required this.title, this.color = 255, this.name = ""});
 }

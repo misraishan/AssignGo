@@ -10,6 +10,7 @@ class Subject extends StatefulWidget {
 
 class _SubjectState extends State<Subject> {
   final subjBox = Hive.box("subjBox");
+  final assignBox = Hive.box("assignBox");
 
   @override
   Widget build(BuildContext context) {
@@ -52,34 +53,101 @@ class _SubjectState extends State<Subject> {
       return ListView.builder(
         itemCount: subjBox.length,
         itemBuilder: (BuildContext context, int index) {
-          return Slidable(
-            actionPane: SlidableScrollActionPane(),
-            actions: [
-              SlideAction(
-                decoration: BoxDecoration(
-                  color: Colors.amber,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30.0),
-                    topLeft: Radius.circular(30.0),
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+            child: Slidable(
+              actionPane: SlidableScrollActionPane(),
+              actions: [
+                SlideAction(
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(30.0),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.delete),
+                      Text("Delete"),
+                    ],
+                  ),
+                  onTap: () {
+                    var _subjName = subjBox.getAt(index).title;
+
+                    if (assignBox.isNotEmpty) {
+                      var _assign = "";
+
+                      for (int i = 0; i < assignBox.length; i++) {
+                        _assign = assignBox.getAt(i).subject;
+                        if (_assign.compareTo(_subjName) == 0) {
+                          assignBox.getAt(i).subject = "";
+                        }
+                      }
+                    }
+                    setState(
+                      () {
+                        subjBox.deleteAt(index);
+                      },
+                    );
+                  },
+                ),
+              ],
+              secondaryActions: [
+                SlideAction(
+                  decoration: BoxDecoration(
+                    color: Colors.purple,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(30.0),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.edit),
+                      Text("Edit"),
+                    ],
+                  ),
+                  onTap: () {},
+                ),
+              ],
+              child: Card(
+                color: Color(subjBox.getAt(index).color),
+                child: Container(
+                  height: 75,
+                  child: Center(
+                    child: _centerBuilder(index),
                   ),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.star),
-                    Text("Prioritize"),
-                  ],
-                ),
-                onTap: () {},
               ),
-            ],
-            child: ListTile(
-              title: Text(subjBox.getAt(index).name),
-              //tileColor: subjBox.getAt(index).color,
             ),
           );
         },
       );
     }
+  }
+
+  Widget _centerBuilder(int index) {
+    String name = subjBox.getAt(index).name;
+    if (name.isNotEmpty) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            subjBox.getAt(index).title,
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          Text(
+            subjBox.getAt(index).name,
+            style: Theme.of(context).textTheme.bodyText2,
+          ),
+        ],
+      );
+    }
+    return Text(
+      subjBox.getAt(index).title,
+      style: Theme.of(context).textTheme.headline6,
+    );
   }
 }

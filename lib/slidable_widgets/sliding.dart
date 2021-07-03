@@ -120,8 +120,9 @@ class _SlidingState extends State<Sliding> {
                       topLeft: Radius.circular(30.0),
                     ),
                   ),
-                  onTap: () {
-                    Get.bottomSheet(editTile(index));
+                  onTap: () async {
+                    await editTile(index);
+                    setState(() {});
                   },
                 ),
                 SlideAction(
