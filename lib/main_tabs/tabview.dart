@@ -1,13 +1,13 @@
 import 'package:better_assignments/alt_screens/completed.dart';
-import 'package:better_assignments/alt_screens/settings.dart';
+import 'package:better_assignments/alt_screens/settings/settings.dart';
 import 'package:better_assignments/alt_screens/star.dart';
-import 'package:better_assignments/home.dart';
+import 'package:better_assignments/main_tabs/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-
-import 'new_assign/assign_widgets.dart';
+import 'package:menu_button/menu_button.dart';
+import '../new_assign/assign_widgets.dart';
 
 class TabView extends StatefulWidget {
   @override
@@ -117,19 +117,7 @@ class _TabViewState extends State<TabView> {
     ];
   }
 
-  List<String> subjects = [];
-  void _fill() {
-    subjects.clear();
-    for (int i = 0; i < subjBox.length; i++) {
-      subjects.add(subjBox.getAt(i).title);
-    }
-  }
-
-  String dropDownValue = "Select subject";
-
   dynamic _createAssign() {
-    _fill();
-    setState(() {});
     clearControllers();
     final result = showModalBottomSheet(
       isScrollControlled: true,
@@ -167,28 +155,12 @@ class _TabViewState extends State<TabView> {
 
                     // Subject selection
                     Container(height: 20),
-                    DropdownButton<String>(
-                      hint: Text("Test"),
-                      // value: dropDownValue,
-                      onChanged: (String? newValue) async {
-                        setState(() {
-                          dropDownValue = newValue!;
-                        });
-                      },
-                      items: subjects.map(
-                        (String value) {
-                          return DropdownMenuItem(
-                            value: value,
-                            child: new Text(value),
-                          );
-                        },
-                      ).toList(),
-                    ),
+                    DropDown(),
 
                     // Submit button selection
                     Container(height: 20),
 
-                    returnButton(dropDownValue),
+                    returnButton(),
 
                     Container(height: 20),
                   ],
@@ -202,14 +174,75 @@ class _TabViewState extends State<TabView> {
 
     return result;
   }
+/*
+  final List<String> subjects = [];
 
-  /*
+  String dropDownValue = "";
+
+  Widget _dropDown() {
+    print(dropDownValue);
+    
+    return new DropdownButton<String>(
+      hint: Text("Select a subject!"),
+      value: dropDownValue,
+      items: subjects.map(
+        (String item) {
+          return new DropdownMenuItem<String>(
+            value: item,
+            child: new Text(item),
+          );
+        },
+      ).toList(),
+      onChanged: (String? newValue) {
+        setState(() {
+          dropDownValue = newValue!;
+        });
+
+        print(dropDownValue);
+      },
+    ); 
+    return MenuButton(
+      child: Container(
+        color: Colors.black,
+        child: Text(dropDownValue),
+      ),
+      items: subjects,
+      itemBuilder: (String value) => Container(
+        color: Colors.black,
+        height: 40,
+        width: double.infinity,
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 16),
+        child: Text(
+          value,
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      onItemSelected: (String value) {
+        setState(() {
+          dropDownValue = value;
+          print(dropDownValue);
+        });
+      },
+    );
+    void fillList() {
+    subjects.clear();
+    for (int i = 0; i < subjBox.length; i++) {
+      subjects.add(subjBox.getAt(i).title);
+      print(subjects[i]);
+    }
+    dropDownValue = subjects.first;
+  }
+    */
+}
+
+/*
  -----------------------------------------------------------------------------------------------------------------
  Panel
  -----------------------------------------------------------------------------------------------------------------
   */
 
-  /*
+/*
   final TextEditingController _title = TextEditingController();
   final TextEditingController _desc = TextEditingController();
   final TextEditingController _date = TextEditingController();
@@ -353,7 +386,7 @@ class _TabViewState extends State<TabView> {
                                 ),
                               );
 
-                              // TODO: Create notification 1hr before.
+                              
                               if (_title.text.isEmpty) {
                                 Get.snackbar(
                                   "Warning!",
@@ -400,4 +433,3 @@ class _TabViewState extends State<TabView> {
   }
 
   */
-}

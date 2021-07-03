@@ -70,7 +70,56 @@ Widget descriptionButton() {
   );
 }
 
-Widget returnButton(String subject) {
+class DropDown extends StatefulWidget {
+  @override
+  _DropDownState createState() => _DropDownState();
+}
+
+class _DropDownState extends State<DropDown> {
+  final List<String> subjects = [];
+  String _dropDownValue = "";
+  @override
+  void initState() {
+    super.initState();
+    subjects.clear();
+    for (int i = 0; i < subjBox.length; i++) {
+      subjects.add(subjBox.getAt(i).title);
+      print(subjects[i]);
+    }
+    _dropDownValue = subjects.first;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      hint: Text("Select a subject!"),
+      value: _dropDownValue,
+      items: subjects.map(
+        (String item) {
+          return new DropdownMenuItem<String>(
+            value: item,
+            child: new Text(item),
+          );
+        },
+      ).toList(),
+      onChanged: (String? newValue) {
+        setState(() {
+          _dropDownValue = newValue!;
+          getSubj(_dropDownValue);
+        });
+
+        print(_dropDownValue);
+      },
+    );
+  }
+}
+
+String finalSubj = "";
+void getSubj(String subject) {
+  finalSubj = subject;
+}
+
+Widget returnButton() {
   return ElevatedButton.icon(
     onPressed: () {
       if (_date.text == "") {
@@ -104,7 +153,7 @@ Widget returnButton(String subject) {
               desc: _desc.text,
               notifIDLong: _idLong,
               notifIDShort: _idShort,
-              subject: subject,
+              subject: finalSubj,
             ),
           );
           Get.back();

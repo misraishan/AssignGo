@@ -60,7 +60,7 @@ Widget newSubj(String profName, String subjName, String color) {
             Center(
               child: ColorPicker(
                 pickersEnabled: const <ColorPickerType, bool>{
-                  ColorPickerType.accent: false,
+                  ColorPickerType.accent: true,
                   ColorPickerType.primary: false,
                   ColorPickerType.wheel: true,
                 },
@@ -91,7 +91,6 @@ Widget newSubj(String profName, String subjName, String color) {
                 ElevatedButton(
                   onPressed: () {
                     int _colorInt = _color.value;
-                    print(_colorInt);
                     subjBox.add(
                       Subject(
                         title: _subjName.text,
