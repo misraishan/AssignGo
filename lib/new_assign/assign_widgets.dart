@@ -78,38 +78,67 @@ class DropDown extends StatefulWidget {
 class _DropDownState extends State<DropDown> {
   final List<String> subjects = [];
   String _dropDownValue = "";
+
   @override
   void initState() {
     super.initState();
-    subjects.clear();
-    for (int i = 0; i < subjBox.length; i++) {
-      subjects.add(subjBox.getAt(i).title);
-      print(subjects[i]);
+    if (subjBox.isNotEmpty) {
+      subjects.clear();
+      for (int i = 0; i < subjBox.length; i++) {
+        subjects.add(subjBox.getAt(i).title);
+        print(subjects[i]);
+      }
+      _dropDownValue = subjects.first;
     }
-    _dropDownValue = subjects.first;
   }
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      hint: Text("Select a subject!"),
-      value: _dropDownValue,
-      items: subjects.map(
-        (String item) {
-          return new DropdownMenuItem<String>(
-            value: item,
-            child: new Text(item),
-          );
-        },
-      ).toList(),
-      onChanged: (String? newValue) {
-        setState(() {
-          _dropDownValue = newValue!;
-          getSubj(_dropDownValue);
-        });
-
-        print(_dropDownValue);
-      },
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(color: Color(0xff616161)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Icon(
+              Icons.subject,
+              color: Colors.grey,
+            ),
+            Container(width: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  icon: Icon(Icons.arrow_drop_down),
+                  // isExpanded: true,
+                  hint: Text("Create a subject first!"),
+                  value: _dropDownValue,
+                  items: subjects.map(
+                    (String item) {
+                      return new DropdownMenuItem<String>(
+                        value: item,
+                        child: new Text(item),
+                      );
+                    },
+                  ).toList(),
+                  onChanged: (String? newValue) {
+                    setState(
+                      () {
+                        _dropDownValue = newValue!;
+                        getSubj(_dropDownValue);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

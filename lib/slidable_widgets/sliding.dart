@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-
 import 'bools.dart';
 import 'delete.dart';
 
@@ -68,7 +67,7 @@ class _SlidingState extends State<Sliding> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.star),
-                      Text("Prioritize"),
+                      Flexible(child: Text("Prioritize")),
                     ],
                   ),
                   onTap: () {
@@ -79,12 +78,14 @@ class _SlidingState extends State<Sliding> {
                     );
                   },
                 ),
+
+                // Mark as done slidable
                 SlideAction(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.check_box),
-                      Text("Mark as done"),
+                      Flexible(child: Text("Mark as done")),
                     ],
                   ),
                   decoration: BoxDecoration(
@@ -103,14 +104,15 @@ class _SlidingState extends State<Sliding> {
                   },
                 ),
               ],
-              // Delete & Edit slide action
+
+              // Edit slide action
               secondaryActions: [
                 SlideAction(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.edit),
-                      Text("Edit"),
+                      Flexible(child: Text("Edit")),
                     ],
                   ),
                   decoration: BoxDecoration(
@@ -125,12 +127,14 @@ class _SlidingState extends State<Sliding> {
                     setState(() {});
                   },
                 ),
+
+                // Delete slide action
                 SlideAction(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.delete),
-                      Text("Delete"),
+                      Flexible(child: Text("Delete")),
                     ],
                   ),
                   decoration: BoxDecoration(

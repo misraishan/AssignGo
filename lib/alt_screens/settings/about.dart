@@ -12,11 +12,12 @@ class About extends StatelessWidget {
 
 Widget _showAbout() {
   return AboutPage(
+    applicationName: "AssignGo",
     values: {
       'version': 'Alpha 1.0',
       'year': DateTime.now().year.toString(),
     },
-    applicationLegalese: 'Copyright © Ishan Misra, {{ year }}',
+//    applicationLegalese: 'Copyright © Ishan Misra, {{ year }}',
     applicationDescription: const Text(''),
     children: <Widget>[
       MarkdownPageListTile(

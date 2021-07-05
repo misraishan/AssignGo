@@ -45,22 +45,20 @@ class _HomeState extends State<Home> {
           ),
           IconButton(
             onPressed: () {
-              /*
               Get.snackbar(
                 "Future update 😉",
                 "Coming soon...",
                 barBlur: 20,
                 snackPosition: SnackPosition.BOTTOM,
-                borderRadius: 30, 
-              ); */
-              Get.to(() => ScheduleHome());
+                borderRadius: 30,
+              );
+              // Get.to(() => ScheduleHome());
             },
             icon: Icon(Icons.calendar_today),
           ),
         ],
         title: Text("Assignments"),
       ),
-      //   body: itemBuild()
       body: _listItem(),
     );
   }

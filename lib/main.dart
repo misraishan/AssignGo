@@ -1,6 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:better_assignments/alt_screens/IntroScreen.dart';
-import 'package:better_assignments/alt_screens/star.dart';
+import 'package:better_assignments/main_tabs/star.dart';
 import 'package:better_assignments/main_tabs/home.dart';
 import 'package:better_assignments/models/assignment.dart';
 import 'package:better_assignments/models/subject.dart';
@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:about/about.dart';
 
 int? initScreen = 0;
 void main() async {
@@ -156,7 +155,3 @@ class MyApp extends StatelessWidget {
     Hive.close();
   }
 }
-
-// TODO: Gpa Calculator
-// Use google assistant to add new assignments?
-// Add more w/ assignments => new page

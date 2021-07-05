@@ -20,7 +20,6 @@ Widget tiles(int index) {
 
   for (int i = 0; i < subjBox.length; i++) {
     if (assignBox.getAt(index).subject.compareTo(subjBox.getAt(i).title) == 0) {
-      print(subjBox.getAt(i).color);
       _colorInt = subjBox.getAt(i).color;
       _color = Color(_colorInt);
     }
@@ -74,14 +73,3 @@ Widget tiles(int index) {
     ),
   );
 }
-
-/*
-ListTile(
-    leading: assignBox.getAt(index).isStar ? _starIcon : _assignIcon,
-    isThreeLine: true,
-    tileColor: Colors.black,
-    title: Text("${assignBox.getAt(index).title}"),
-    subtitle: Text(
-        "${assignBox.getAt(index).date} \n ${assignBox.getAt(index).desc}"),
-  );
-  */
