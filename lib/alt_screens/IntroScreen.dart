@@ -132,7 +132,7 @@ class _IntroScreenState extends State<IntroScreen> {
           "\nPrioritize, sort, and complete your assignments with plenty of time remaining!",
     ),
     PageViewModel(
-      titleWidget: newSubj("", "", "0xFFAB47BC"),
+      titleWidget: newSubj(true, null),
       //title: "You can sort by subjects, and color code all your assignments!",
       body: "Create a subject here:",
       //bodyWidget: newSubj()

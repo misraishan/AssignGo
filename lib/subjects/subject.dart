@@ -1,6 +1,7 @@
 import 'package:better_assignments/subjects/new_subj.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 class Subject extends StatefulWidget {
@@ -31,7 +32,7 @@ class _SubjectState extends State<Subject> {
               await showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return newSubj("", "", "0xffAB47BC");
+                  return newSubj(true, null);
                 },
               );
               setState(() {});
@@ -47,7 +48,7 @@ class _SubjectState extends State<Subject> {
   Widget _newSubjBuilder() {
     if (subjBox.isEmpty) {
       return Center(
-        child: newSubj("", "", "0xFFAB47BC"),
+        child: newSubj(true, null),
       );
     } else {
       return ListView.builder(
@@ -108,7 +109,15 @@ class _SubjectState extends State<Subject> {
                       Text("Edit"),
                     ],
                   ),
-                  onTap: () {},
+                  onTap: () async {
+                    await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return newSubj(false, index);
+                      },
+                    );
+                    setState(() {});
+                  },
                 ),
               ],
               child: Card(

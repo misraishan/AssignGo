@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import '../new_assign/assign_widgets.dart';
+import '../slidable_widgets/assign_widgets.dart';
 
 class TabView extends StatefulWidget {
   @override
@@ -18,7 +18,6 @@ class _TabViewState extends State<TabView> {
       PersistentTabController(initialIndex: 0);
   var prefs;
   int count = 0;
-
   @override
   Widget build(BuildContext context) {
     return _tabView();
@@ -95,7 +94,7 @@ class _TabViewState extends State<TabView> {
         activeColorSecondary: Colors.white,
         activeColorPrimary: Colors.white,
         onPressed: (context) async {
-          await _createAssign();
+          await assignModal(true, null);
           setState(() {});
         },
       ),
@@ -114,62 +113,5 @@ class _TabViewState extends State<TabView> {
         activeColorSecondary: Colors.white,
       ),
     ];
-  }
-
-  dynamic _createAssign() {
-    clearControllers();
-    final result = showModalBottomSheet(
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      enableDrag: true,
-      context: Get.context!,
-      builder: (context) {
-        return Container(
-          decoration: new BoxDecoration(
-            color: Colors.black,
-            borderRadius: new BorderRadius.only(
-              topLeft: const Radius.circular(30.0),
-              topRight: const Radius.circular(30.0),
-            ),
-          ),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Container(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: Column(
-                  children: [
-                    // Title
-                    Container(height: 20),
-                    titleButton(),
-
-                    // Description
-                    Container(height: 20),
-                    descriptionButton(),
-
-                    // Due date selection
-                    Container(height: 20),
-                    dateTimePicker(),
-
-                    // Subject selection
-                    Container(height: 20),
-                    DropDown(),
-
-                    // Submit button selection
-                    Container(height: 20),
-                    returnButton(),
-
-                    Container(height: 20),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-
-    return result;
   }
 }

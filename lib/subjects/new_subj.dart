@@ -9,7 +9,17 @@ final subjBox = Hive.box("subjBox");
 final _subjName = new TextEditingController();
 final _profName = new TextEditingController();
 var _color = Color(0xffAB47BC);
-Widget newSubj(String profName, String subjName, String color) {
+bool _isNew = true;
+int? _index;
+Widget newSubj(bool isNew, int? index) {
+  if (isNew) {
+  } else {
+    _isNew = isNew;
+    _index = index;
+    _subjName.text = subjBox.getAt(index!).title;
+    _profName.text = subjBox.getAt(index).name;
+    _color = Color(subjBox.getAt(index).color);
+  }
   return Container(
     padding: EdgeInsets.all(10),
     child: Card(
@@ -91,13 +101,25 @@ Widget newSubj(String profName, String subjName, String color) {
                 ElevatedButton(
                   onPressed: () {
                     int _colorInt = _color.value;
-                    subjBox.add(
-                      Subject(
-                        title: _subjName.text,
-                        name: _profName.text,
-                        color: _colorInt,
-                      ),
-                    );
+                    if (_isNew) {
+                      subjBox.add(
+                        Subject(
+                          title: _subjName.text,
+                          name: _profName.text,
+                          color: _colorInt,
+                        ),
+                      );
+                    } else {
+                      subjBox.putAt(
+                        _index!,
+                        Subject(
+                          title: _subjName.text,
+                          name: _profName.text,
+                          color: _colorInt,
+                        ),
+                      );
+                    }
+
                     _subjName.clear();
                     _profName.clear();
                     Get.back();
@@ -117,24 +139,3 @@ Widget newSubj(String profName, String subjName, String color) {
     ),
   );
 }
-
-/*
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    _color,
-                  ),
-                ),
-                onPressed: () async {
-                  print(_color.toString());
-                  
-                  _color = await showColorPickerDialog(
-                    Get.context!,
-                    Colors.purple,
-                  );
-                  Get.forceAppUpdate();
-                },
-                
-                
-                child: Text("Pick a color, any color!"),
-              ),*/

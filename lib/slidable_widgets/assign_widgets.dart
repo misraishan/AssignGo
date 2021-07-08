@@ -12,6 +12,74 @@ final TextEditingController _date = TextEditingController();
 final assignBox = Hive.box('assignBox');
 final subjBox = Hive.box("subjBox");
 
+bool _isNew = true;
+int? _index;
+dynamic assignModal(bool isNew, int? index) {
+  _isNew = isNew;
+  if (isNew) {
+    clearControllers();
+  } else {
+    clearControllers();
+    _index = index;
+    _title.text = assignBox.getAt(index!).title;
+    _desc.text = assignBox.getAt(index).desc;
+    _date.text = assignBox.getAt(index).date;
+  }
+  final result = showModalBottomSheet(
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    enableDrag: true,
+    context: Get.context!,
+    builder: (context) {
+      return Container(
+        decoration: new BoxDecoration(
+          color: Colors.black,
+          borderRadius: new BorderRadius.only(
+            topLeft: const Radius.circular(30.0),
+            topRight: const Radius.circular(30.0),
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Container(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Column(
+                children: [
+                  // Title
+                  Container(height: 20),
+                  titleButton(),
+
+                  // Description
+                  Container(height: 20),
+                  descriptionButton(),
+
+                  // Due date selection
+                  Container(height: 20),
+                  dateTimePicker(),
+
+                  // Subject selection
+                  Container(height: 20),
+                  DropDown(),
+
+                  // Submit button selection
+                  Container(height: 20),
+                  returnButton(),
+
+                  Container(height: 20),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    },
+  );
+
+  return result;
+}
+
 void clearControllers() {
   _title.clear();
   _desc.clear();
@@ -77,7 +145,7 @@ class DropDown extends StatefulWidget {
 
 class _DropDownState extends State<DropDown> {
   final List<String> subjects = [];
-  String _dropDownValue = "";
+  String _dropDownValue = "Choose a subject";
 
   @override
   void initState() {
@@ -86,9 +154,14 @@ class _DropDownState extends State<DropDown> {
       subjects.clear();
       for (int i = 0; i < subjBox.length; i++) {
         subjects.add(subjBox.getAt(i).title);
-        print(subjects[i]);
       }
+    }
+    if (_isNew) {
       _dropDownValue = subjects.first;
+      getSubj(_dropDownValue);
+    } else {
+      _dropDownValue = assignBox.getAt(_index!).subject;
+      getSubj(_dropDownValue);
     }
   }
 
@@ -102,7 +175,6 @@ class _DropDownState extends State<DropDown> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(
-          mainAxisSize: MainAxisSize.max,
           children: [
             Icon(
               Icons.subject,
@@ -175,22 +247,39 @@ Widget returnButton() {
             snackPosition: SnackPosition.BOTTOM,
           );
         } else {
-          assignBox.add(
-            AssignModel(
-              title: _title.text,
-              date: _date.text,
-              desc: _desc.text,
-              notifIDLong: _idLong,
-              notifIDShort: _idShort,
-              subject: finalSubj,
-            ),
-          );
+          if (_isNew) {
+            assignBox.add(
+              AssignModel(
+                title: _title.text,
+                date: _date.text,
+                desc: _desc.text,
+                notifIDLong: _idLong,
+                notifIDShort: _idShort,
+                subject: finalSubj,
+              ),
+            );
+          } else {
+            AwesomeNotifications()
+                .cancel(assignBox.getAt(_index!).notifIDShort);
+            AwesomeNotifications().cancel(assignBox.getAt(_index!).notifIDLong);
+            assignBox.putAt(
+              _index!,
+              AssignModel(
+                title: _title.text,
+                date: _date.text,
+                desc: _desc.text,
+                notifIDLong: _idLong,
+                notifIDShort: _idShort,
+                subject: finalSubj,
+              ),
+            );
+          }
           Get.back();
         }
       }
     },
-    icon: Icon(Icons.add),
-    label: Text("Add assignment"),
+    icon: _isNew ? Icon(Icons.add) : Icon(Icons.edit),
+    label: _isNew ? Text("Add Assignment") : Text("Edit Assignment"),
     style: ElevatedButton.styleFrom(
       primary: Colors.green,
     ),

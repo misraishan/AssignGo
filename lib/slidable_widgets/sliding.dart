@@ -1,4 +1,4 @@
-import 'package:better_assignments/slidable_widgets/editTile.dart';
+import 'package:better_assignments/slidable_widgets/assign_widgets.dart';
 import 'package:better_assignments/slidable_widgets/tiles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -123,7 +123,7 @@ class _SlidingState extends State<Sliding> {
                     ),
                   ),
                   onTap: () async {
-                    await editTile(index);
+                    await assignModal(false, index);
                     setState(() {});
                   },
                 ),
