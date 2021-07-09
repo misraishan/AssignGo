@@ -4,7 +4,6 @@ import 'package:better_assignments/main_tabs/star.dart';
 import 'package:better_assignments/main_tabs/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import '../slidable_widgets/assign_widgets.dart';
 

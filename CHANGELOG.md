@@ -1,0 +1,6 @@
+- Finished up editing assignments and subjects.
+- Added the about page in settings to access the changelog you're seeing now.
+- Fixed some button sizing issues & unified them a bit.
+- When there are no assignments, a large plus button appears on screen to create a new one.
+- Fixed a bug were "Mark as done" wouldn't render properly.
+- Fixed notifications not being made/appearing

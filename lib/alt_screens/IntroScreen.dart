@@ -62,34 +62,47 @@ class _IntroScreenState extends State<IntroScreen> {
                           content: Text(
                               'Do we have your permission to send notifications? We promise it will help!'),
                           actions: [
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context, rootNavigator: true)
-                                    .pop();
-                              },
-                              child: Text("Cancel"),
-                              style: ElevatedButton.styleFrom(
-                                shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(30.0),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pop();
+                                    },
+                                    child: Text("Cancel"),
+                                    style: ElevatedButton.styleFrom(
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(30.0),
+                                      ),
+                                      primary: Colors.red,
+                                    ),
+                                  ),
                                 ),
-                                primary: Colors.red,
-                              ),
-                            ),
-                            ElevatedButton(
-                              autofocus: true,
-                              onPressed: () {
-                                AwesomeNotifications()
-                                    .requestPermissionToSendNotifications();
-                                Navigator.of(context, rootNavigator: true)
-                                    .pop();
-                              },
-                              child: Text('Sure thing!'),
-                              style: ElevatedButton.styleFrom(
-                                shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(30.0),
+                                Container(
+                                  width: 10,
                                 ),
-                                primary: Colors.green,
-                              ),
+                                Expanded(
+                                  child: ElevatedButton(
+                                    autofocus: true,
+                                    onPressed: () {
+                                      AwesomeNotifications()
+                                          .requestPermissionToSendNotifications();
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pop();
+                                    },
+                                    child: Text('Sure thing!'),
+                                    style: ElevatedButton.styleFrom(
+                                      shape: new RoundedRectangleBorder(
+                                        borderRadius:
+                                            new BorderRadius.circular(30.0),
+                                      ),
+                                      primary: Colors.green,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                             Container(width: 5),
                           ],

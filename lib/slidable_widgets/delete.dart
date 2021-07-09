@@ -18,27 +18,38 @@ Widget delete(int index) {
       ),
     ),
     actions: [
-      ElevatedButton(
-        onPressed: () {
-          Get.back();
-        },
-        child: Text("Cancel"),
-        style: ElevatedButton.styleFrom(
-          primary: Colors.red,
-        ),
+      Row(
+        children: [
+          Expanded(
+            child: ElevatedButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text("Cancel"),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.red,
+              ),
+            ),
+          ),
+          Container(width: 10),
+          Expanded(
+            child: ElevatedButton(
+              onPressed: () {
+                AwesomeNotifications()
+                    .cancel(assignBox.getAt(index).notifIDLong);
+                AwesomeNotifications()
+                    .cancel(assignBox.getAt(index).notifIDShort);
+                assignBox.deleteAt(index);
+                Get.back();
+              },
+              child: Text("Confirm"),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.green,
+              ),
+            ),
+          )
+        ],
       ),
-      ElevatedButton(
-        onPressed: () {
-          AwesomeNotifications().cancel(assignBox.getAt(index).notifIDLong);
-          AwesomeNotifications().cancel(assignBox.getAt(index).notifIDShort);
-          assignBox.deleteAt(index);
-          Get.back();
-        },
-        child: Text("Confirm"),
-        style: ElevatedButton.styleFrom(
-          primary: Colors.green,
-        ),
-      )
     ],
   );
 

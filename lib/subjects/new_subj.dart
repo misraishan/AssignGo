@@ -13,6 +13,8 @@ bool _isNew = true;
 int? _index;
 Widget newSubj(bool isNew, int? index) {
   if (isNew) {
+    _subjName.clear();
+    _profName.clear();
   } else {
     _isNew = isNew;
     _index = index;
@@ -25,115 +27,116 @@ Widget newSubj(bool isNew, int? index) {
     child: Card(
       child: Container(
         padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  icon: Icon(Icons.arrow_back),
-                ),
-                Text(
-                  "Create a new subject!",
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Text(
+                  "Create a new subject",
                   style: Theme.of(Get.context!).textTheme.headline6,
                 ),
-              ],
-            ),
-
-            Container(
-                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10)),
-            // Subject name
-            TextField(
-              controller: _subjName,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.subject),
-                labelText: "Subject Name",
               ),
-            ),
-            Container(
-                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10)),
 
-            // Professor/teacher name
-            TextField(
-              controller: _profName,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.grade),
-                labelText: "Teacher name",
+              Container(
+                  padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10)),
+              // Subject name
+              TextField(
+                controller: _subjName,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.subject),
+                  labelText: "Subject Name",
+                ),
               ),
-            ),
+              Container(
+                  padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10)),
 
-            // Color picker
-            Center(
-              child: ColorPicker(
-                pickersEnabled: const <ColorPickerType, bool>{
-                  ColorPickerType.accent: true,
-                  ColorPickerType.primary: false,
-                  ColorPickerType.wheel: true,
-                },
-                showColorCode: true,
-                onColorChanged: (Color color) => _color = color,
+              // Professor/teacher name
+              TextField(
+                controller: _profName,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.grade),
+                  labelText: "Teacher name",
+                ),
               ),
-            ),
 
-            // Submit & Cancels
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    _subjName.clear();
-                    _profName.clear();
-                    Get.back();
+              // Color picker
+              Center(
+                child: ColorPicker(
+                  pickersEnabled: const <ColorPickerType, bool>{
+                    ColorPickerType.accent: true,
+                    ColorPickerType.primary: false,
+                    ColorPickerType.wheel: true,
                   },
-                  child: Text("Cancel"),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                      Colors.red,
+                  //showColorCode: true,
+                  onColorChanged: (Color color) => _color = color,
+                ),
+              ),
+
+              // Submit & Cancels
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: Text("Cancel"),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                          Colors.red,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0)),
-                ElevatedButton(
-                  onPressed: () {
-                    int _colorInt = _color.value;
-                    if (_isNew) {
-                      subjBox.add(
-                        Subject(
-                          title: _subjName.text,
-                          name: _profName.text,
-                          color: _colorInt,
+                  Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 0)),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        int _colorInt = _color.value;
+                        if (_subjName.text.isEmpty) {
+                          Get.snackbar(
+                            "Warning!",
+                            "Title can't be empty.",
+                            backgroundColor: Colors.red,
+                            snackPosition: SnackPosition.BOTTOM,
+                          );
+                        }
+                        if (_isNew) {
+                          subjBox.add(
+                            Subject(
+                              title: _subjName.text,
+                              name: _profName.text,
+                              color: _colorInt,
+                            ),
+                          );
+                        } else {
+                          subjBox.putAt(
+                            _index!,
+                            Subject(
+                              title: _subjName.text,
+                              name: _profName.text,
+                              color: _colorInt,
+                            ),
+                          );
+                        }
+                        Get.back();
+                      },
+                      child: Text("Create"),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                          Colors.green,
                         ),
-                      );
-                    } else {
-                      subjBox.putAt(
-                        _index!,
-                        Subject(
-                          title: _subjName.text,
-                          name: _profName.text,
-                          color: _colorInt,
-                        ),
-                      );
-                    }
-
-                    _subjName.clear();
-                    _profName.clear();
-                    Get.back();
-                  },
-                  child: Text("Create"),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                      Colors.green,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     ),

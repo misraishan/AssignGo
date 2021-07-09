@@ -45,14 +45,14 @@ void main() async {
   // FOR NOTIFICATIONS
   AwesomeNotifications().initialize(
     // set the icon to null if you want to use the default app icon
-    'resource://drawable/app_icon',
+    null,
     [
       NotificationChannel(
         channelKey: 'short',
         channelName: 'short warning',
-        channelDescription: '6 hours before due.',
+        channelDescription: '12 hours before due.',
         enableVibration: true,
-        vibrationPattern: highVibrationPattern,
+        vibrationPattern: mediumVibrationPattern,
       ),
       NotificationChannel(
         channelKey: 'long',

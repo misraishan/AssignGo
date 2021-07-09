@@ -47,8 +47,10 @@ class _SubjectState extends State<Subject> {
 
   Widget _newSubjBuilder() {
     if (subjBox.isEmpty) {
-      return Center(
-        child: newSubj(true, null),
+      return SingleChildScrollView(
+        child: Center(
+          child: newSubj(true, null),
+        ),
       );
     } else {
       return ListView.builder(
@@ -73,23 +75,10 @@ class _SubjectState extends State<Subject> {
                       Text("Delete"),
                     ],
                   ),
-                  onTap: () {
-                    var _subjName = subjBox.getAt(index).title;
-
-                    if (assignBox.isNotEmpty) {
-                      var _assign = "";
-
-                      for (int i = 0; i < assignBox.length; i++) {
-                        _assign = assignBox.getAt(i).subject;
-                        if (_assign.compareTo(_subjName) == 0) {
-                          assignBox.getAt(i).subject = "";
-                        }
-                      }
-                    }
+                  onTap: () async {
+                    Get.to(() => _delete(index));
                     setState(
-                      () {
-                        subjBox.deleteAt(index);
-                      },
+                      () {},
                     );
                   },
                 ),
@@ -158,5 +147,67 @@ class _SubjectState extends State<Subject> {
       subjBox.getAt(index).title,
       style: Theme.of(context).textTheme.headline6,
     );
+  }
+
+  Widget _delete(int index) {
+    final assignBox = Hive.box('assignBox');
+    AlertDialog alert = AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(30.0),
+        ),
+      ),
+      title: Text(
+        "Are you sure you want to delete this subject?",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      actions: [
+        Row(
+          children: [
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: Text("Cancel"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red,
+                ),
+              ),
+            ),
+            Container(width: 10),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+                  var _subjName = subjBox.getAt(index).title;
+
+                  if (assignBox.isNotEmpty) {
+                    var _assign = "";
+
+                    for (int i = 0; i < assignBox.length; i++) {
+                      _assign = assignBox.getAt(i).subject;
+                      if (_assign.compareTo(_subjName) == 0) {
+                        assignBox.getAt(i).subject = "";
+                      }
+                    }
+                  }
+                  subjBox.deleteAt(index);
+                  Get.back();
+                  setState(() {});
+                },
+                child: Text("Confirm"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green,
+                ),
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+
+    return alert;
   }
 }

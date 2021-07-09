@@ -1,3 +1,4 @@
+import 'package:flutter_neat_and_clean_calendar/flutter_neat_and_clean_calendar.dart';
 import 'package:better_assignments/slidable_widgets/assign_widgets.dart';
 import 'package:better_assignments/slidable_widgets/tiles.dart';
 import 'package:flutter/material.dart';
@@ -18,18 +19,51 @@ class Sliding extends StatefulWidget {
 
 class _SlidingState extends State<Sliding> {
   final assignBox = Hive.box("assignBox");
+  final Map<DateTime, List<NeatCleanCalendarEvent>> _events = {};
 
   @override
   Widget build(BuildContext context) {
+    /*
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        SizedBox(
+          child: Calendar(
+            todayColor: Colors.purple,
+            dayBuilder: (BuildContext context, DateTime dayTime) {
+              return Center(child: Text(dayTime.day.toString()));
+            },
+            startOnMonday: true,
+            events: _events,
+            initialDate: DateTime.now(),
+            isExpandable: true,
+          ),
+        ),
+        Flexible(child: _listView()),
+      ],
+    );
+    */
     return _listView();
   }
 
   Widget _listView() {
     if (assignBox.isEmpty) {
       return Center(
-        child: Text("Press + to add an assignment!"),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              onPressed: () {
+                assignModal(true, null);
+              },
+              icon: Icon(Icons.add),
+              iconSize: 100,
+            ),
+            Text("Add a new assignment!"),
+          ],
+        ),
       );
-    } else
+    } else {
       return ListView.builder(
         itemCount: assignBox.length,
         itemBuilder: (BuildContext context, int index) {
@@ -85,7 +119,9 @@ class _SlidingState extends State<Sliding> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.check_box),
-                      Flexible(child: Text("Mark as done")),
+                      Flexible(
+                        child: Text("Mark as done"),
+                      ),
                     ],
                   ),
                   decoration: BoxDecoration(
@@ -155,5 +191,6 @@ class _SlidingState extends State<Sliding> {
           );
         },
       );
+    }
   }
 }

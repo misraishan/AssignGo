@@ -145,7 +145,7 @@ class DropDown extends StatefulWidget {
 
 class _DropDownState extends State<DropDown> {
   final List<String> subjects = [];
-  String _dropDownValue = "Choose a subject";
+  String? _dropDownValue = "Choose a subject";
 
   @override
   void initState() {
@@ -157,11 +157,15 @@ class _DropDownState extends State<DropDown> {
       }
     }
     if (_isNew) {
-      _dropDownValue = subjects.first;
-      getSubj(_dropDownValue);
+      if (subjects.isEmpty) {
+        _dropDownValue = null;
+      } else {
+        _dropDownValue = subjects.first;
+        getSubj(_dropDownValue!);
+      }
     } else {
       _dropDownValue = assignBox.getAt(_index!).subject;
-      getSubj(_dropDownValue);
+      getSubj(_dropDownValue!);
     }
   }
 
@@ -201,7 +205,7 @@ class _DropDownState extends State<DropDown> {
                     setState(
                       () {
                         _dropDownValue = newValue!;
-                        getSubj(_dropDownValue);
+                        getSubj(_dropDownValue!);
                       },
                     );
                   },
@@ -215,7 +219,7 @@ class _DropDownState extends State<DropDown> {
   }
 }
 
-String finalSubj = "";
+String? finalSubj = "";
 void getSubj(String subject) {
   finalSubj = subject;
 }
@@ -255,7 +259,7 @@ Widget returnButton() {
                 desc: _desc.text,
                 notifIDLong: _idLong,
                 notifIDShort: _idShort,
-                subject: finalSubj,
+                subject: finalSubj!,
               ),
             );
           } else {
@@ -270,7 +274,7 @@ Widget returnButton() {
                 desc: _desc.text,
                 notifIDLong: _idLong,
                 notifIDShort: _idShort,
-                subject: finalSubj,
+                subject: finalSubj!,
               ),
             );
           }
@@ -288,12 +292,13 @@ Widget returnButton() {
 
 void notifID(DateTime _dateDue, int _idLong, int _idShort) {
   final DateTime _longDur = _dateDue.subtract(Duration(hours: 24));
-  final DateTime _shortDur = _dateDue.subtract(Duration(hours: 6));
-  // Create first notification (12 hrs from deadline)
+  final DateTime _shortDur = _dateDue.subtract(Duration(hours: 12));
+
+// Long notification refers to 24 hrs before deadline, short to 12 hrs
   AwesomeNotifications().createNotification(
     content: NotificationContent(
       id: _idLong,
-      channelKey: '24hr',
+      channelKey: 'long',
       title: _title.text,
       body: _desc.text,
       displayOnBackground: true,
@@ -311,7 +316,7 @@ void notifID(DateTime _dateDue, int _idLong, int _idShort) {
   AwesomeNotifications().createNotification(
     content: NotificationContent(
       id: _idShort,
-      channelKey: '24hr',
+      channelKey: 'short',
       title: _title.text,
       body: _desc.text,
       displayOnBackground: true,
