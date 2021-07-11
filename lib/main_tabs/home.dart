@@ -1,3 +1,4 @@
+import 'package:better_assignments/alt_screens/schedule/schedule_home.dart';
 import 'package:better_assignments/slidable_widgets/sliding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -51,7 +52,7 @@ class _HomeState extends State<Home> {
                 snackPosition: SnackPosition.BOTTOM,
                 borderRadius: 30,
               );
-              // Get.to(() => ScheduleHome());
+              //  Get.to(() => Schedule());
             },
             icon: Icon(Icons.calendar_today),
           ),

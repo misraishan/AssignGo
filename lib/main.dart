@@ -37,6 +37,7 @@ void main() async {
   // Open new box, subjBox for subjects, assignBox for assignments
   await Hive.openBox("subjBox");
   await Hive.openBox("assignBox");
+  await Hive.openBox("prefs");
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   initScreen = prefs.getInt("initScreen");
@@ -80,15 +81,70 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  final _themeBox = Hive.box("prefs");
+
   // Contains all necessary routes + theme related stuff
   @override
   Widget build(BuildContext context) {
+    final _isDark = _themeBox.get('isDark', defaultValue: true);
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Better Assignments',
-      //themeMode: ThemeMode.system,
+      title: 'AssignGo',
       defaultTransition: Transition.upToDown,
       theme: ThemeData(
+        brightness: Brightness.light,
+        canvasColor: Colors.grey[100],
+        // TimePicker theme
+        timePickerTheme: TimePickerThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+        // Bottom Sheet theme
+        bottomSheetTheme: BottomSheetThemeData(
+          backgroundColor: Colors.transparent,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(30.0),
+            ),
+          ),
+        ),
+        // Text Themes
+        primaryTextTheme: TextTheme(
+          headline6: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+          bodyText1: TextStyle(
+            color: Colors.blue,
+            fontSize: 12,
+          ),
+        ),
+        // Appbar theme
+        appBarTheme: AppBarTheme(
+          centerTitle: false,
+          color: Colors.transparent,
+          elevation: 0,
+          titleSpacing: 0.0,
+        ),
+        // Card theme
+        cardTheme: CardTheme(
+          color: Colors.blue[100],
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(30.0),
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          border: new OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+      ),
+      themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
+      darkTheme: ThemeData(
         brightness: Brightness.dark,
         canvasColor: Colors.grey[900],
         // TimePicker theme
@@ -98,7 +154,9 @@ class MyApp extends StatelessWidget {
           ),
         ),
         // Bottom Sheet theme
-        bottomSheetTheme: BottomSheetThemeData(),
+        bottomSheetTheme: BottomSheetThemeData(
+          backgroundColor: Colors.transparent,
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
@@ -106,7 +164,6 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-
         // Text Themes
         primaryTextTheme: TextTheme(
           headline6: TextStyle(
@@ -133,14 +190,12 @@ class MyApp extends StatelessWidget {
             borderRadius: new BorderRadius.circular(30.0),
           ),
         ),
-
         inputDecorationTheme: InputDecorationTheme(
           border: new OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
           ),
         ),
       ),
-
       initialRoute: initScreen == 0 || initScreen == null ? "/intro" : "/",
       routes: {
         "/": (context) => TabView(),

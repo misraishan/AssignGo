@@ -1,3 +1,4 @@
+import 'package:better_assignments/alt_screens/settings/theme.dart';
 import 'package:better_assignments/subjects/subject.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,33 +21,6 @@ class Settings extends StatelessWidget {
       ),
       body: Column(
         children: [
-          /*
-          Container(
-            height: 100,
-            padding: EdgeInsets.all(10),
-            child: InkWell(
-              onTap: () {
-                /*Get.changeTheme(
-                  Get.isDarkMode ? ThemeData() : ThemeData(),
-                );
-                print("Theme");*/
-              },
-              child: Card(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.color_lens),
-                    Container(width: 10),
-                    Text(
-                      "Theme",
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          */
           InkWell(
             child: Container(
               height: 100,
@@ -66,6 +40,28 @@ class Settings extends StatelessWidget {
               ),
             ),
             onTap: () => Get.to(() => Subject()),
+          ),
+
+          // Theming Page
+          InkWell(
+            child: Container(
+              height: 100,
+              padding: EdgeInsets.all(10),
+              child: Card(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.palette_outlined),
+                    Container(width: 10),
+                    Text(
+                      "Theme",
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            onTap: () => Get.to(() => ThemeEngine()),
           ),
 
           // Show About Page

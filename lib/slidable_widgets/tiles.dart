@@ -15,7 +15,8 @@ Widget tiles(int index) {
   final assignBox = Hive.box("assignBox");
   final subjBox = Hive.box("subjBox");
 
-  Color _color = Color(0xff303030);
+  Color _color;
+  Get.isDarkMode ? _color = Color(0xff303030) : _color = Color(0xffd6d6d6);
   int _colorInt = 255;
 
   for (int i = 0; i < subjBox.length; i++) {
@@ -38,7 +39,7 @@ Widget tiles(int index) {
               assignBox.getAt(index).isStar ? _starIcon : _assignIcon,
               Container(width: 10),
               Expanded(
-                child: Text(
+                child: SelectableText(
                   assignBox.getAt(index).title,
                   style: Get.context!.textTheme.headline6,
                 ),
@@ -54,9 +55,14 @@ Widget tiles(int index) {
               Container(width: 45),
               Text(
                 assignBox.getAt(index).date,
-                style: Get.context!.textTheme.bodyText1,
+                style: Theme.of(Get.context!).textTheme.caption,
               ),
-              Text(" || ${assignBox.getAt(index).subject}")
+              assignBox.getAt(index).subject != ""
+                  ? Text(
+                      " || ${assignBox.getAt(index).subject}",
+                      style: Theme.of(Get.context!).textTheme.caption,
+                    )
+                  : Container(),
             ],
           ),
           Container(
@@ -65,7 +71,12 @@ Widget tiles(int index) {
           Row(
             children: [
               Container(width: 45),
-              Expanded(child: Text(assignBox.getAt(index).desc)),
+              Expanded(
+                child: SelectableText(
+                  assignBox.getAt(index).desc,
+                  style: Theme.of(Get.context!).textTheme.bodyText1,
+                ),
+              ),
             ],
           ),
         ],

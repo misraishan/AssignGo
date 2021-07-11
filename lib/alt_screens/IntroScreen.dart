@@ -146,9 +146,7 @@ class _IntroScreenState extends State<IntroScreen> {
     ),
     PageViewModel(
       titleWidget: newSubj(true, null),
-      //title: "You can sort by subjects, and color code all your assignments!",
       body: "Create a subject here:",
-      //bodyWidget: newSubj()
     ),
     PageViewModel(
       image: Image.asset("images/Slidables.png"),

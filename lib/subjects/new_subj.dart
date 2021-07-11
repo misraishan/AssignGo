@@ -8,11 +8,12 @@ import 'package:get/get.dart';
 final subjBox = Hive.box("subjBox");
 final _subjName = new TextEditingController();
 final _profName = new TextEditingController();
-var _color = Color(0xffAB47BC);
+var _color;
 bool _isNew = true;
 int? _index;
 Widget newSubj(bool isNew, int? index) {
   if (isNew) {
+    _color = Color(0xffAB47BC);
     _subjName.clear();
     _profName.clear();
   } else {
@@ -63,12 +64,12 @@ Widget newSubj(bool isNew, int? index) {
               // Color picker
               Center(
                 child: ColorPicker(
+                  color: _color,
                   pickersEnabled: const <ColorPickerType, bool>{
                     ColorPickerType.accent: true,
                     ColorPickerType.primary: false,
                     ColorPickerType.wheel: true,
                   },
-                  //showColorCode: true,
                   onColorChanged: (Color color) => _color = color,
                 ),
               ),
@@ -106,6 +107,7 @@ Widget newSubj(bool isNew, int? index) {
                           );
                         }
                         if (_isNew) {
+                          print(_isNew);
                           subjBox.add(
                             Subject(
                               title: _subjName.text,

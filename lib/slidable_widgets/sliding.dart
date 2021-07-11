@@ -1,4 +1,3 @@
-import 'package:flutter_neat_and_clean_calendar/flutter_neat_and_clean_calendar.dart';
 import 'package:better_assignments/slidable_widgets/assign_widgets.dart';
 import 'package:better_assignments/slidable_widgets/tiles.dart';
 import 'package:flutter/material.dart';
@@ -19,30 +18,9 @@ class Sliding extends StatefulWidget {
 
 class _SlidingState extends State<Sliding> {
   final assignBox = Hive.box("assignBox");
-  final Map<DateTime, List<NeatCleanCalendarEvent>> _events = {};
 
   @override
   Widget build(BuildContext context) {
-    /*
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        SizedBox(
-          child: Calendar(
-            todayColor: Colors.purple,
-            dayBuilder: (BuildContext context, DateTime dayTime) {
-              return Center(child: Text(dayTime.day.toString()));
-            },
-            startOnMonday: true,
-            events: _events,
-            initialDate: DateTime.now(),
-            isExpandable: true,
-          ),
-        ),
-        Flexible(child: _listView()),
-      ],
-    );
-    */
     return _listView();
   }
 
@@ -119,9 +97,7 @@ class _SlidingState extends State<Sliding> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.check_box),
-                      Flexible(
-                        child: Text("Mark as done"),
-                      ),
+                      Text("Mark as done", textAlign: TextAlign.center),
                     ],
                   ),
                   decoration: BoxDecoration(

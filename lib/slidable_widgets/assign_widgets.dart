@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:nanoid/nanoid.dart';
 
 final TextEditingController _title = TextEditingController();
 final TextEditingController _desc = TextEditingController();
 final TextEditingController _date = TextEditingController();
 final assignBox = Hive.box('assignBox');
 final subjBox = Hive.box("subjBox");
+final prefs = Hive.box("prefs");
 
 bool _isNew = true;
 int? _index;
@@ -152,6 +152,7 @@ class _DropDownState extends State<DropDown> {
     super.initState();
     if (subjBox.isNotEmpty) {
       subjects.clear();
+      subjects.add("Choose a subject");
       for (int i = 0; i < subjBox.length; i++) {
         subjects.add(subjBox.getAt(i).title);
       }
@@ -164,8 +165,15 @@ class _DropDownState extends State<DropDown> {
         getSubj(_dropDownValue!);
       }
     } else {
-      _dropDownValue = assignBox.getAt(_index!).subject;
-      getSubj(_dropDownValue!);
+      if (subjBox.isNotEmpty) {
+        print(assignBox.getAt(_index!).subject);
+        if (assignBox.getAt(_index!).subject == "") {
+          _dropDownValue = subjects.first;
+        } else {
+          _dropDownValue = assignBox.getAt(_index!).subject;
+          getSubj(_dropDownValue!);
+        }
+      }
     }
   }
 
@@ -204,8 +212,13 @@ class _DropDownState extends State<DropDown> {
                   onChanged: (String? newValue) {
                     setState(
                       () {
-                        _dropDownValue = newValue!;
-                        getSubj(_dropDownValue!);
+                        if (newValue != subjects.first) {
+                          _dropDownValue = newValue!;
+                          getSubj(_dropDownValue!);
+                        } else {
+                          _dropDownValue = subjects.first;
+                          getSubj("");
+                        }
                       },
                     );
                   },
@@ -235,13 +248,7 @@ Widget returnButton() {
           snackPosition: SnackPosition.BOTTOM,
         );
       } else {
-        // Generates a new number 9 digits long.
         // Converts _date.text to DateTime to use for schedule notifications
-        int _idLong = int.parse(customAlphabet('1234567890', 9));
-        int _idShort = int.parse(customAlphabet('1234567890', 9));
-        DateTime _dateDue = DateTime.parse(_date.text);
-
-        notifID(_dateDue, _idLong, _idShort);
 
         if (_title.text.isEmpty) {
           Get.snackbar(
@@ -252,6 +259,11 @@ Widget returnButton() {
           );
         } else {
           if (_isNew) {
+            int _idLong = prefs.get("notifID", defaultValue: 0);
+            int _idShort = _idLong + 1;
+            prefs.put("notifID", _idLong + 2);
+            DateTime _dateDue = DateTime.parse(_date.text);
+            notifID(_dateDue, _idLong, _idShort);
             assignBox.add(
               AssignModel(
                 title: _title.text,
@@ -266,6 +278,10 @@ Widget returnButton() {
             AwesomeNotifications()
                 .cancel(assignBox.getAt(_index!).notifIDShort);
             AwesomeNotifications().cancel(assignBox.getAt(_index!).notifIDLong);
+            int _idLong = assignBox.getAt(_index!).notifIDLong;
+            int _idShort = assignBox.getAt(_index!).notifIDShort;
+            DateTime _dateDue = DateTime.parse(_date.text);
+            notifID(_dateDue, _idLong, _idShort);
             assignBox.putAt(
               _index!,
               AssignModel(
