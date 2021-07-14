@@ -9,14 +9,13 @@ Widget tiles(int index) {
   );
   final Icon _assignIcon = Icon(
     Icons.assignment,
-    color: Colors.white,
   );
 
   final assignBox = Hive.box("assignBox");
   final subjBox = Hive.box("subjBox");
 
   Color _color;
-  Get.isDarkMode ? _color = Color(0xff303030) : _color = Color(0xffd6d6d6);
+  Get.isDarkMode ? _color = Color(0xff303030) : _color = Colors.white;
   int _colorInt = 255;
 
   for (int i = 0; i < subjBox.length; i++) {

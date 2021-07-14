@@ -8,20 +8,18 @@ import 'package:get/get.dart';
 final subjBox = Hive.box("subjBox");
 final _subjName = new TextEditingController();
 final _profName = new TextEditingController();
-var _color;
+var _color = Color(0xffAB47BC);
 bool _isNew = true;
 int? _index;
 Widget newSubj(bool isNew, int? index) {
-  if (isNew) {
-    _color = Color(0xffAB47BC);
-    _subjName.clear();
-    _profName.clear();
-  } else {
+  if (!isNew) {
     _isNew = isNew;
     _index = index;
     _subjName.text = subjBox.getAt(index!).title;
     _profName.text = subjBox.getAt(index).name;
     _color = Color(subjBox.getAt(index).color);
+  } else {
+    _isNew = isNew;
   }
   return Container(
     padding: EdgeInsets.all(10),
@@ -81,6 +79,9 @@ Widget newSubj(bool isNew, int? index) {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
+                        _subjName.clear();
+                        _profName.clear();
+                        _color = Color(0xffAB47BC);
                         Get.back();
                       },
                       child: Text("Cancel"),
@@ -107,7 +108,6 @@ Widget newSubj(bool isNew, int? index) {
                           );
                         }
                         if (_isNew) {
-                          print(_isNew);
                           subjBox.add(
                             Subject(
                               title: _subjName.text,
@@ -115,6 +115,9 @@ Widget newSubj(bool isNew, int? index) {
                               color: _colorInt,
                             ),
                           );
+                          _subjName.clear();
+                          _profName.clear();
+                          _color = Color(0xffAB47BC);
                         } else {
                           subjBox.putAt(
                             _index!,
@@ -124,6 +127,9 @@ Widget newSubj(bool isNew, int? index) {
                               color: _colorInt,
                             ),
                           );
+                          _subjName.clear();
+                          _profName.clear();
+                          _color = Color(0xffAB47BC);
                         }
                         Get.back();
                       },

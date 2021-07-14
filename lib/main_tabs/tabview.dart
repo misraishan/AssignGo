@@ -4,6 +4,7 @@ import 'package:better_assignments/main_tabs/star.dart';
 import 'package:better_assignments/main_tabs/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/utils.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import '../slidable_widgets/assign_widgets.dart';
 
@@ -15,11 +16,9 @@ class TabView extends StatefulWidget {
 class _TabViewState extends State<TabView> {
   PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
-  var prefs;
-  int count = 0;
   @override
   Widget build(BuildContext context) {
-    return _tabView();
+    return context.isPhone ? _tabView() : Home();
   }
 
   Widget _tabView() {

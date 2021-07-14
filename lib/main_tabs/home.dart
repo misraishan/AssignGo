@@ -1,4 +1,4 @@
-import 'package:better_assignments/alt_screens/schedule/schedule_home.dart';
+import 'package:better_assignments/main_tabs/Drawer/drawer.dart';
 import 'package:better_assignments/slidable_widgets/sliding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -13,53 +13,24 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // Creates box to store the assignments & subjects
   final assignBox = Hive.box('assignBox');
-  final subjBox = Hive.box('subjBox');
-
-  // Controls radius of borders for the panel when shown
-  BorderRadiusGeometry radius = BorderRadius.only(
-    topLeft: Radius.circular(30.0),
-    topRight: Radius.circular(30.0),
-  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: context.isPhone ? homeDrawer() : null,
       appBar: AppBar(
         leading: Icon(
           Icons.home,
           size: 30,
           color: Colors.purple,
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Get.snackbar(
-                "Future update 😉",
-                "Coming soon...",
-                snackPosition: SnackPosition.BOTTOM,
-                borderRadius: 30,
-                barBlur: 20,
-              );
-            },
-            icon: Icon(Icons.subject),
-          ),
-          IconButton(
-            onPressed: () {
-              Get.snackbar(
-                "Future update 😉",
-                "Coming soon...",
-                barBlur: 20,
-                snackPosition: SnackPosition.BOTTOM,
-                borderRadius: 30,
-              );
-              //  Get.to(() => Schedule());
-            },
-            icon: Icon(Icons.calendar_today),
-          ),
-        ],
         title: Text("Assignments"),
       ),
-      body: _listItem(),
+      body: context.isPhone
+          ? _listItem()
+          : Row(
+              children: [homeDrawer(), Expanded(child: _listItem())],
+            ),
     );
   }
 

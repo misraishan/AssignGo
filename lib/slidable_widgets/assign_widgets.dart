@@ -33,7 +33,9 @@ dynamic assignModal(bool isNew, int? index) {
     builder: (context) {
       return Container(
         decoration: new BoxDecoration(
-          color: Colors.black,
+          color: prefs.get("isDark", defaultValue: true)
+              ? Colors.black
+              : Colors.white,
           borderRadius: new BorderRadius.only(
             topLeft: const Radius.circular(30.0),
             topRight: const Radius.circular(30.0),
@@ -90,9 +92,6 @@ Widget titleButton() {
   return TextField(
     controller: _title,
     decoration: InputDecoration(
-      border: new OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30),
-      ),
       prefixIcon: Icon(Icons.assignment),
       labelText: "Assignment name",
     ),
@@ -111,9 +110,6 @@ Widget dateTimePicker() {
     decoration: InputDecoration(
       labelText: "Due Date & time",
       prefixIcon: Icon(Icons.calendar_today),
-      border: new OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30),
-      ),
     ),
     onChanged: (val) {
       _date.text = val;
@@ -129,9 +125,6 @@ Widget descriptionButton() {
     maxLines: 3,
     textInputAction: TextInputAction.newline,
     decoration: InputDecoration(
-      border: new OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30),
-      ),
       prefixIcon: Icon(Icons.assignment),
       labelText: "Description",
     ),
@@ -166,9 +159,9 @@ class _DropDownState extends State<DropDown> {
       }
     } else {
       if (subjBox.isNotEmpty) {
-        print(assignBox.getAt(_index!).subject);
         if (assignBox.getAt(_index!).subject == "") {
           _dropDownValue = subjects.first;
+          getSubj(_dropDownValue!);
         } else {
           _dropDownValue = assignBox.getAt(_index!).subject;
           getSubj(_dropDownValue!);
@@ -212,13 +205,8 @@ class _DropDownState extends State<DropDown> {
                   onChanged: (String? newValue) {
                     setState(
                       () {
-                        if (newValue != subjects.first) {
-                          _dropDownValue = newValue!;
-                          getSubj(_dropDownValue!);
-                        } else {
-                          _dropDownValue = subjects.first;
-                          getSubj("");
-                        }
+                        _dropDownValue = newValue!;
+                        getSubj(_dropDownValue!);
                       },
                     );
                   },
@@ -234,6 +222,9 @@ class _DropDownState extends State<DropDown> {
 
 String? finalSubj = "";
 void getSubj(String subject) {
+  if (subject.compareTo("Choose a subject") == 0) {
+    subject = "";
+  }
   finalSubj = subject;
 }
 
@@ -291,6 +282,8 @@ Widget returnButton() {
                 notifIDLong: _idLong,
                 notifIDShort: _idShort,
                 subject: finalSubj!,
+                isComplete: assignBox.getAt(_index!).isComplete,
+                isStar: assignBox.getAt(_index!).isStar,
               ),
             );
           }

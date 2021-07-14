@@ -10,9 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-int? initScreen = 0;
 void main() async {
   // Set path for storage and initalize Hive directory
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,10 +36,6 @@ void main() async {
   await Hive.openBox("subjBox");
   await Hive.openBox("assignBox");
   await Hive.openBox("prefs");
-
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  initScreen = prefs.getInt("initScreen");
-  await prefs.setInt("initScreen", 1);
 
   // FOR NOTIFICATIONS
   AwesomeNotifications().initialize(
@@ -81,19 +75,17 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final _themeBox = Hive.box("prefs");
+  final prefs = Hive.box("prefs");
 
   // Contains all necessary routes + theme related stuff
   @override
   Widget build(BuildContext context) {
-    final _isDark = _themeBox.get('isDark', defaultValue: true);
+    final _isDark = prefs.get('isDark', defaultValue: true);
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'AssignGo',
       defaultTransition: Transition.upToDown,
-      theme: ThemeData(
-        brightness: Brightness.light,
-        canvasColor: Colors.grey[100],
+      theme: ThemeData.light().copyWith(
         // TimePicker theme
         timePickerTheme: TimePickerThemeData(
           shape: RoundedRectangleBorder(
@@ -115,6 +107,7 @@ class MyApp extends StatelessWidget {
         primaryTextTheme: TextTheme(
           headline6: TextStyle(
             fontWeight: FontWeight.bold,
+            color: Colors.black,
             fontSize: 24,
           ),
           bodyText1: TextStyle(
@@ -122,8 +115,11 @@ class MyApp extends StatelessWidget {
             fontSize: 12,
           ),
         ),
+        iconTheme: IconThemeData(color: Colors.black),
         // Appbar theme
         appBarTheme: AppBarTheme(
+          iconTheme: IconThemeData(color: Colors.black),
+          actionsIconTheme: IconThemeData(color: Colors.black),
           centerTitle: false,
           color: Colors.transparent,
           elevation: 0,
@@ -131,8 +127,7 @@ class MyApp extends StatelessWidget {
         ),
         // Card theme
         cardTheme: CardTheme(
-          color: Colors.blue[100],
-          elevation: 0,
+          elevation: 15,
           shape: RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(30.0),
           ),
@@ -196,7 +191,8 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: initScreen == 0 || initScreen == null ? "/intro" : "/",
+      initialRoute:
+          prefs.get("firstLaunch", defaultValue: 0) == 0 ? "/intro" : "/",
       routes: {
         "/": (context) => TabView(),
         "/home": (context) => Home(),

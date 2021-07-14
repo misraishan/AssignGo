@@ -13,6 +13,8 @@ class IntroScreen extends StatefulWidget {
 
 class _IntroScreenState extends State<IntroScreen> {
   final assignBox = Hive.box("assignBox");
+  final prefs = Hive.box("prefs");
+
   String formattedDate = "";
   DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -23,6 +25,7 @@ class _IntroScreenState extends State<IntroScreen> {
 
   @override
   Widget build(BuildContext context) {
+    prefs.put("firstLaunch", 1);
     _dateNow();
     return Scaffold(
       body: Center(

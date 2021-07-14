@@ -1,3 +1,13 @@
+# 0.2.0:
+## **The sorting update :D**
+- You can now sort by the subjects you've created with the sort button from the Home tab!
+
+## Bug fixes  & misc galore
+- Fixed a bug where after editing an assignment, staring or completing the assignment would be reset.
+- Fixed a bug where using "Choose a subject" would say that in the assignment, as opposed to being a null value.
+- Light theme is complete! Take a screenshot to send feedback (through testflight) if you have more suggestions.
+- Fixed a bug where you could no longer make subjects... *how*
+
 # 0.1.3:
 **Plenty bug fixes this week, but also the basic functions are pretty much complete! Woohoo!**
 

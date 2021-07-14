@@ -10,7 +10,12 @@ import 'delete.dart';
 class Sliding extends StatefulWidget {
   final bool isComp;
   final bool isStar;
-  Sliding({required this.isComp, required this.isStar});
+  final String subjSelect;
+  Sliding({
+    required this.isComp,
+    required this.isStar,
+    this.subjSelect = "",
+  });
 
   @override
   _SlidingState createState() => _SlidingState();
@@ -18,6 +23,7 @@ class Sliding extends StatefulWidget {
 
 class _SlidingState extends State<Sliding> {
   final assignBox = Hive.box("assignBox");
+  final subjBox = Hive.box("subjBox");
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +65,16 @@ class _SlidingState extends State<Sliding> {
             return SizedBox.shrink();
           }
 
+          if (widget.subjSelect.compareTo("") == 0) {
+          } else {
+            for (int i = 0; i < subjBox.length; i++) {
+              String assignSubj = assignBox.getAt(index).subject;
+              if (widget.subjSelect.compareTo(assignSubj) == 0) {
+              } else {
+                return SizedBox.shrink();
+              }
+            }
+          }
           return Padding(
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
             child: Slidable(

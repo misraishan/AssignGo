@@ -25,13 +25,14 @@ class _ThemeEngineState extends State<ThemeEngine> {
         title: Row(
           children: [
             Icon(Icons.palette_outlined),
+            Container(width: 5),
             Text("Theming"),
           ],
         ),
       ),
       body: Column(
         children: [
-          Text(
+          /*  Text(
             "Warning! This is experimental right now!\nIt may cause bugs.",
             style: TextStyle(
               color: Colors.red,
@@ -40,8 +41,9 @@ class _ThemeEngineState extends State<ThemeEngine> {
             ),
             textAlign: TextAlign.center,
           ),
+          */
           SwitchListTile(
-            title: Text("Lights"),
+            title: _isDark ? Text("Dark theme") : Text("Light Theme"),
             secondary: _isDark ? Icon(Icons.dark_mode) : Icon(Icons.light_mode),
             value: _isDark,
             onChanged: (value) {
