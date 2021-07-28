@@ -1,3 +1,22 @@
+# Release 1.0!
+Finally moving on into release! There will continue to be updates, but the base app is ready and stable :D
+## Changes:
+- Fixed a lot of bugs
+    - (A **LOT** of bugs)
+- Made a lot of continuity changes, such as un-prioritizing and marking as incomplete!
+- Added a notification tab for iOS users to reenable notifications if they cancelled it on first launch.
+- Fixed a few visual bugs
+- Finished light theme
+- Made it so that first time subject creation doesn't kick you out of the page
+- Made it more intuitive to create assignments and subjects
+- Finished up the sorting drawer (top left of home)
+- Finished up starring assigments
+    - Now it sends notifications 2 days before the deadline! Get that work done
+- Removed the clunky/unfinished startup screen and made it a lot easier from the getgo
+- Made it so that notifications can be reenabled from the app if you decide you want it at a later date (mostly for ios users)
+- Added a new subject field for the teacher/professor email, now you won't lose their contact info!
+- Fixed more bugs
+
 # 0.2.0:
 ## **The sorting update :D**
 - You can now sort by the subjects you've created with the sort button from the Home tab!

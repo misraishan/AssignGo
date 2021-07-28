@@ -24,165 +24,215 @@ class Sliding extends StatefulWidget {
 class _SlidingState extends State<Sliding> {
   final assignBox = Hive.box("assignBox");
   final subjBox = Hive.box("subjBox");
+  int count = 0;
 
   @override
   Widget build(BuildContext context) {
-    return _listView();
+    _checkCompletePlusButton();
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 32.5),
+      child:
+          (assignBox.isEmpty || (count == assignBox.length && !widget.isComp))
+              ? _plusButton()
+              : SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _listView(),
+                      Container(height: Get.height / 5),
+                      _checkPlusButton()
+                    ],
+                  ),
+                ),
+    );
+  }
+
+  void _checkCompletePlusButton() {
+    count = 0;
+    for (int index = 0; index < assignBox.length; index++) {
+      if (assignBox.getAt(index).isComplete) count++;
+    }
+  }
+
+  Widget _checkPlusButton() {
+    if (assignBox.isNotEmpty &&
+        widget.isComp == false &&
+        widget.isStar == false) {
+      return _plusButton();
+    } else {
+      return SizedBox.shrink();
+    }
+  }
+
+  Widget _plusButton() {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            onPressed: () async {
+              if (widget.subjSelect != "") {
+                print("hi");
+                await assignModal(true, null, widget.subjSelect);
+              } else
+                await assignModal(true, null, "");
+              setState(() {});
+            },
+            icon: Icon(Icons.add),
+            iconSize: 100,
+          ),
+          Text("Add a new assignment!"),
+        ],
+      ),
+    );
   }
 
   Widget _listView() {
-    if (assignBox.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              onPressed: () {
-                assignModal(true, null);
-              },
-              icon: Icon(Icons.add),
-              iconSize: 100,
-            ),
-            Text("Add a new assignment!"),
-          ],
-        ),
-      );
-    } else {
-      return ListView.builder(
-        itemCount: assignBox.length,
-        itemBuilder: (BuildContext context, int index) {
-          if (widget.isComp == true &&
-              assignBox.getAt(index).isComplete == true &&
-              widget.isStar == false) {
-          } else if (widget.isComp == false &&
-              assignBox.getAt(index).isComplete == false &&
-              widget.isStar == false) {
-          } else if (widget.isComp == false &&
-              assignBox.getAt(index).isComplete == false &&
-              widget.isStar == true &&
-              assignBox.getAt(index).isStar) {
-          } else {
-            return SizedBox.shrink();
-          }
-
-          if (widget.subjSelect.compareTo("") == 0) {
-          } else {
-            for (int i = 0; i < subjBox.length; i++) {
-              String assignSubj = assignBox.getAt(index).subject;
-              if (widget.subjSelect.compareTo(assignSubj) == 0) {
-              } else {
-                return SizedBox.shrink();
-              }
+    return ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: assignBox.length,
+      itemBuilder: (BuildContext context, int index) {
+        final bool _isComp = assignBox.getAt(index).isComplete;
+        final bool _isStar = assignBox.getAt(index).isStar;
+        if (widget.isComp == true &&
+            _isComp == true &&
+            widget.isStar == false) {
+        } else if (widget.isComp == false &&
+            _isComp == false &&
+            widget.isStar == false) {
+        } else if (widget.isComp == false &&
+            _isComp == false &&
+            widget.isStar == true &&
+            _isStar) {
+        } else {
+          return SizedBox.shrink();
+        }
+        if (widget.subjSelect.compareTo("") == 0) {
+        } else {
+          for (int i = 0; i < subjBox.length; i++) {
+            String assignSubj = assignBox.getAt(index).subject;
+            if (widget.subjSelect.compareTo(assignSubj) == 0) {
+            } else {
+              return SizedBox.shrink();
             }
           }
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-            child: Slidable(
-              actionPane: SlidableDrawerActionPane(),
-              closeOnScroll: true,
+        }
 
-              // Favourite slide action
-              actions: [
-                SlideAction(
-                  decoration: BoxDecoration(
-                    color: Colors.amber,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30.0),
-                      topLeft: Radius.circular(30.0),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.star),
-                      Flexible(child: Text("Prioritize")),
-                    ],
-                  ),
-                  onTap: () {
-                    setState(
-                      () {
-                        Bools().isStar(index);
-                      },
-                    );
-                  },
-                ),
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+          child: Slidable(
+            actionPane: SlidableDrawerActionPane(),
+            closeOnScroll: true,
 
-                // Mark as done slidable
-                SlideAction(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.check_box),
-                      Text("Mark as done", textAlign: TextAlign.center),
-                    ],
+            // Favourite slide action
+            actions: [
+              SlideAction(
+                decoration: BoxDecoration(
+                  color: Colors.amber,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30.0),
+                    topLeft: Radius.circular(30.0),
                   ),
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.horizontal(
-                      left: Radius.circular(0),
-                      right: Radius.circular(30),
-                    ),
-                  ),
-                  onTap: () {
-                    setState(
-                      () {
-                        Bools().isComp(index);
-                      },
-                    );
-                  },
                 ),
-              ],
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _isStar
+                        ? Icon(Icons.star)
+                        : Icon(Icons.star_border_outlined),
+                    _isStar
+                        ? Text("Un-prioritize", textAlign: TextAlign.center)
+                        : Text("Prioritize", textAlign: TextAlign.center),
+                  ],
+                ),
+                onTap: () {
+                  setState(
+                    () {
+                      Bools().isStar(index);
+                    },
+                  );
+                },
+              ),
 
-              // Edit slide action
-              secondaryActions: [
-                SlideAction(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.edit),
-                      Flexible(child: Text("Edit")),
-                    ],
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.purple,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30.0),
-                      topLeft: Radius.circular(30.0),
-                    ),
-                  ),
-                  onTap: () async {
-                    await assignModal(false, index);
-                    setState(() {});
-                  },
+              // Mark as done slidable
+              SlideAction(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _isComp
+                        ? Icon(Icons.check_box_outlined)
+                        : Icon(Icons.check_box),
+                    _isComp
+                        ? Text("Mark incomplete", textAlign: TextAlign.center)
+                        : Text("Mark as done", textAlign: TextAlign.center),
+                  ],
                 ),
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.horizontal(
+                    left: Radius.circular(0),
+                    right: Radius.circular(30),
+                  ),
+                ),
+                onTap: () {
+                  setState(
+                    () {
+                      Bools().isComp(index);
+                    },
+                  );
+                },
+              ),
+            ],
 
-                // Delete slide action
-                SlideAction(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.delete),
-                      Flexible(child: Text("Delete")),
-                    ],
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(30.0),
-                      bottomRight: Radius.circular(30.0),
-                    ),
-                  ),
-                  onTap: () async {
-                    await Get.dialog(delete(index));
-                    setState(() {});
-                  },
+            // Edit slide action
+            secondaryActions: [
+              SlideAction(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.edit),
+                    Text("Edit"),
+                  ],
                 ),
-              ],
-              child: tiles(index),
-            ),
-          );
-        },
-      );
-    }
+                decoration: BoxDecoration(
+                  color: Colors.purple,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30.0),
+                    topLeft: Radius.circular(30.0),
+                  ),
+                ),
+                onTap: () async {
+                  await assignModal(false, index, "");
+                  setState(() {});
+                },
+              ),
+
+              // Delete slide action
+              SlideAction(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.delete),
+                    Flexible(child: Text("Delete")),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(30.0),
+                    bottomRight: Radius.circular(30.0),
+                  ),
+                ),
+                onTap: () async {
+                  await Get.dialog(delete(index));
+                  setState(() {});
+                },
+              ),
+            ],
+            child: tiles(index),
+          ),
+        );
+      },
+    );
   }
 }

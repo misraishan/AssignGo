@@ -9,7 +9,29 @@ class Bools {
         ? assignBox.getAt(index).isStar = false
         : assignBox.getAt(index).isStar = true;
 
-    // TODO: New notification with 3rd channel if prioritized
+    if (_isStar) {
+      final DateTime _starDur = DateTime.parse(assignBox.getAt(index).date);
+      AwesomeNotifications().createNotification(
+        content: NotificationContent(
+          id: assignBox.getAt(index).notifIDStar,
+          channelKey: 'star',
+          title: assignBox.getAt(index).title,
+          body: assignBox.getAt(index).desc,
+          displayOnBackground: true,
+        ),
+        schedule: NotificationCalendar(
+          allowWhileIdle: true,
+          year: _starDur.year,
+          month: _starDur.month,
+          hour: _starDur.hour,
+          minute: _starDur.minute,
+          day: _starDur.day,
+        ),
+      );
+    } else {
+      AwesomeNotifications().cancel(assignBox.getAt(index).notifIDStar);
+    }
+
     assignBox.putAt(
       index,
       AssignModel(
@@ -20,6 +42,7 @@ class Bools {
         isComplete: assignBox.getAt(index).isComplete,
         notifIDLong: assignBox.getAt(index).notifIDLong,
         notifIDShort: assignBox.getAt(index).notifIDShort,
+        notifIDStar: assignBox.getAt(index).notifIDStar,
         subject: assignBox.getAt(index).subject,
       ),
     );
@@ -44,6 +67,7 @@ class Bools {
         isComplete: _isComp,
         notifIDLong: assignBox.getAt(index).notifIDLong,
         notifIDShort: assignBox.getAt(index).notifIDShort,
+        notifIDStar: assignBox.getAt(index).notifIDStar,
         subject: assignBox.getAt(index).subject,
       ),
     );

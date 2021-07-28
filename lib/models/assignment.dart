@@ -19,6 +19,8 @@ class AssignModel {
   int notifIDLong;
   @HiveField(7)
   int notifIDShort;
+  @HiveField(8)
+  int notifIDStar;
 
   AssignModel({
     this.title = "",
@@ -29,5 +31,6 @@ class AssignModel {
     this.isStar = false,
     this.notifIDLong = 0,
     this.notifIDShort = 0,
+    this.notifIDStar = 0,
   });
 }

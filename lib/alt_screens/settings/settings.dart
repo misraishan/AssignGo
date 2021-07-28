@@ -1,3 +1,4 @@
+import 'package:better_assignments/alt_screens/settings/notification_service.dart';
 import 'package:better_assignments/alt_screens/settings/theme.dart';
 import 'package:better_assignments/subjects/subject.dart';
 import 'package:flutter/material.dart';
@@ -21,72 +22,38 @@ class Settings extends StatelessWidget {
       ),
       body: Column(
         children: [
-          InkWell(
-            child: Container(
-              height: 100,
-              padding: EdgeInsets.all(10),
-              child: Card(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.subject),
-                    Container(width: 10),
-                    Text(
-                      "Subjects",
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            onTap: () => Get.to(() => Subject()),
-          ),
-
-          // Theming Page
-          InkWell(
-            child: Container(
-              height: 100,
-              padding: EdgeInsets.all(10),
-              child: Card(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.palette_outlined),
-                    Container(width: 10),
-                    Text(
-                      "Theme",
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            onTap: () => Get.to(() => ThemeEngine()),
-          ),
-
-          // Show About Page
-          InkWell(
-            child: Container(
-              height: 100,
-              padding: EdgeInsets.all(10),
-              child: Card(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.copyright),
-                    Container(width: 10),
-                    Text(
-                      "About",
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            onTap: () => Get.to(() => About()),
-          ),
+          _tile(Icon(Icons.subject), "Subjects", Subject()),
+          _tile(Icon(Icons.palette_outlined), "Theme", ThemeEngine()),
+          GetPlatform.isIOS
+              ? _tile(
+                  Icon(Icons.notifications), "Notification", Notifications())
+              : SizedBox.shrink(),
+          _tile(Icon(Icons.copyright), "About", About()),
         ],
       ),
     );
   }
+}
+
+Widget _tile(Icon icon, String title, Widget page) {
+  return InkWell(
+    child: Container(
+      height: 100,
+      padding: EdgeInsets.all(10),
+      child: Card(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            icon,
+            Container(width: 10),
+            Text(
+              title,
+              style: Get.context!.textTheme.headline6,
+            ),
+          ],
+        ),
+      ),
+    ),
+    onTap: () => Get.to(() => page),
+  );
 }

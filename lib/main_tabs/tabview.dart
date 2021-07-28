@@ -4,7 +4,6 @@ import 'package:better_assignments/main_tabs/star.dart';
 import 'package:better_assignments/main_tabs/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/utils.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import '../slidable_widgets/assign_widgets.dart';
 
@@ -18,7 +17,7 @@ class _TabViewState extends State<TabView> {
       PersistentTabController(initialIndex: 0);
   @override
   Widget build(BuildContext context) {
-    return context.isPhone ? _tabView() : Home();
+    return _tabView();
   }
 
   Widget _tabView() {
@@ -92,7 +91,7 @@ class _TabViewState extends State<TabView> {
         activeColorSecondary: Colors.white,
         activeColorPrimary: Colors.white,
         onPressed: (context) async {
-          await assignModal(true, null);
+          await assignModal(true, null, "");
           setState(() {});
         },
       ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Subject extends StatefulWidget {
   @override
@@ -47,10 +48,22 @@ class _SubjectState extends State<Subject> {
 
   Widget _newSubjBuilder() {
     if (subjBox.isEmpty) {
-      return SingleChildScrollView(
-        child: Center(
-          child: newSubj(true, null),
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              onPressed: () async {
+                await Get.dialog(newSubj(true, null));
+                setState(() {});
+              },
+              icon: Icon(Icons.add),
+              iconSize: 100,
+            ),
+            Text("Click to add a new Subject"),
+          ],
         ),
+        //child: newSubj(true, null),
       );
     } else {
       return ListView.builder(
@@ -76,7 +89,7 @@ class _SubjectState extends State<Subject> {
                     ],
                   ),
                   onTap: () async {
-                    Get.to(() => _delete(index));
+                    await Get.dialog(_delete(index));
                     setState(
                       () {},
                     );
@@ -126,8 +139,9 @@ class _SubjectState extends State<Subject> {
   }
 
   Widget _centerBuilder(int index) {
-    String name = subjBox.getAt(index).name;
-    if (name.isNotEmpty) {
+    final _name = subjBox.getAt(index).name;
+    final _email = subjBox.getAt(index).email;
+    if (_name != "" || _email != "") {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -136,10 +150,29 @@ class _SubjectState extends State<Subject> {
             subjBox.getAt(index).title,
             style: Theme.of(context).textTheme.headline6,
           ),
-          Text(
-            subjBox.getAt(index).name,
-            style: Theme.of(context).textTheme.bodyText2,
-          ),
+          _name != ""
+              ? Text(
+                  subjBox.getAt(index).name,
+                  style: Theme.of(context).textTheme.bodyText2,
+                )
+              : SizedBox.shrink(),
+          _email != ""
+              ? InkWell(
+                  child: Text(
+                    subjBox.getAt(index).email,
+                    style: TextStyle(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  onTap: () {
+                    final Uri _emailLaunchUri = Uri(
+                      scheme: 'mailto',
+                      path: _email,
+                    );
+                    launch(_emailLaunchUri.toString());
+                  },
+                )
+              : SizedBox.shrink(),
         ],
       );
     }

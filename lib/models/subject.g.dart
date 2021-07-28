@@ -20,19 +20,22 @@ class SubjectAdapter extends TypeAdapter<Subject> {
       title: fields[0] as String,
       color: fields[1] as int,
       name: fields[2] as String,
+      email: fields[3] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Subject obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
       ..write(obj.color)
       ..writeByte(2)
-      ..write(obj.name);
+      ..write(obj.name)
+      ..writeByte(3)
+      ..write(obj.email);
   }
 
   @override

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 
 final TextEditingController _title = TextEditingController();
 final TextEditingController _desc = TextEditingController();
@@ -14,8 +15,11 @@ final prefs = Hive.box("prefs");
 
 bool _isNew = true;
 int? _index;
-dynamic assignModal(bool isNew, int? index) {
+String _subject = "";
+
+dynamic assignModal(bool isNew, int? index, String subject) {
   _isNew = isNew;
+  _subject = subject;
   if (isNew) {
     clearControllers();
   } else {
@@ -63,7 +67,7 @@ dynamic assignModal(bool isNew, int? index) {
 
                   // Subject selection
                   Container(height: 20),
-                  DropDown(),
+                  subjBox.isNotEmpty ? DropDown() : SizedBox.shrink(),
 
                   // Submit button selection
                   Container(height: 20),
@@ -101,10 +105,9 @@ Widget titleButton() {
 Widget dateTimePicker() {
   return DateTimePicker(
     type: DateTimePickerType.dateTime,
-    dateMask: 'dd / MM / yy - hh : mm',
     use24HourFormat: false,
     controller: _date,
-    firstDate: DateTime(2020),
+    firstDate: DateTime(DateTime.now().year, DateTime.now().month - 1),
     lastDate: DateTime(2025),
     icon: Icon(Icons.cloud_circle),
     decoration: InputDecoration(
@@ -112,6 +115,7 @@ Widget dateTimePicker() {
       prefixIcon: Icon(Icons.calendar_today),
     ),
     onChanged: (val) {
+      // val = DateFormat.yMMMd().add_jm().format(DateTime.parse(val)).toString();
       _date.text = val;
     },
   );
@@ -154,8 +158,13 @@ class _DropDownState extends State<DropDown> {
       if (subjects.isEmpty) {
         _dropDownValue = null;
       } else {
-        _dropDownValue = subjects.first;
-        getSubj(_dropDownValue!);
+        if (_subject != "") {
+          _dropDownValue = _subject;
+          getSubj(_dropDownValue!);
+        } else {
+          _dropDownValue = subjects.first;
+          getSubj(_dropDownValue!);
+        }
       }
     } else {
       if (subjBox.isNotEmpty) {
@@ -191,7 +200,6 @@ class _DropDownState extends State<DropDown> {
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   icon: Icon(Icons.arrow_drop_down),
-                  // isExpanded: true,
                   hint: Text("Create a subject first!"),
                   value: _dropDownValue,
                   items: subjects.map(
@@ -252,9 +260,10 @@ Widget returnButton() {
           if (_isNew) {
             int _idLong = prefs.get("notifID", defaultValue: 0);
             int _idShort = _idLong + 1;
-            prefs.put("notifID", _idLong + 2);
+            int _idStar = _idLong + 2;
+            prefs.put("notifID", _idLong + 3);
             DateTime _dateDue = DateTime.parse(_date.text);
-            notifID(_dateDue, _idLong, _idShort);
+            notifID(_dateDue, _idLong, _idShort, _idStar);
             assignBox.add(
               AssignModel(
                 title: _title.text,
@@ -262,6 +271,7 @@ Widget returnButton() {
                 desc: _desc.text,
                 notifIDLong: _idLong,
                 notifIDShort: _idShort,
+                notifIDStar: _idStar,
                 subject: finalSubj!,
               ),
             );
@@ -269,10 +279,16 @@ Widget returnButton() {
             AwesomeNotifications()
                 .cancel(assignBox.getAt(_index!).notifIDShort);
             AwesomeNotifications().cancel(assignBox.getAt(_index!).notifIDLong);
+            if (assignBox.getAt(_index!).isStar) {
+              AwesomeNotifications()
+                  .cancel(assignBox.getAt(_index!).notifIDStar);
+            }
+
             int _idLong = assignBox.getAt(_index!).notifIDLong;
             int _idShort = assignBox.getAt(_index!).notifIDShort;
+            int _idStar = assignBox.getAt(_index!).notifIDStar;
             DateTime _dateDue = DateTime.parse(_date.text);
-            notifID(_dateDue, _idLong, _idShort);
+            notifID(_dateDue, _idLong, _idShort, _idStar);
             assignBox.putAt(
               _index!,
               AssignModel(
@@ -281,6 +297,7 @@ Widget returnButton() {
                 desc: _desc.text,
                 notifIDLong: _idLong,
                 notifIDShort: _idShort,
+                notifIDStar: _idStar,
                 subject: finalSubj!,
                 isComplete: assignBox.getAt(_index!).isComplete,
                 isStar: assignBox.getAt(_index!).isStar,
@@ -292,16 +309,37 @@ Widget returnButton() {
       }
     },
     icon: _isNew ? Icon(Icons.add) : Icon(Icons.edit),
-    label: _isNew ? Text("Add Assignment") : Text("Edit Assignment"),
+    label: _isNew ? Text("Add Assignment") : Text("Save Assignment"),
     style: ElevatedButton.styleFrom(
       primary: Colors.green,
     ),
   );
 }
 
-void notifID(DateTime _dateDue, int _idLong, int _idShort) {
+void notifID(DateTime _dateDue, int _idLong, int _idShort, int? _idStar) {
   final DateTime _longDur = _dateDue.subtract(Duration(hours: 24));
   final DateTime _shortDur = _dateDue.subtract(Duration(hours: 12));
+  final DateTime _starDur = _dateDue.subtract(Duration(days: 2));
+
+  if (!_isNew && assignBox.getAt(_index!).isStar) {
+    AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: _idShort,
+        channelKey: 'star',
+        title: _title.text,
+        body: _desc.text,
+        displayOnBackground: true,
+      ),
+      schedule: NotificationCalendar(
+        allowWhileIdle: true,
+        year: _starDur.year,
+        month: _starDur.month,
+        hour: _starDur.hour,
+        minute: _starDur.minute,
+        day: _starDur.day,
+      ),
+    );
+  }
 
 // Long notification refers to 24 hrs before deadline, short to 12 hrs
   AwesomeNotifications().createNotification(
@@ -340,3 +378,6 @@ void notifID(DateTime _dateDue, int _idLong, int _idShort) {
     ),
   );
 }
+
+
+//1941 201 700

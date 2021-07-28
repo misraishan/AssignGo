@@ -40,6 +40,9 @@ dependencies:
   get: ^4.1.4
   flex_color_picker: ^2.0.2
   about: ^2.0.1
+  supabase: ^0.0.1
+  url_launcher: ^6.0.9
+  intl: ^0.17.0
 
 dev_dependencies:
   build_runner: ^2.0.4

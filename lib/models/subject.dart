@@ -10,5 +10,12 @@ class Subject {
   int color;
   @HiveField(2)
   String name;
-  Subject({required this.title, this.color = 255, this.name = ""});
+  @HiveField(3)
+  String email;
+  Subject({
+    required this.title,
+    this.color = 255,
+    this.name = "",
+    this.email = "",
+  });
 }

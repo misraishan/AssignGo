@@ -45,24 +45,23 @@ void main() async {
       NotificationChannel(
         channelKey: 'short',
         channelName: 'short warning',
-        channelDescription: '12 hours before due.',
+        channelDescription: 'Default 12 hours before due.',
         enableVibration: true,
         vibrationPattern: mediumVibrationPattern,
       ),
       NotificationChannel(
         channelKey: 'long',
         channelName: 'long warning',
-        channelDescription: '24 hours before due',
+        channelDescription: 'Default 24 hours before due',
         defaultColor: Colors.purple,
         vibrationPattern: lowVibrationPattern,
         enableVibration: true,
       ),
-      // 12 hours when prioritized
-      // TODO: Implement this
+      // 2 days hours when prioritized
       NotificationChannel(
-        channelKey: 'medium',
+        channelKey: 'star',
         channelName: 'Priority notifications',
-        channelDescription: 'Notification channel for prioritized assignments',
+        channelDescription: 'Default 2 days before due',
         defaultColor: Colors.red,
         enableVibration: true,
         vibrationPattern: mediumVibrationPattern,
@@ -192,7 +191,9 @@ class MyApp extends StatelessWidget {
         ),
       ),
       initialRoute:
-          prefs.get("firstLaunch", defaultValue: 0) == 0 ? "/intro" : "/",
+          // TODO: Introduction screen, update default values later
+          prefs.get("firstLaunch", defaultValue: 0) == 0 ? "/" : "/",
+      // prefs.get("firstLaunch", defaultValue: 1) == 0 ? "/intro" : "/",
       routes: {
         "/": (context) => TabView(),
         "/home": (context) => Home(),

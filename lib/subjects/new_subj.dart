@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 final subjBox = Hive.box("subjBox");
 final _subjName = new TextEditingController();
 final _profName = new TextEditingController();
+final _profEmail = new TextEditingController();
 var _color = Color(0xffAB47BC);
 bool _isNew = true;
 int? _index;
@@ -15,7 +16,8 @@ Widget newSubj(bool isNew, int? index) {
   if (!isNew) {
     _isNew = isNew;
     _index = index;
-    _subjName.text = subjBox.getAt(index!).title;
+    _profEmail.text = subjBox.getAt(index!).email;
+    _subjName.text = subjBox.getAt(index).title;
     _profName.text = subjBox.getAt(index).name;
     _color = Color(subjBox.getAt(index).color);
   } else {
@@ -31,10 +33,15 @@ Widget newSubj(bool isNew, int? index) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: Text(
-                  "Create a new subject",
-                  style: Theme.of(Get.context!).textTheme.headline6,
-                ),
+                child: isNew
+                    ? Text(
+                        "Create a new subject",
+                        style: Theme.of(Get.context!).textTheme.headline6,
+                      )
+                    : Text(
+                        "Edit subject",
+                        style: Theme.of(Get.context!).textTheme.headline6,
+                      ),
               ),
 
               Container(
@@ -56,6 +63,17 @@ Widget newSubj(bool isNew, int? index) {
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.grade),
                   labelText: "Teacher name",
+                ),
+              ),
+              Container(
+                  padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10)),
+
+              // Professor/teacher Email
+              TextField(
+                controller: _profEmail,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.email),
+                  labelText: "Teacher email",
                 ),
               ),
 
@@ -81,6 +99,7 @@ Widget newSubj(bool isNew, int? index) {
                       onPressed: () {
                         _subjName.clear();
                         _profName.clear();
+                        _profEmail.clear();
                         _color = Color(0xffAB47BC);
                         Get.back();
                       },
@@ -113,15 +132,19 @@ Widget newSubj(bool isNew, int? index) {
                               title: _subjName.text,
                               name: _profName.text,
                               color: _colorInt,
+                              email: _profEmail.text,
                             ),
                           );
                           _subjName.clear();
                           _profName.clear();
+                          _profEmail.clear();
+
                           _color = Color(0xffAB47BC);
                         } else {
                           subjBox.putAt(
                             _index!,
                             Subject(
+                              email: _profEmail.text,
                               title: _subjName.text,
                               name: _profName.text,
                               color: _colorInt,
@@ -129,11 +152,12 @@ Widget newSubj(bool isNew, int? index) {
                           );
                           _subjName.clear();
                           _profName.clear();
+                          _profEmail.clear();
                           _color = Color(0xffAB47BC);
                         }
                         Get.back();
                       },
-                      child: Text("Create"),
+                      child: isNew ? Text("Create") : Text("Update"),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
                           Colors.green,
