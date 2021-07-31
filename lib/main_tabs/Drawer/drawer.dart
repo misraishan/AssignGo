@@ -67,6 +67,8 @@ class _Sorted extends StatefulWidget {
 class __SortedState extends State<_Sorted> {
   @override
   Widget build(BuildContext context) {
+    final _email = subjBox.getAt(widget.index).email;
+    final _name = subjBox.getAt(widget.index).name;
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
@@ -78,21 +80,25 @@ class __SortedState extends State<_Sorted> {
       ),
       body: Column(
         children: [
-          Text(subjBox.getAt(widget.index).name),
-          InkWell(
-              child: Text(
-                subjBox.getAt(widget.index).email,
-                style: TextStyle(color: Colors.blue),
-              ),
-              onTap: () {
-                final Uri _emailLaunchUri = Uri(
-                  scheme: 'mailto',
-                  path: assignBox.getAt(widget.index).email,
-                );
-                launch(
-                  _emailLaunchUri.toString(),
-                );
-              }),
+          _name != ""
+              ? Text(subjBox.getAt(widget.index).name)
+              : SizedBox.shrink(),
+          _email != ""
+              ? InkWell(
+                  child: Text(
+                    _email,
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                  onTap: () {
+                    final Uri _emailLaunchUri = Uri(
+                      scheme: 'mailto',
+                      path: assignBox.getAt(widget.index).email,
+                    );
+                    launch(
+                      _emailLaunchUri.toString(),
+                    );
+                  })
+              : SizedBox.shrink(),
           Sliding(
             isComp: false,
             isStar: false,

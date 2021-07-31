@@ -1,4 +1,4 @@
-package com.example.better_assignments
+package cc.hayhay.assigngo
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:intl/intl.dart';
 
 final TextEditingController _title = TextEditingController();
 final TextEditingController _desc = TextEditingController();
@@ -110,13 +109,16 @@ Widget dateTimePicker() {
     firstDate: DateTime(DateTime.now().year, DateTime.now().month - 1),
     lastDate: DateTime(2025),
     icon: Icon(Icons.cloud_circle),
+    dateMask: "d MMM, yy - hh:mm a",
     decoration: InputDecoration(
       labelText: "Due Date & time",
       prefixIcon: Icon(Icons.calendar_today),
     ),
     onChanged: (val) {
       // val = DateFormat.yMMMd().add_jm().format(DateTime.parse(val)).toString();
+      print(val);
       _date.text = val;
+      // formatDate(    DateTime.parse(val), [M, ' ', d, ',', yy, '—', HH, ':', mm, ' ', am]);
     },
   );
 }
@@ -181,6 +183,33 @@ class _DropDownState extends State<DropDown> {
 
   @override
   Widget build(BuildContext context) {
+    /*
+    return TypeAheadField(
+      direction: AxisDirection.up,
+      suggestionsCallback: (pattern) async {
+        return subjects;
+      },
+      noItemsFoundBuilder: (context) {
+        return ListTile(
+          leading: Icon(Icons.new_label),
+          title: Text("Create a new subject"),
+          onTap: () async {
+            await Get.dialog(newSubj(true, null));
+          },
+        );
+      },
+      itemBuilder: (context, String suggestion) {
+        return ListTile(
+          leading: Icon(Icons.shopping_cart),
+          title: Text(suggestion),
+        );
+      },
+      onSuggestionSelected: (String suggestion) {
+        _dropDownValue = suggestion;
+        getSubj(_dropDownValue!);
+      },
+    );
+    */
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),

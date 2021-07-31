@@ -32,16 +32,6 @@ class _ThemeEngineState extends State<ThemeEngine> {
       ),
       body: Column(
         children: [
-          /*  Text(
-            "Warning! This is experimental right now!\nIt may cause bugs.",
-            style: TextStyle(
-              color: Colors.red,
-              fontWeight: FontWeight.bold,
-              fontSize: 36,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          */
           SwitchListTile(
             title: _isDark ? Text("Dark theme") : Text("Light Theme"),
             secondary: _isDark ? Icon(Icons.dark_mode) : Icon(Icons.light_mode),

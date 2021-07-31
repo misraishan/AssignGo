@@ -16,6 +16,8 @@ Finally moving on into release! There will continue to be updates, but the base 
 - Made it so that notifications can be reenabled from the app if you decide you want it at a later date (mostly for ios users)
 - Added a new subject field for the teacher/professor email, now you won't lose their contact info!
 - Fixed more bugs
+- Made the time while creating/editing assignments and on the tile itself more consistent
+- Added a page to our privacy policy, website, and a contact button from the about section.
 
 # 0.2.0:
 ## **The sorting update :D**

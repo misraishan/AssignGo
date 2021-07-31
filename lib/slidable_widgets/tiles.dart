@@ -1,3 +1,4 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -24,6 +25,10 @@ Widget tiles(int index) {
       _color = Color(_colorInt);
     }
   }
+
+  String _dateFormatted = formatDate(
+      DateTime.parse(assignBox.getAt(index).date),
+      [M, ' ', d, ', ', yy, ' — ', hh, ':', mm, ' ', am]);
 
   return Card(
     color: _color,
@@ -53,7 +58,8 @@ Widget tiles(int index) {
             children: [
               Container(width: 45),
               Text(
-                assignBox.getAt(index).date,
+                _dateFormatted,
+                // assignBox.getAt(index).date,
                 style: Theme.of(Get.context!).textTheme.caption,
               ),
               assignBox.getAt(index).subject != ""
