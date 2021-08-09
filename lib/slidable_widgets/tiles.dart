@@ -28,7 +28,7 @@ Widget tiles(int index) {
 
   String _dateFormatted = formatDate(
       DateTime.parse(assignBox.getAt(index).date),
-      [M, ' ', d, ', ', yy, ' — ', hh, ':', mm, ' ', am]);
+      [M, ' ', d, ', ', yy, ' — ', hh, ':', nn, ' ', am]);
 
   return Card(
     color: _color,

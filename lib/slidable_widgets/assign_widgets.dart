@@ -109,16 +109,13 @@ Widget dateTimePicker() {
     firstDate: DateTime(DateTime.now().year, DateTime.now().month - 1),
     lastDate: DateTime(2025),
     icon: Icon(Icons.cloud_circle),
-    dateMask: "d MMM, yy - hh:mm a",
+    dateMask: "MMM d, yy - hh:mm a",
     decoration: InputDecoration(
       labelText: "Due Date & time",
       prefixIcon: Icon(Icons.calendar_today),
     ),
     onChanged: (val) {
-      // val = DateFormat.yMMMd().add_jm().format(DateTime.parse(val)).toString();
-      print(val);
       _date.text = val;
-      // formatDate(    DateTime.parse(val), [M, ' ', d, ',', yy, '—', HH, ':', mm, ' ', am]);
     },
   );
 }
@@ -183,33 +180,6 @@ class _DropDownState extends State<DropDown> {
 
   @override
   Widget build(BuildContext context) {
-    /*
-    return TypeAheadField(
-      direction: AxisDirection.up,
-      suggestionsCallback: (pattern) async {
-        return subjects;
-      },
-      noItemsFoundBuilder: (context) {
-        return ListTile(
-          leading: Icon(Icons.new_label),
-          title: Text("Create a new subject"),
-          onTap: () async {
-            await Get.dialog(newSubj(true, null));
-          },
-        );
-      },
-      itemBuilder: (context, String suggestion) {
-        return ListTile(
-          leading: Icon(Icons.shopping_cart),
-          title: Text(suggestion),
-        );
-      },
-      onSuggestionSelected: (String suggestion) {
-        _dropDownValue = suggestion;
-        getSubj(_dropDownValue!);
-      },
-    );
-    */
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
@@ -345,15 +315,15 @@ Widget returnButton() {
   );
 }
 
-void notifID(DateTime _dateDue, int _idLong, int _idShort, int? _idStar) {
+void notifID(DateTime _dateDue, int _idLong, int _idShort, int _idStar) {
   final DateTime _longDur = _dateDue.subtract(Duration(hours: 24));
   final DateTime _shortDur = _dateDue.subtract(Duration(hours: 12));
-  final DateTime _starDur = _dateDue.subtract(Duration(days: 2));
+  final DateTime _starDur = _dateDue.subtract(Duration(hours: 48));
 
   if (!_isNew && assignBox.getAt(_index!).isStar) {
     AwesomeNotifications().createNotification(
       content: NotificationContent(
-        id: _idShort,
+        id: _idStar,
         channelKey: 'star',
         title: _title.text,
         body: _desc.text,
@@ -407,6 +377,3 @@ void notifID(DateTime _dateDue, int _idLong, int _idShort, int? _idStar) {
     ),
   );
 }
-
-
-//1941 201 700

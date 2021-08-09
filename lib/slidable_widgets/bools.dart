@@ -10,7 +10,10 @@ class Bools {
         : assignBox.getAt(index).isStar = true;
 
     if (_isStar) {
-      final DateTime _starDur = DateTime.parse(assignBox.getAt(index).date);
+      final DateTime _starDur =
+          DateTime.parse(assignBox.getAt(index).date).subtract(
+        Duration(days: 2),
+      );
       AwesomeNotifications().createNotification(
         content: NotificationContent(
           id: assignBox.getAt(index).notifIDStar,
