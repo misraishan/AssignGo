@@ -18,7 +18,7 @@ Widget _showAbout() {
       'version': 'Release 1.0',
       'year': DateTime.now().year.toString(),
     },
-    applicationLegalese: 'Copyright © Ishan Misra, {{ year }}',
+    //  applicationLegalese: 'Copyright © Ishan Misra, {{ year }}',
     applicationDescription: TextButton(
         onPressed: () async {
           await launch("https://hayhay.cc");
@@ -37,8 +37,7 @@ Widget _showAbout() {
         leading: Icon(Icons.privacy_tip),
         title: Text("Privacy Policy"),
         onTap: () async {
-          await launch(
-              "https://www.digitalocean.com/community/tutorials/flutter-url-launcher");
+          await launch("https://google.com");
         },
       ),
       ListTile(

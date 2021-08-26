@@ -49,6 +49,7 @@ Widget newSubj(bool isNew, int? index) {
               // Subject name
               TextField(
                 controller: _subjName,
+                maxLength: 25,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.subject),
                   labelText: "Subject Name",
@@ -60,6 +61,7 @@ Widget newSubj(bool isNew, int? index) {
               // Professor/teacher name
               TextField(
                 controller: _profName,
+                maxLength: 35,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.grade),
                   labelText: "Teacher name",
@@ -70,6 +72,7 @@ Widget newSubj(bool isNew, int? index) {
 
               // Professor/teacher Email
               TextField(
+                maxLength: 35,
                 controller: _profEmail,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.email),
@@ -118,44 +121,40 @@ Widget newSubj(bool isNew, int? index) {
                     child: ElevatedButton(
                       onPressed: () {
                         int _colorInt = _color.value;
-                        if (_subjName.text.isEmpty) {
-                          Get.snackbar(
-                            "Warning!",
-                            "Title can't be empty.",
-                            backgroundColor: Colors.red,
-                            snackPosition: SnackPosition.BOTTOM,
-                          );
-                        }
-                        if (_isNew) {
-                          subjBox.add(
-                            Subject(
-                              title: _subjName.text,
-                              name: _profName.text,
-                              color: _colorInt,
-                              email: _profEmail.text,
-                            ),
-                          );
-                          _subjName.clear();
-                          _profName.clear();
-                          _profEmail.clear();
-
-                          _color = Color(0xffAB47BC);
+                        if (_checkParams() == !true) {
+                          print("Test");
                         } else {
-                          subjBox.putAt(
-                            _index!,
-                            Subject(
-                              email: _profEmail.text,
-                              title: _subjName.text,
-                              name: _profName.text,
-                              color: _colorInt,
-                            ),
-                          );
-                          _subjName.clear();
-                          _profName.clear();
-                          _profEmail.clear();
-                          _color = Color(0xffAB47BC);
+                          if (_isNew) {
+                            subjBox.add(
+                              Subject(
+                                title: _subjName.text,
+                                name: _profName.text,
+                                color: _colorInt,
+                                email: _profEmail.text,
+                              ),
+                            );
+                            _subjName.clear();
+                            _profName.clear();
+                            _profEmail.clear();
+
+                            _color = Color(0xffAB47BC);
+                          } else if (!_isNew) {
+                            subjBox.putAt(
+                              _index!,
+                              Subject(
+                                email: _profEmail.text,
+                                title: _subjName.text,
+                                name: _profName.text,
+                                color: _colorInt,
+                              ),
+                            );
+                            _subjName.clear();
+                            _profName.clear();
+                            _profEmail.clear();
+                            _color = Color(0xffAB47BC);
+                          }
+                          Get.back();
                         }
-                        Get.back();
                       },
                       child: isNew ? Text("Create") : Text("Update"),
                       style: ButtonStyle(
@@ -173,4 +172,29 @@ Widget newSubj(bool isNew, int? index) {
       ),
     ),
   );
+}
+
+dynamic _checkParams() async {
+  String _checkTitle = _subjName.text.removeAllWhitespace;
+  bool _isTrue = false;
+  print(_checkTitle);
+  if (_checkTitle.isNotEmpty) {
+    _isTrue = true;
+    if (_profEmail.text.isNotEmpty && _profEmail.text.isEmail) {
+      _isTrue = true;
+    } else if (!_profEmail.text.isEmail) {
+      _isTrue = false;
+    }
+  } else {
+    Get.snackbar(
+      "Warning!",
+      "Title can't be empty.",
+      backgroundColor: Colors.red,
+      duration: Duration(seconds: 2),
+      snackPosition: SnackPosition.BOTTOM,
+    );
+  }
+
+  print(_isTrue);
+  return _isTrue;
 }

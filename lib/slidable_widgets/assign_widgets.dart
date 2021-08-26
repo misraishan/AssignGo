@@ -96,7 +96,7 @@ Widget titleButton() {
     controller: _title,
     decoration: InputDecoration(
       prefixIcon: Icon(Icons.assignment),
-      labelText: "Assignment name",
+      labelText: "Assignment Name",
     ),
   );
 }
@@ -111,7 +111,7 @@ Widget dateTimePicker() {
     icon: Icon(Icons.cloud_circle),
     dateMask: "MMM d, yy - hh:mm a",
     decoration: InputDecoration(
-      labelText: "Due Date & time",
+      labelText: "Due Date and Time",
       prefixIcon: Icon(Icons.calendar_today),
     ),
     onChanged: (val) {
@@ -141,7 +141,7 @@ class DropDown extends StatefulWidget {
 
 class _DropDownState extends State<DropDown> {
   final List<String> subjects = [];
-  String? _dropDownValue = "Choose a subject";
+  String? _dropDownValue = "Select a Subject";
 
   @override
   void initState() {
@@ -241,7 +241,7 @@ Widget returnButton() {
       if (_date.text == "") {
         Get.snackbar(
           "Warning!",
-          "Date can't be empty.",
+          "Due Date is required.",
           backgroundColor: Colors.red,
           snackPosition: SnackPosition.BOTTOM,
         );
@@ -251,7 +251,7 @@ Widget returnButton() {
         if (_title.text.isEmpty) {
           Get.snackbar(
             "Warning!",
-            "Title can't be empty.",
+            "Assignment Name is required.",
             backgroundColor: Colors.red,
             snackPosition: SnackPosition.BOTTOM,
           );
