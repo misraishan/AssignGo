@@ -1,7 +1,7 @@
 import 'package:better_assignments/models/subject.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flex_color_picker/flex_color_picker.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:get/get.dart';
 
@@ -9,7 +9,7 @@ final subjBox = Hive.box("subjBox");
 final _subjName = new TextEditingController();
 final _profName = new TextEditingController();
 final _profEmail = new TextEditingController();
-var _color = Color(0xffAB47BC);
+Color _color = Colors.indigoAccent[200]!;
 bool _isNew = true;
 int? _index;
 Widget newSubj(bool isNew, int? index) {
@@ -49,7 +49,7 @@ Widget newSubj(bool isNew, int? index) {
               // Subject name
               TextField(
                 controller: _subjName,
-                maxLength: 25,
+                inputFormatters: [LengthLimitingTextInputFormatter(25)],
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.subject),
                   labelText: "Subject Name",
@@ -61,7 +61,7 @@ Widget newSubj(bool isNew, int? index) {
               // Professor/teacher name
               TextField(
                 controller: _profName,
-                maxLength: 35,
+                inputFormatters: [LengthLimitingTextInputFormatter(35)],
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.grade),
                   labelText: "Teacher name",
@@ -72,7 +72,7 @@ Widget newSubj(bool isNew, int? index) {
 
               // Professor/teacher Email
               TextField(
-                maxLength: 35,
+                inputFormatters: [LengthLimitingTextInputFormatter(35)],
                 controller: _profEmail,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.email),
@@ -100,10 +100,7 @@ Widget newSubj(bool isNew, int? index) {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        _subjName.clear();
-                        _profName.clear();
-                        _profEmail.clear();
-                        _color = Color(0xffAB47BC);
+                        _resetVars();
                         Get.back();
                       },
                       child: Text("Cancel"),
@@ -133,11 +130,7 @@ Widget newSubj(bool isNew, int? index) {
                                 email: _profEmail.text,
                               ),
                             );
-                            _subjName.clear();
-                            _profName.clear();
-                            _profEmail.clear();
-
-                            _color = Color(0xffAB47BC);
+                            _resetVars();
                           } else if (!_isNew) {
                             subjBox.putAt(
                               _index!,
@@ -148,10 +141,7 @@ Widget newSubj(bool isNew, int? index) {
                                 color: _colorInt,
                               ),
                             );
-                            _subjName.clear();
-                            _profName.clear();
-                            _profEmail.clear();
-                            _color = Color(0xffAB47BC);
+                            _resetVars();
                           }
                           Get.back();
                         }
@@ -174,7 +164,14 @@ Widget newSubj(bool isNew, int? index) {
   );
 }
 
-dynamic _checkParams() async {
+void _resetVars() {
+  Color _color = Colors.indigoAccent[200]!;
+  _subjName.clear();
+  _profName.clear();
+  _profEmail.clear();
+}
+
+bool _checkParams() {
   String _checkTitle = _subjName.text.removeAllWhitespace;
   bool _isTrue = false;
   print(_checkTitle);
@@ -184,6 +181,13 @@ dynamic _checkParams() async {
       _isTrue = true;
     } else if (!_profEmail.text.isEmail) {
       _isTrue = false;
+      Get.snackbar(
+        "Warning!",
+        "Email can't be validated.",
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 2),
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   } else {
     Get.snackbar(
