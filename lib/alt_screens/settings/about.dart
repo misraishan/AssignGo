@@ -21,7 +21,7 @@ Widget _showAbout() {
     //  applicationLegalese: 'Copyright © Ishan Misra, {{ year }}',
     applicationDescription: TextButton(
         onPressed: () async {
-          await launch("https://hayhay.cc");
+          await launch("https://assigngo.app/");
         },
         child: Text("Visit the website!")),
     children: <Widget>[
@@ -37,7 +37,7 @@ Widget _showAbout() {
         leading: Icon(Icons.privacy_tip),
         title: Text("Privacy Policy"),
         onTap: () async {
-          await launch("https://google.com");
+          await launch("https://assigngo.app/privacy");
         },
       ),
       ListTile(
@@ -53,7 +53,7 @@ Widget _showAbout() {
 
           await launch(Uri(
             scheme: "mailto",
-            path: "info@hayhay.cc",
+            path: "info@assigngo.app",
             query: encodeQueryParameters(
               <String, String>{
                 'subject': 'Example Subject & Symbols are allowed!',
