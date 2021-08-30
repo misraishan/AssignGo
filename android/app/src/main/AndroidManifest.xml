@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="app.assigngo">
+    package="cc.hayhay.assigngo">
    <application
         android:label="AssignGo"
         android:icon="@mipmap/ic_launcher">

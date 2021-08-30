@@ -18,7 +18,6 @@ Widget _showAbout() {
       'version': 'Release 1.0',
       'year': DateTime.now().year.toString(),
     },
-    //  applicationLegalese: 'Copyright © Ishan Misra, {{ year }}',
     applicationDescription: TextButton(
         onPressed: () async {
           await launch("https://assigngo.app/");
@@ -56,7 +55,7 @@ Widget _showAbout() {
             path: "info@assigngo.app",
             query: encodeQueryParameters(
               <String, String>{
-                'subject': 'Example Subject & Symbols are allowed!',
+                'subject': 'AssignGo',
                 'body': 'Release 1.0',
               },
             ),
