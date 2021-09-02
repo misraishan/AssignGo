@@ -179,7 +179,7 @@ bool _checkParams() {
     _isTrue = true;
     if (_profEmail.text.isNotEmpty && _profEmail.text.isEmail) {
       _isTrue = true;
-    } else if (!_profEmail.text.isEmail) {
+    } else if (_profEmail.text.isNotEmpty && !_profEmail.text.isEmail) {
       _isTrue = false;
       Get.snackbar(
         "Warning!",

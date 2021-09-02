@@ -1,3 +1,6 @@
+# Release 1.0.1:
+- Bug fixes
+
 # Release 1.0!
 Finally moving on into release! There will continue to be updates, but the base app is ready and stable :D
 ## Changes:
