@@ -14,21 +14,20 @@ class AssignmentActions {
   ///
   /// [index] - The index of the assignment in the assignBox.
   void isStar(index) async {
-    var _isStar = await assignBox.getAt(index).isStar
-        ? assignBox.getAt(index).isStar = false
-        : assignBox.getAt(index).isStar = true;
+    Assignment assignment = await assignBox.getAt(index);
+    var _isStar = await assignment.isStar
+        ? assignment.isStar = false
+        : assignment.isStar = true;
 
     if (_isStar) {
       final DateTime _starDur =
-          DateTime.parse(assignBox.getAt(index).date).subtract(
-        Duration(days: 2),
-      );
+          DateTime.parse(assignment.date).subtract(Duration(days: 2));
       AwesomeNotifications().createNotification(
         content: NotificationContent(
-          id: assignBox.getAt(index).notifIDStar,
+          id: assignment.notifIDStar,
           channelKey: 'star',
-          title: assignBox.getAt(index).title,
-          body: assignBox.getAt(index).desc,
+          title: assignment.title,
+          body: assignment.desc,
           displayOnBackground: true,
         ),
         schedule: NotificationCalendar(
@@ -41,22 +40,12 @@ class AssignmentActions {
         ),
       );
     } else {
-      AwesomeNotifications().cancel(assignBox.getAt(index).notifIDStar);
+      AwesomeNotifications().cancel(assignment.notifIDStar);
     }
 
     assignBox.putAt(
       index,
-      Assignment(
-        isStar: _isStar,
-        title: assignBox.getAt(index).title,
-        desc: assignBox.getAt(index).desc,
-        date: assignBox.getAt(index).date,
-        isComplete: assignBox.getAt(index).isComplete,
-        notifIDLong: assignBox.getAt(index).notifIDLong,
-        notifIDShort: assignBox.getAt(index).notifIDShort,
-        notifIDStar: assignBox.getAt(index).notifIDStar,
-        subject: assignBox.getAt(index).subject,
-      ),
+      assignment,
     );
   }
 
@@ -67,32 +56,20 @@ class AssignmentActions {
   ///
   /// [index] - The index of the assignment in the assignBox.
   void isComp(index) async {
-    var _isComp = await assignBox.getAt(index).isComplete
-        ? assignBox.getAt(index).isComplete = false
-        : assignBox.getAt(index).isComplete = true;
+    Assignment assignment = await assignBox.getAt(index);
+    var _isComp = assignment.isComplete
+        ? assignment.isComplete = false
+        : assignment.isComplete = true;
 
     if (_isComp) {
-      AwesomeNotifications().cancel(assignBox.getAt(index).notifIDLong);
-      AwesomeNotifications().cancel(assignBox.getAt(index).notifIDShort);
+      AwesomeNotifications().cancel(assignment.notifIDLong);
+      AwesomeNotifications().cancel(assignment.notifIDShort);
     }
-    assignBox.putAt(
-      index,
-      Assignment(
-        isStar: assignBox.getAt(index).isStar,
-        title: assignBox.getAt(index).title,
-        desc: assignBox.getAt(index).desc,
-        date: assignBox.getAt(index).date,
-        isComplete: _isComp,
-        notifIDLong: assignBox.getAt(index).notifIDLong,
-        notifIDShort: assignBox.getAt(index).notifIDShort,
-        notifIDStar: assignBox.getAt(index).notifIDStar,
-        subject: assignBox.getAt(index).subject,
-      ),
-    );
+    assignBox.putAt(index, assignment);
   }
 
   Future<void> delete(index) async {
-    Assignment assignment = assignBox.getAt(index);
+    Assignment assignment = await assignBox.getAt(index);
     AwesomeNotifications().cancel(assignment.notifIDLong);
     AwesomeNotifications().cancel(assignment.notifIDShort);
     await assignBox.deleteAt(index);
