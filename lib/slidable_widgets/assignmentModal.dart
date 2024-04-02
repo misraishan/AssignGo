@@ -31,23 +31,13 @@ dynamic assignModal(bool isNew, int? index, String subject) {
   }
   final result = showModalBottomSheet(
     isScrollControlled: true,
-    backgroundColor: Colors.transparent,
     enableDrag: true,
     context: Get.context!,
     builder: (context) {
       return Container(
-        decoration: new BoxDecoration(
-          color: prefs.get("isDark", defaultValue: true)
-              ? Colors.black
-              : Colors.white,
-          borderRadius: new BorderRadius.only(
-            topLeft: const Radius.circular(30.0),
-            topRight: const Radius.circular(30.0),
-          ),
-        ),
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
             child: Container(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -110,7 +100,7 @@ Widget dateTimePicker() {
     controller: _date,
     dateHintText: "Due Date and Time",
     firstDate: DateTime(DateTime.now().year, DateTime.now().month - 1),
-    lastDate: DateTime(2025),
+    lastDate: DateTime(DateTime.now().year + 2),
     icon: Icon(Icons.cloud_circle),
     dateMask: "MMM d, yy - hh:mm a",
     decoration: InputDecoration(
@@ -251,8 +241,6 @@ Widget returnButton() {
           snackPosition: SnackPosition.BOTTOM,
         );
       } else {
-        // Converts _date.text to DateTime to use for schedule notifications
-
         if (_title.text.isEmpty) {
           Get.snackbar(
             "Warning!",
@@ -267,7 +255,7 @@ Widget returnButton() {
             int _idStar = _idLong + 2;
             prefs.put("notifID", _idLong + 3);
             DateTime _dateDue = DateTime.parse(_date.text);
-            notifID(_dateDue, _idLong, _idShort, _idStar);
+            createNotificationSchedule(_dateDue, _idLong, _idShort, _idStar);
             assignBox.add(
               AssignModel(
                 title: _title.text,
@@ -292,7 +280,8 @@ Widget returnButton() {
             int _idShort = assignBox.getAt(_index!).notifIDShort;
             int _idStar = assignBox.getAt(_index!).notifIDStar;
             DateTime _dateDue = DateTime.parse(_date.text);
-            notifID(_dateDue, _idLong, _idShort, _idStar);
+            createNotificationSchedule(_dateDue, _idLong, _idShort, _idStar);
+
             assignBox.putAt(
               _index!,
               AssignModel(
@@ -320,7 +309,8 @@ Widget returnButton() {
   );
 }
 
-void notifID(DateTime _dateDue, int _idLong, int _idShort, int _idStar) {
+void createNotificationSchedule(
+    DateTime _dateDue, int _idLong, int _idShort, int _idStar) {
   final DateTime _longDur = _dateDue.subtract(Duration(hours: 24));
   final DateTime _shortDur = _dateDue.subtract(Duration(hours: 12));
   final DateTime _starDur = _dateDue.subtract(Duration(hours: 48));
