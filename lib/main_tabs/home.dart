@@ -1,4 +1,4 @@
-import 'package:assigngo/slidable_widgets/assignmentsList.dart';
+import 'package:assigngo/assignments/assignmentsList.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:assigngo/main.dart';
