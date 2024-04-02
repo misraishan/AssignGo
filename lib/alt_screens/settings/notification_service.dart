@@ -77,8 +77,7 @@ void check() {
                         style: ElevatedButton.styleFrom(
                           shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(30.0),
-                          ),
-                          primary: Colors.red,
+                          ), backgroundColor: Colors.red,
                         ),
                       ),
                     ),
@@ -98,8 +97,7 @@ void check() {
                         style: ElevatedButton.styleFrom(
                           shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(30.0),
-                          ),
-                          primary: Colors.green,
+                          ), backgroundColor: Colors.green,
                         ),
                       ),
                     ),

@@ -36,11 +36,11 @@ Widget newSubj(bool isNew, int? index) {
                 child: isNew
                     ? Text(
                         "Create a new subject",
-                        style: Theme.of(Get.context!).textTheme.headline6,
+                        style: Theme.of(Get.context!).textTheme.titleLarge,
                       )
                     : Text(
                         "Edit subject",
-                        style: Theme.of(Get.context!).textTheme.headline6,
+                        style: Theme.of(Get.context!).textTheme.titleLarge,
                       ),
               ),
 
@@ -165,7 +165,6 @@ Widget newSubj(bool isNew, int? index) {
 }
 
 void _resetVars() {
-  Color _color = Colors.indigoAccent[200]!;
   _subjName.clear();
   _profName.clear();
   _profEmail.clear();

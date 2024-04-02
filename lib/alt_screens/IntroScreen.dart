@@ -79,7 +79,7 @@ class _IntroScreenState extends State<IntroScreen> {
                                         borderRadius:
                                             new BorderRadius.circular(30.0),
                                       ),
-                                      primary: Colors.red,
+                                      backgroundColor: Colors.red,
                                     ),
                                   ),
                                 ),
@@ -101,7 +101,7 @@ class _IntroScreenState extends State<IntroScreen> {
                                         borderRadius:
                                             new BorderRadius.circular(30.0),
                                       ),
-                                      primary: Colors.green,
+                                      backgroundColor: Colors.green,
                                     ),
                                   ),
                                 ),
@@ -131,7 +131,18 @@ class _IntroScreenState extends State<IntroScreen> {
               ),
             ),
           ),
-          doneColor: Colors.black,
+          doneStyle: ButtonStyle(
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+              (states) => Colors.black,
+            ),
+            shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
+              (_) {
+                return RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                );
+              },
+            ),
+          ),
           globalBackgroundColor: Colors.blue,
           pages: _pages,
           onDone: () {},

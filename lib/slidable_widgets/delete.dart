@@ -27,7 +27,7 @@ Widget delete(int index) {
               },
               child: Text("Cancel"),
               style: ElevatedButton.styleFrom(
-                primary: Colors.red,
+                backgroundColor: Colors.red,
               ),
             ),
           ),
@@ -44,7 +44,7 @@ Widget delete(int index) {
               },
               child: Text("Confirm"),
               style: ElevatedButton.styleFrom(
-                primary: Colors.green,
+                backgroundColor: Colors.green,
               ),
             ),
           )

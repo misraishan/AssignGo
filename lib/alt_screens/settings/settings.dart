@@ -47,7 +47,7 @@ Widget _tile(Icon icon, String title, Widget page) {
             Container(width: 10),
             Text(
               title,
-              style: Get.context!.textTheme.headline6,
+              style: Get.context!.textTheme.titleLarge,
             ),
           ],
         ),

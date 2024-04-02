@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 final TextEditingController _title = TextEditingController();
 final TextEditingController _desc = TextEditingController();
@@ -102,10 +103,12 @@ Widget titleButton() {
 }
 
 Widget dateTimePicker() {
+  initializeDateFormatting("en_US");
   return DateTimePicker(
     type: DateTimePickerType.dateTime,
     use24HourFormat: false,
     controller: _date,
+    dateHintText: "Due Date and Time",
     firstDate: DateTime(DateTime.now().year, DateTime.now().month - 1),
     lastDate: DateTime(2025),
     icon: Icon(Icons.cloud_circle),
@@ -117,6 +120,7 @@ Widget dateTimePicker() {
     onChanged: (val) {
       _date.text = val;
     },
+    locale: Localizations.localeOf(Get.context!),
   );
 }
 
@@ -146,6 +150,7 @@ class _DropDownState extends State<DropDown> {
   @override
   void initState() {
     super.initState();
+
     if (subjBox.isNotEmpty) {
       subjects.clear();
       subjects.add("Choose a subject");
@@ -310,7 +315,7 @@ Widget returnButton() {
     icon: _isNew ? Icon(Icons.add) : Icon(Icons.edit),
     label: _isNew ? Text("Add Assignment") : Text("Save Assignment"),
     style: ElevatedButton.styleFrom(
-      primary: Colors.green,
+      backgroundColor: Colors.green,
     ),
   );
 }

@@ -1,9 +1,7 @@
 import 'package:better_assignments/alt_screens/settings/notification_service.dart';
 import 'package:better_assignments/main_tabs/Drawer/drawer.dart';
 import 'package:better_assignments/slidable_widgets/sliding.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 
 class Home extends StatefulWidget {

@@ -45,7 +45,7 @@ Widget tiles(int index) {
               Expanded(
                 child: SelectableText(
                   assignBox.getAt(index).title,
-                  style: Get.context!.textTheme.headline6,
+                  style: Get.context!.textTheme.titleLarge,
                 ),
               ),
               Container(width: 10),
@@ -60,12 +60,12 @@ Widget tiles(int index) {
               Text(
                 _dateFormatted,
                 // assignBox.getAt(index).date,
-                style: Theme.of(Get.context!).textTheme.caption,
+                style: Theme.of(Get.context!).textTheme.bodySmall,
               ),
               assignBox.getAt(index).subject != ""
                   ? Text(
                       " || ${assignBox.getAt(index).subject}",
-                      style: Theme.of(Get.context!).textTheme.caption,
+                      style: Theme.of(Get.context!).textTheme.bodySmall,
                     )
                   : Container(),
             ],
@@ -79,7 +79,7 @@ Widget tiles(int index) {
               Expanded(
                 child: SelectableText(
                   assignBox.getAt(index).desc,
-                  style: Theme.of(Get.context!).textTheme.bodyText1,
+                  style: Theme.of(Get.context!).textTheme.bodyLarge,
                 ),
               ),
             ],
