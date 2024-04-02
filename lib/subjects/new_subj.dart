@@ -1,4 +1,4 @@
-import 'package:better_assignments/models/subject.dart';
+import 'package:assigngo/models/subject.dart';
 import 'package:flutter/material.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/services.dart';

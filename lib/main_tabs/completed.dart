@@ -1,7 +1,7 @@
-import 'package:better_assignments/slidable_widgets/assignmentsList.dart';
+import 'package:assigngo/slidable_widgets/assignmentsList.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:better_assignments/main.dart';
+import 'package:assigngo/main.dart';
 
 class Completed extends StatefulWidget {
   @override

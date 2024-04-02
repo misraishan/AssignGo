@@ -1,5 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:better_assignments/models/assignment.dart';
+import 'package:assigngo/models/assignment.dart';
 import 'package:hive/hive.dart';
 
 class Bools {

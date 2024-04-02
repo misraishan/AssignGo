@@ -1,6 +1,6 @@
-import 'package:better_assignments/alt_screens/settings/notification_service.dart';
-import 'package:better_assignments/alt_screens/settings/theme.dart';
-import 'package:better_assignments/subjects/subject.dart';
+import 'package:assigngo/alt_screens/settings/notification_service.dart';
+import 'package:assigngo/alt_screens/settings/theme.dart';
+import 'package:assigngo/subjects/subject.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'about.dart';

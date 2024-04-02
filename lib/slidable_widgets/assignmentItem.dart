@@ -1,5 +1,5 @@
-import 'package:better_assignments/slidable_widgets/assignmentModal.dart';
-import 'package:better_assignments/slidable_widgets/tiles.dart';
+import 'package:assigngo/slidable_widgets/assignmentModal.dart';
+import 'package:assigngo/slidable_widgets/tiles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';

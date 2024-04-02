@@ -1,5 +1,5 @@
-import 'package:better_assignments/slidable_widgets/assignmentItem.dart';
-import 'package:better_assignments/slidable_widgets/assignmentModal.dart';
+import 'package:assigngo/slidable_widgets/assignmentItem.dart';
+import 'package:assigngo/slidable_widgets/assignmentModal.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 

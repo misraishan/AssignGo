@@ -13,7 +13,7 @@ class About extends StatelessWidget {
 
 Widget _showAbout() {
   return AboutPage(
-    applicationName: "AssignGo",
+    applicationName: "assigngo",
     values: {
       'version': 'Release 1.0',
       'year': DateTime.now().year.toString(),
@@ -55,7 +55,7 @@ Widget _showAbout() {
             path: "info@assigngo.app",
             query: encodeQueryParameters(
               <String, String>{
-                'subject': 'AssignGo',
+                'subject': 'assigngo',
                 'body': 'Release 1.0',
               },
             ),

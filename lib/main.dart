@@ -1,9 +1,9 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:better_assignments/main_tabs/star.dart';
-import 'package:better_assignments/main_tabs/home.dart';
-import 'package:better_assignments/models/assignment.dart';
-import 'package:better_assignments/models/subject.dart';
-import 'package:better_assignments/main_tabs/tabview.dart';
+import 'package:assigngo/main_tabs/star.dart';
+import 'package:assigngo/main_tabs/home.dart';
+import 'package:assigngo/models/assignment.dart';
+import 'package:assigngo/models/subject.dart';
+import 'package:assigngo/main_tabs/tabview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
     final _isDark = prefs.get('isDark', defaultValue: true);
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'AssignGo',
+      title: 'assigngo',
       defaultTransition: Transition.upToDown,
       theme: ThemeData.light(
         useMaterial3: true,
