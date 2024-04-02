@@ -1,5 +1,5 @@
 import 'package:assigngo/main_tabs/completed.dart';
-import 'package:assigngo/alt_screens/settings/settings.dart';
+import 'package:assigngo/settings/settings.dart';
 import 'package:assigngo/main_tabs/star.dart';
 import 'package:assigngo/main_tabs/home.dart';
 import 'package:assigngo/modals/searchModal.dart';
