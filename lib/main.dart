@@ -1,5 +1,4 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:better_assignments/alt_screens/IntroScreen.dart';
 import 'package:better_assignments/main_tabs/star.dart';
 import 'package:better_assignments/main_tabs/home.dart';
 import 'package:better_assignments/models/assignment.dart';
@@ -84,120 +83,42 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'AssignGo',
       defaultTransition: Transition.upToDown,
-      theme: ThemeData.light().copyWith(
-        // TimePicker theme
-        timePickerTheme: TimePickerThemeData(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-        ),
-        // Bottom Sheet theme
-        bottomSheetTheme: BottomSheetThemeData(
-          backgroundColor: Colors.transparent,
-        ),
+      theme: ThemeData.light(
+        useMaterial3: true,
+      ).copyWith(
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(30.0),
+              borderRadius: new BorderRadius.circular(14.0),
             ),
-          ),
-        ),
-        // Text Themes
-        primaryTextTheme: TextTheme(
-          headline6: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-            fontSize: 24,
-          ),
-          bodyText1: TextStyle(
-            color: Colors.blue,
-            fontSize: 12,
-          ),
-        ),
-        iconTheme: IconThemeData(color: Colors.black),
-        // Appbar theme
-        appBarTheme: AppBarTheme(
-          iconTheme: IconThemeData(color: Colors.black),
-          actionsIconTheme: IconThemeData(color: Colors.black),
-          centerTitle: false,
-          color: Colors.transparent,
-          elevation: 0,
-          titleSpacing: 0.0,
-        ),
-        // Card theme
-        cardTheme: CardTheme(
-          elevation: 15,
-          shape: RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(30.0),
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
           border: new OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(14),
           ),
         ),
       ),
       themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
       darkTheme: ThemeData(
+        useMaterial3: true,
         brightness: Brightness.dark,
-        canvasColor: Colors.grey[900],
-        // TimePicker theme
-        timePickerTheme: TimePickerThemeData(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-        ),
-        // Bottom Sheet theme
-        bottomSheetTheme: BottomSheetThemeData(
-          backgroundColor: Colors.transparent,
-        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(30.0),
+              borderRadius: new BorderRadius.circular(14.0),
             ),
-          ),
-        ),
-        // Text Themes
-        primaryTextTheme: TextTheme(
-          headline6: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
-          bodyText1: TextStyle(
-            color: Colors.blue,
-            fontSize: 12,
-          ),
-        ),
-        // Appbar theme
-        appBarTheme: AppBarTheme(
-          centerTitle: false,
-          color: Colors.transparent,
-          elevation: 0,
-          titleSpacing: 0.0,
-        ),
-        // Card theme
-        cardTheme: CardTheme(
-          color: Colors.grey[850],
-          elevation: 15,
-          shape: RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(30.0),
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
           border: new OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(14),
           ),
         ),
       ),
-      initialRoute:
-          // TODO: Introduction screen, update default values later
-          prefs.get("firstLaunch", defaultValue: 0) == 0 ? "/" : "/",
-      // prefs.get("firstLaunch", defaultValue: 1) == 0 ? "/intro" : "/",
       routes: {
         "/": (context) => TabView(),
         "/home": (context) => Home(),
-        "/intro": (context) => IntroScreen(),
         "/star": (context) => Star(),
       },
     );
