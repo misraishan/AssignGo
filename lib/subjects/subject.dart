@@ -1,4 +1,4 @@
-import 'package:better_assignments/subjects/new_subj.dart';
+import 'package:assigngo/subjects/new_subj.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
@@ -72,56 +72,56 @@ class _SubjectState extends State<Subject> {
           return Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
             child: Slidable(
-              actionPane: SlidableScrollActionPane(),
-              actions: [
-                SlideAction(
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(30.0),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.delete),
-                      Text("Delete"),
-                    ],
-                  ),
-                  onTap: () async {
-                    await Get.dialog(_delete(index));
-                    setState(
-                      () {},
-                    );
-                  },
-                ),
-              ],
-              secondaryActions: [
-                SlideAction(
-                  decoration: BoxDecoration(
-                    color: Colors.purple,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(30.0),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.edit),
-                      Text("Edit"),
-                    ],
-                  ),
-                  onTap: () async {
-                    await showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return newSubj(false, index);
-                      },
-                    );
-                    setState(() {});
-                  },
-                ),
-              ],
+              // actionPane: SlidableScrollActionPane(),
+              // actions: [
+              //   SlideAction(
+              //     decoration: BoxDecoration(
+              //       color: Colors.red,
+              //       borderRadius: BorderRadius.all(
+              //         Radius.circular(30.0),
+              //       ),
+              //     ),
+              //     child: Column(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         Icon(Icons.delete),
+              //         Text("Delete"),
+              //       ],
+              //     ),
+              //     onTap: () async {
+              //       await Get.dialog(_delete(index));
+              //       setState(
+              //         () {},
+              //       );
+              //     },
+              //   ),
+              // ],
+              // secondaryActions: [
+              //   SlideAction(
+              //     decoration: BoxDecoration(
+              //       color: Colors.purple,
+              //       borderRadius: BorderRadius.all(
+              //         Radius.circular(30.0),
+              //       ),
+              //     ),
+              //     child: Column(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         Icon(Icons.edit),
+              //         Text("Edit"),
+              //       ],
+              //     ),
+              //     onTap: () async {
+              //       await showDialog(
+              //         context: context,
+              //         builder: (BuildContext context) {
+              //           return newSubj(false, index);
+              //         },
+              //       );
+              //       setState(() {});
+              //     },
+              //   ),
+              // ],
               child: Card(
                 color: Color(subjBox.getAt(index).color),
                 child: Container(
@@ -148,12 +148,12 @@ class _SubjectState extends State<Subject> {
         children: [
           Text(
             subjBox.getAt(index).title,
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           _name != ""
               ? Text(
                   subjBox.getAt(index).name,
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 )
               : SizedBox.shrink(),
           _email != ""
@@ -178,7 +178,7 @@ class _SubjectState extends State<Subject> {
     }
     return Text(
       subjBox.getAt(index).title,
-      style: Theme.of(context).textTheme.headline6,
+      style: Theme.of(context).textTheme.titleLarge,
     );
   }
 
@@ -206,7 +206,7 @@ class _SubjectState extends State<Subject> {
                 },
                 child: Text("Cancel"),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.red,
+                  backgroundColor: Colors.red,
                 ),
               ),
             ),
@@ -232,7 +232,7 @@ class _SubjectState extends State<Subject> {
                 },
                 child: Text("Confirm"),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.green,
+                  backgroundColor: Colors.green,
                 ),
               ),
             )

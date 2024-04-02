@@ -1,9 +1,9 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:assigngo/main_tabs/star.dart';
-import 'package:assigngo/main_tabs/home.dart';
+import 'package:assigngo/tabs/star.dart';
+import 'package:assigngo/tabs/home.dart';
 import 'package:assigngo/models/assignment.dart';
 import 'package:assigngo/models/subject.dart';
-import 'package:assigngo/main_tabs/tabview.dart';
+import 'package:assigngo/tabs/tabview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
