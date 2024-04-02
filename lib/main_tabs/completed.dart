@@ -1,4 +1,4 @@
-import 'package:better_assignments/slidable_widgets/sliding.dart';
+import 'package:better_assignments/slidable_widgets/assignmentsList.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -10,25 +10,59 @@ class Completed extends StatefulWidget {
 class _CompletedState extends State<Completed> {
   final assignBox = Hive.box('assignBox');
 
+  bool _pinned = true;
+  bool _snap = false;
+  bool _floating = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(
-          Icons.check_box,
-          size: 30,
-          color: Colors.green,
-        ),
-        title: Text("Completed assignments"),
-      ),
-      body: _listItem(),
+      body: CustomScrollView(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          slivers: [
+            SliverAppBar(
+              pinned: _pinned,
+              snap: _snap,
+              floating: _floating,
+              expandedHeight: 150.0,
+              centerTitle: false,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Container(
+                  child: Opacity(
+                    opacity: 0.5,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.purple,
+                            Colors.green,
+                            Colors.lightGreen
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                title: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    'Completed',
+                    textScaler: TextScaler.linear(1.1),
+                  ),
+                ),
+              ),
+            ),
+            _listItem(),
+          ]),
     );
   }
 
   Widget _listItem() {
-    return Sliding(
-      isComp: true,
-      isStar: false,
+    return AssignmentsList(
+      page: PageType.completed,
     );
   }
 }

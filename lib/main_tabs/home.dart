@@ -1,6 +1,4 @@
-import 'package:better_assignments/alt_screens/settings/notification_service.dart';
-import 'package:better_assignments/main_tabs/Drawer/drawer.dart';
-import 'package:better_assignments/slidable_widgets/sliding.dart';
+import 'package:better_assignments/slidable_widgets/assignmentsList.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -12,32 +10,60 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // Creates box to store the assignments & subjects
   final assignBox = Hive.box('assignBox');
-  final _prefs = Hive.box("prefs");
 
+  bool _pinned = true;
+  bool _snap = false;
+  bool _floating = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: homeDrawer(),
-      appBar: AppBar(
-        leading: Icon(
-          Icons.home,
-          size: 30,
-          color: Colors.purple,
-        ),
-        title: Text("Assignments"),
-      ),
-      body: _listItem(),
+      body: CustomScrollView(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          slivers: [
+            SliverAppBar(
+              pinned: _pinned,
+              snap: _snap,
+              floating: _floating,
+              expandedHeight: 150.0,
+              centerTitle: false,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Container(
+                  child: Opacity(
+                    opacity: 0.5,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.deepPurple,
+                            Colors.purple,
+                            Colors.indigo,
+                            Colors.blue,
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                title: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    'Assignments',
+                    textScaler: TextScaler.linear(1.1),
+                  ),
+                ),
+              ),
+            ),
+            _listItem(),
+          ]),
     );
   }
 
   Widget _listItem() {
-    if (_prefs.get("firstLaunch", defaultValue: 0) == 0) {
-      _prefs.put("firstLaunch", 1);
-      check();
-    }
-    return Sliding(
-      isComp: false,
-      isStar: false,
+    return AssignmentsList(
+      page: PageType.home,
     );
   }
 }
