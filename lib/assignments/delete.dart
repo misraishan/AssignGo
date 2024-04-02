@@ -1,10 +1,8 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:assigngo/assignments/assignmentActions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 
 Widget delete(int index) {
-  final assignBox = Hive.box('assignBox');
   AlertDialog alert = AlertDialog(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.all(
@@ -35,11 +33,7 @@ Widget delete(int index) {
           Expanded(
             child: ElevatedButton(
               onPressed: () {
-                AwesomeNotifications()
-                    .cancel(assignBox.getAt(index).notifIDLong);
-                AwesomeNotifications()
-                    .cancel(assignBox.getAt(index).notifIDShort);
-                assignBox.deleteAt(index);
+                AssignmentActions().delete(index);
                 Get.back();
               },
               child: Text("Confirm"),

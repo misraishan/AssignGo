@@ -2,8 +2,17 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:assigngo/models/assignment.dart';
 import 'package:hive/hive.dart';
 
-class Bools {
+/// A class that contains methods for handling assignment actions (star, complete).
+class AssignmentActions {
   final assignBox = Hive.box('assignBox');
+
+  /// Toggles the star status of an assignment at the given index.
+  ///
+  /// If the assignment is starred, it will be unstarred, and vice versa.
+  /// If the assignment is starred, a notification will be scheduled to remind the user 2 days before the assignment's date.
+  /// If the assignment is unstarred, the scheduled notification will be canceled.
+  ///
+  /// [index] - The index of the assignment in the assignBox.
   void isStar(index) async {
     var _isStar = await assignBox.getAt(index).isStar
         ? assignBox.getAt(index).isStar = false
@@ -51,6 +60,12 @@ class Bools {
     );
   }
 
+  /// Toggles the completion status of an assignment at the given index.
+  ///
+  /// If the assignment is marked as complete, it will be marked as incomplete, and vice versa.
+  /// If the assignment is marked as complete, any scheduled notifications for the assignment will be canceled.
+  ///
+  /// [index] - The index of the assignment in the assignBox.
   void isComp(index) async {
     var _isComp = await assignBox.getAt(index).isComplete
         ? assignBox.getAt(index).isComplete = false
@@ -74,5 +89,11 @@ class Bools {
         subject: assignBox.getAt(index).subject,
       ),
     );
+  }
+
+  void delete(index) {
+    AwesomeNotifications().cancel(assignBox.getAt(index).notifIDLong);
+    AwesomeNotifications().cancel(assignBox.getAt(index).notifIDShort);
+    assignBox.deleteAt(index);
   }
 }

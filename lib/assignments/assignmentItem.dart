@@ -1,9 +1,9 @@
-import 'package:assigngo/slidable_widgets/assignmentModal.dart';
-import 'package:assigngo/slidable_widgets/tiles.dart';
+import 'package:assigngo/modals/assignmentModal.dart';
+import 'package:assigngo/assignments/tiles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
-import 'bools.dart';
+import 'assignmentActions.dart';
 import 'delete.dart';
 
 class AssignmentItem extends StatefulWidget {
@@ -46,7 +46,7 @@ class _AssignmentItemState extends State<AssignmentItem> {
               icon: widget.isStar ? Icons.star : Icons.star_border_outlined,
               label: widget.isStar ? "Un-prioritize" : "Prioritize",
               onPressed: (context) async => {
-                Bools().isStar(widget.index),
+                AssignmentActions().isStar(widget.index),
                 widget.onUpdate(),
               }, // Update the isStar bool then refresh the state
             ),
@@ -79,7 +79,7 @@ class _AssignmentItemState extends State<AssignmentItem> {
             icon: widget.isComp ? Icons.check_box_outlined : Icons.check_box,
             label: widget.isComp ? "Mark incomplete" : "Mark as done",
             onPressed: (context) async => {
-              Bools().isComp(widget.index),
+              AssignmentActions().isComp(widget.index),
               widget.onUpdate(),
             },
           ),
