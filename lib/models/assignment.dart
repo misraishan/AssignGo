@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 part 'assignment.g.dart';
 
 @HiveType(typeId: 0)
-class AssignModel {
+class Assignment {
   @HiveField(0)
   String title = "";
   @HiveField(1)
@@ -22,7 +22,7 @@ class AssignModel {
   @HiveField(8)
   int notifIDStar;
 
-  AssignModel({
+  Assignment({
     this.title = "",
     this.date = "",
     this.desc = "",

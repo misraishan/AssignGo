@@ -46,7 +46,7 @@ class AssignmentActions {
 
     assignBox.putAt(
       index,
-      AssignModel(
+      Assignment(
         isStar: _isStar,
         title: assignBox.getAt(index).title,
         desc: assignBox.getAt(index).desc,
@@ -77,7 +77,7 @@ class AssignmentActions {
     }
     assignBox.putAt(
       index,
-      AssignModel(
+      Assignment(
         isStar: assignBox.getAt(index).isStar,
         title: assignBox.getAt(index).title,
         desc: assignBox.getAt(index).desc,
@@ -91,9 +91,10 @@ class AssignmentActions {
     );
   }
 
-  void delete(index) {
-    AwesomeNotifications().cancel(assignBox.getAt(index).notifIDLong);
-    AwesomeNotifications().cancel(assignBox.getAt(index).notifIDShort);
-    assignBox.deleteAt(index);
+  Future<void> delete(index) async {
+    Assignment assignment = assignBox.getAt(index);
+    AwesomeNotifications().cancel(assignment.notifIDLong);
+    AwesomeNotifications().cancel(assignment.notifIDShort);
+    await assignBox.deleteAt(index);
   }
 }

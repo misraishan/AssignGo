@@ -257,7 +257,7 @@ Widget returnButton() {
             DateTime _dateDue = DateTime.parse(_date.text);
             createNotificationSchedule(_dateDue, _idLong, _idShort, _idStar);
             assignBox.add(
-              AssignModel(
+              Assignment(
                 title: _title.text,
                 date: _date.text,
                 desc: _desc.text,
@@ -284,7 +284,7 @@ Widget returnButton() {
 
             assignBox.putAt(
               _index!,
-              AssignModel(
+              Assignment(
                 title: _title.text,
                 date: _date.text,
                 desc: _desc.text,

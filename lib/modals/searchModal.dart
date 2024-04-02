@@ -20,7 +20,7 @@ class _SearchModalState extends State<SearchModal> {
     searchController.addListener(() {
       setState(() {
         searchResults = assignBox.values
-            .cast<AssignModel>()
+            .cast<Assignment>()
             .where((element) => element.title
                 .toLowerCase()
                 .contains(searchController.text.toLowerCase()))
@@ -55,7 +55,7 @@ class _SearchModalState extends State<SearchModal> {
       body: ListView.builder(
         itemCount: searchResults.length,
         itemBuilder: (BuildContext context, int index) {
-          final AssignModel assignment = searchResults[index];
+          final Assignment assignment = searchResults[index];
           return AssignmentItem(
               index: assignBox.values.toList().indexOf(assignment),
               isStar: assignment.isStar,
