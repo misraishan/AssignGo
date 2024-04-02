@@ -10,6 +10,8 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
+final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
+
 void main() async {
   // Set path for storage and initalize Hive directory
   WidgetsFlutterBinding.ensureInitialized();
@@ -121,6 +123,7 @@ class MyApp extends StatelessWidget {
         "/home": (context) => Home(),
         "/star": (context) => Star(),
       },
+      navigatorObservers: [routeObserver],
     );
   }
 
