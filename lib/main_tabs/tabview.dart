@@ -1,9 +1,11 @@
-import 'package:better_assignments/main_tabs/completed.dart';
-import 'package:better_assignments/alt_screens/settings/settings.dart';
-import 'package:better_assignments/main_tabs/star.dart';
-import 'package:better_assignments/main_tabs/home.dart';
-import 'package:better_assignments/slidable_widgets/assign_widgets.dart';
+import 'package:assigngo/main_tabs/completed.dart';
+import 'package:assigngo/alt_screens/settings/settings.dart';
+import 'package:assigngo/main_tabs/star.dart';
+import 'package:assigngo/main_tabs/home.dart';
+import 'package:assigngo/modals/searchModal.dart';
+import 'package:assigngo/modals/assignmentModal.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TabView extends StatefulWidget {
   @override
@@ -37,6 +39,21 @@ class _TabViewState extends State<TabView> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: _pages[_selectedIndex],
+        persistentFooterButtons: [
+          Padding(
+              child: TextField(
+                onTap: () {
+                  // Call the assignModal function when the search bar is tapped
+                  Get.to(() => SearchModal());
+                },
+                decoration: InputDecoration(
+                  hintText: "Search",
+                  prefixIcon: Icon(Icons.search),
+                ),
+              ),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom))
+        ],
         bottomNavigationBar: NavigationBar(
             onDestinationSelected: _onItemTapped,
             selectedIndex: _selectedIndex,
